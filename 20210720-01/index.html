@@ -20,19 +20,19 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"redxiiikk.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="1. 什么是有限状态机？维基百科上关于有限状态机的定义如下：  有限状态机是表示有限个状态及其和状态之间的转移和动作等行为的数学模型。  ​ 2. 为什么要使用有限状态机？在思考这个为题之前我们先来想一想如果不使用有限状态机是如何进行状态之间的转移的？最简单的方式就是 if else 进行判断，如果当前的状态满足了某一个 if 条件，就执行其中定义好的代码。 这样的做法简单易懂，但是随着时间的推移">
+<meta name="description" content="什么是有限状态机？维基百科上关于有限状态机的定义如下：  有限状态机是表示有限个状态及其和状态之间的转移和动作等行为的数学模型。  ​ 为什么要使用有限状态机？在思考这个为题之前我们先来想一想如果不使用有限状态机是如何进行状态之间的转移的？最简单的方式就是 if else 进行判断，如果当前的状态满足了某一个 if 条件，就执行其中定义好的代码。 这样的做法简单易懂，但是随着时间的推移和业务的不断">
 <meta property="og:type" content="article">
 <meta property="og:title" content="有限状态机">
 <meta property="og:url" content="https://redxiiikk.github.io/20210720-01/index.html">
 <meta property="og:site_name" content="RedXIII KK">
-<meta property="og:description" content="1. 什么是有限状态机？维基百科上关于有限状态机的定义如下：  有限状态机是表示有限个状态及其和状态之间的转移和动作等行为的数学模型。  ​ 2. 为什么要使用有限状态机？在思考这个为题之前我们先来想一想如果不使用有限状态机是如何进行状态之间的转移的？最简单的方式就是 if else 进行判断，如果当前的状态满足了某一个 if 条件，就执行其中定义好的代码。 这样的做法简单易懂，但是随着时间的推移">
+<meta property="og:description" content="什么是有限状态机？维基百科上关于有限状态机的定义如下：  有限状态机是表示有限个状态及其和状态之间的转移和动作等行为的数学模型。  ​ 为什么要使用有限状态机？在思考这个为题之前我们先来想一想如果不使用有限状态机是如何进行状态之间的转移的？最简单的方式就是 if else 进行判断，如果当前的状态满足了某一个 if 条件，就执行其中定义好的代码。 这样的做法简单易懂，但是随着时间的推移和业务的不断">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822175744.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822180017.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822180038.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822180055.png">
 <meta property="article:published_time" content="2021-07-21T15:43:00.000Z">
-<meta property="article:modified_time" content="2021-09-09T07:12:29.642Z">
+<meta property="article:modified_time" content="2021-09-09T07:20:44.265Z">
 <meta property="article:author" content="redxiiikk">
 <meta property="article:tag" content="FSM">
 <meta property="article:tag" content="算法">
@@ -126,7 +126,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">1. 什么是有限状态机？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">2. 为什么要使用有限状态机？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">3. 有限状态机的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E4%BA%8B%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E7%8A%B6%E6%80%81"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%8A%A8%E4%BD%9C"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 动作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%BB%BA%E6%A8%A1%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">4. 有限状态机的两种建模方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E8%A1%A8"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 状态转移表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E7%8A%B6%E6%80%81%E5%9B%BE"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 状态图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">5. 设计模式中的状态模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 状态模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E5%92%8C%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 有限状态机和状态模式之间的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E4%B8%8E%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BB%93%E5%90%88"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 有限状态机与状态模式的结合</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是有限状态机？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">为什么要使用有限状态机？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">有限状态机的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81"><span class="nav-number">3.2.</span> <span class="nav-text">状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E4%BD%9C"><span class="nav-number">3.4.</span> <span class="nav-text">动作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%BB%BA%E6%A8%A1%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">有限状态机的两种建模方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E8%A1%A8"><span class="nav-number">4.1.</span> <span class="nav-text">状态转移表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%9B%BE"><span class="nav-number">4.2.</span> <span class="nav-text">状态图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">设计模式中的状态模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.1.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E5%92%8C%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">5.2.</span> <span class="nav-text">有限状态机和状态模式之间的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E4%B8%8E%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BB%93%E5%90%88"><span class="nav-number">5.3.</span> <span class="nav-text">有限状态机与状态模式的结合</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -234,7 +234,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-09 15:12:29" itemprop="dateModified" datetime="2021-09-09T15:12:29+08:00">2021-09-09</time>
+        <time title="Modified: 2021-09-09 15:20:44" itemprop="dateModified" datetime="2021-09-09T15:20:44+08:00">2021-09-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -270,12 +270,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="1-什么是有限状态机？"><a href="#1-什么是有限状态机？" class="headerlink" title="1. 什么是有限状态机？"></a>1. 什么是有限状态机？</h1><p>维基百科上关于有限状态机的定义如下：</p>
+        <h1 id="什么是有限状态机？"><a href="#什么是有限状态机？" class="headerlink" title="什么是有限状态机？"></a>什么是有限状态机？</h1><p>维基百科上关于有限状态机的定义如下：</p>
 <blockquote>
 <p>有限状态机是表示有限个状态及其和状态之间的转移和动作等行为的数学模型。</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822175744.png">​</p>
-<h1 id="2-为什么要使用有限状态机？"><a href="#2-为什么要使用有限状态机？" class="headerlink" title="2. 为什么要使用有限状态机？"></a>2. 为什么要使用有限状态机？</h1><p>在思考这个为题之前我们先来想一想如果不使用有限状态机是如何进行状态之间的转移的？最简单的方式就是 if else 进行判断，如果当前的状态满足了某一个 if 条件，就执行其中定义好的代码。</p>
+<h1 id="为什么要使用有限状态机？"><a href="#为什么要使用有限状态机？" class="headerlink" title="为什么要使用有限状态机？"></a>为什么要使用有限状态机？</h1><p>在思考这个为题之前我们先来想一想如果不使用有限状态机是如何进行状态之间的转移的？最简单的方式就是 if else 进行判断，如果当前的状态满足了某一个 if 条件，就执行其中定义好的代码。</p>
 <p>这样的做法简单易懂，但是随着时间的推移和业务的不断变化，就会导致 if else 数量不断的增多，所带来的的影响就是 BUG 的频繁出现和维护成本的增加；同时 if else 的大量使用会导致陷入逻辑泥潭之中，无法有效的在代码中沉淀业务。</p>
 <p>那么针对于上述的描述，有限状态机的好处显而易见：</p>
 <ol>
@@ -285,35 +285,35 @@
 </ol>
 <span id="more"></span>
 
-<h1 id="3-有限状态机的组成"><a href="#3-有限状态机的组成" class="headerlink" title="3. 有限状态机的组成"></a>3. 有限状态机的组成</h1><p>个人对于有限状态机所做的事情总结如下：</p>
+<h1 id="有限状态机的组成"><a href="#有限状态机的组成" class="headerlink" title="有限状态机的组成"></a>有限状态机的组成</h1><p>个人对于有限状态机所做的事情总结如下：</p>
 <blockquote>
 <p>客户端发出的 <strong>事件A</strong> 导致 <strong>状态B</strong> 在满足 <strong>条件C</strong> 的前提下执行 <strong>动作D</strong> 后转化到 <strong>状态E</strong>。</p>
 </blockquote>
 <p>从上述的描述话语中我们可以了解到有限状态机有四部分组成元素，分别是事件、状态、条件以及动作。</p>
-<h2 id="3-1-事件"><a href="#3-1-事件" class="headerlink" title="3.1 事件"></a>3.1 事件</h2><p>事件是状态转移的发起者。触发事件的客户端存在多种类型，可能是一个真实的用户，也可能是某一定时任务。</p>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>事件是状态转移的发起者。触发事件的客户端存在多种类型，可能是一个真实的用户，也可能是某一定时任务。</p>
 <p>事件通常由两部分组成：第一部分是事件类型，一般与一种状态转移相关；第二部分是参数，是执行状态转移及其转移动作的过程中所必须的数据，参数可以有客户端直接发送，也可以从系统中获取。</p>
-<h2 id="3-2-状态"><a href="#3-2-状态" class="headerlink" title="3.2 状态"></a>3.2 状态</h2><p>实体对象处于某种上下文的一个标志，可以使用字符串或者枚举来进行表示。</p>
-<h2 id="3-3-条件"><a href="#3-3-条件" class="headerlink" title="3.3 条件"></a>3.3 条件</h2><p>是指状态转移的前提，是必须要满足的业务意义上的要求。</p>
-<h2 id="3-4-动作"><a href="#3-4-动作" class="headerlink" title="3.4 动作"></a>3.4 动作</h2><p>对于动作我们可行进一步的细分：</p>
+<h2 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h2><p>实体对象处于某种上下文的一个标志，可以使用字符串或者枚举来进行表示。</p>
+<h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><p>是指状态转移的前提，是必须要满足的业务意义上的要求。</p>
+<h2 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h2><p>对于动作我们可行进一步的细分：</p>
 <ol>
 <li><strong>进入动作</strong>：特指在进入该状态时必须要发生的动作，与转移前状态无关；</li>
 <li><strong>转移动作</strong>：指在状态转移的过程中发生的动作，与转移前和转以后的状态相关；</li>
 <li><strong>离开动作</strong>：特指在离开该状态时必须发生的动作，与转以后的状态无关。</li>
 </ol>
-<h1 id="4-有限状态机的两种建模方式"><a href="#4-有限状态机的两种建模方式" class="headerlink" title="4. 有限状态机的两种建模方式"></a>4. 有限状态机的两种建模方式</h1><p>建模方式是指我们以何种方式去表示有限状态机，目前主流的存在两种方式，分别是状态转移表和状态图。</p>
-<h2 id="4-1-状态转移表"><a href="#4-1-状态转移表" class="headerlink" title="4.1 状态转移表"></a>4.1 状态转移表</h2><p>状态转移表是指以表格的形式来表示有限状态机的方式，通常存在多种形式。</p>
+<h1 id="有限状态机的两种建模方式"><a href="#有限状态机的两种建模方式" class="headerlink" title="有限状态机的两种建模方式"></a>有限状态机的两种建模方式</h1><p>建模方式是指我们以何种方式去表示有限状态机，目前主流的存在两种方式，分别是状态转移表和状态图。</p>
+<h2 id="状态转移表"><a href="#状态转移表" class="headerlink" title="状态转移表"></a>状态转移表</h2><p>状态转移表是指以表格的形式来表示有限状态机的方式，通常存在多种形式。</p>
 <p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822180017.png"></p>
-<h2 id="4-2-状态图"><a href="#4-2-状态图" class="headerlink" title="4.2 状态图"></a>4.2 状态图</h2><p>以有向图的方式来表示有限状态机，也是最为常用的表示有限状态机的方式。</p>
+<h2 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h2><p>以有向图的方式来表示有限状态机，也是最为常用的表示有限状态机的方式。</p>
 <p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822180038.png"></p>
 <p>在状态图中，节点表示状态，边表示转义动作，并且在边上我们还会标注出本次转移所关联的其他的元素（事件、条件和动作）。</p>
-<h1 id="5-设计模式中的状态模式"><a href="#5-设计模式中的状态模式" class="headerlink" title="5. 设计模式中的状态模式"></a>5. 设计模式中的状态模式</h1><p>设计模式中的状态模式与有限状态机存在一定的相似性，接下来我们可以了解一些状态模式，然后对两者进行比较。</p>
-<h2 id="5-1-状态模式"><a href="#5-1-状态模式" class="headerlink" title="5.1 状态模式"></a>5.1 状态模式</h2><p><strong>状态模式</strong>允许对象在内部状态改变时修改它的行为，对象开起来好像修改了它的类。</p>
+<h1 id="设计模式中的状态模式"><a href="#设计模式中的状态模式" class="headerlink" title="设计模式中的状态模式"></a>设计模式中的状态模式</h1><p>设计模式中的状态模式与有限状态机存在一定的相似性，接下来我们可以了解一些状态模式，然后对两者进行比较。</p>
+<h2 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h2><p><strong>状态模式</strong>允许对象在内部状态改变时修改它的行为，对象开起来好像修改了它的类。</p>
 <p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822180055.png"></p>
-<h2 id="5-2-有限状态机和状态模式之间的比较"><a href="#5-2-有限状态机和状态模式之间的比较" class="headerlink" title="5.2 有限状态机和状态模式之间的比较"></a>5.2 有限状态机和状态模式之间的比较</h2><ol>
+<h2 id="有限状态机和状态模式之间的比较"><a href="#有限状态机和状态模式之间的比较" class="headerlink" title="有限状态机和状态模式之间的比较"></a>有限状态机和状态模式之间的比较</h2><ol>
 <li>有限状态机关注在状态转移的过程；</li>
 <li>状态模式则关注在特定的状态下类自身的行为。</li>
 </ol>
-<h2 id="5-3-有限状态机与状态模式的结合"><a href="#5-3-有限状态机与状态模式的结合" class="headerlink" title="5.3 有限状态机与状态模式的结合"></a>5.3 有限状态机与状态模式的结合</h2><ol>
+<h2 id="有限状态机与状态模式的结合"><a href="#有限状态机与状态模式的结合" class="headerlink" title="有限状态机与状态模式的结合"></a>有限状态机与状态模式的结合</h2><ol>
 <li>有限状态机负责状态转移；</li>
 <li>状态模式负责负责不同状态下类的行为；</li>
 <li>在进入动作中切换类的行为。</li>
