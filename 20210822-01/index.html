@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic%7CJetBrains+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"redxiiikk.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文主要介绍如何在 Windows 中使用 Clash 代理本地网络。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clash For Windows 使用">
+<meta property="og:url" content="https://redxiiikk.github.io/20210822-01/index.html">
+<meta property="og:site_name" content="RedXIII KK">
+<meta property="og:description" content="本文主要介绍如何在 Windows 中使用 Clash 代理本地网络。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/Untitled%205.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822121415.png">
+<meta property="article:published_time" content="2021-08-22T01:30:00.000Z">
+<meta property="article:modified_time" content="2021-09-07T07:47:16.278Z">
+<meta property="article:author" content="redxiiikk">
+<meta property="article:tag" content="Clash">
+<meta property="article:tag" content="Tools">
+<meta property="article:tag" content="折腾">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/Untitled%205.png">
+
+
+<link rel="canonical" href="https://redxiiikk.github.io/20210822-01/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://redxiiikk.github.io/20210822-01/","path":"20210822-01/","title":"Clash For Windows 使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Clash For Windows 使用 | RedXIII KK</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">RedXIII KK</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">搬砖工程师</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E3%80%81%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">下载、安装与使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Clash-%E8%A7%84%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">Clash 规则</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="redxiiikk"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">redxiiikk</p>
+  <div class="site-description" itemprop="description">认真写好每一个 Bug</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/redxiiikk" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;redxiiikk" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="Back to top">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+  <a href="https://github.com/redxiiikk" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://redxiiikk.github.io/20210822-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="redxiiikk">
+      <meta itemprop="description" content="认真写好每一个 Bug">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RedXIII KK">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Clash For Windows 使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-22 09:30:00" itemprop="dateCreated datePublished" datetime="2021-08-22T09:30:00+08:00">2021-08-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-09-07 15:47:16" itemprop="dateModified" datetime="2021-09-07T15:47:16+08:00">2021-09-07</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">折腾</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/20210822-01/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="20210822-01/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本文主要介绍如何在 Windows 中使用 Clash 代理本地网络。</p>
+<span id="more"></span>
+
+<h1 id="下载、安装与使用"><a href="#下载、安装与使用" class="headerlink" title="下载、安装与使用"></a>下载、安装与使用</h1><p>CFW 从 Github 上可以下载：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fndroid/clash_for_windows_pkg">Fndroid/clash_for_windows_pkg</a></p>
+<p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/Untitled%205.png"></p>
+<p>该项目并没有在 Github 上开源，作者仅仅只是将软件安装包发布到 Github 上供大家进行下载，但是从软件安装包的上传记录来看 CFW 正在高速的进行开发。</p>
+<p>现在之后直接安装即可，除了安装位置也没有过多的选项，直接安装即可。安装完成之后如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822121415.png"></p>
+<p>同时作者编写了相应的文档，大家可直接参照文档使用 CFW。</p>
+<p><a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/">Clash for Windows</a></p>
+<p>目前 CFW 只支持 SS 以及 V2ray 协议，最常用的 SSR 协议目前并不支持。<br>但是 Github 上也有 ClashR 项目，就是支持 SSR 协议的。<br>并非是 CFW 不支持 SSR 协议，而是 Clash 本身不支持 SSR 协议。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frainzy1477/clashr">frainzy1477/clashr</a></p>
+<p>当然时候可以使用 Clash 还要看你订阅的机场是否支持 Clash 托管，当然也有一些曲线救国的方式，可以将其他协议的配置文件转为 Clash 配置文件的格式。</p>
+<h1 id="Clash-规则"><a href="#Clash-规则" class="headerlink" title="Clash 规则"></a>Clash 规则</h1><p>Clash 是一款基于 Go 语言开发的、基于规则的跨平台隧道代理软件。</p>
+<p>相比较于 SSR 客户端，Clash 有可以根据不同节点的速度自动选择最快的节点，同时基于规则实现代理。</p>
+<p>接下来让我们重点理解 Clash 的配置文件。这里先看一份示例的配置文件。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># port of HTTP</span></span><br><span class="line"><span class="attr">port:</span> <span class="number">7890</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># port of SOCKS5</span></span><br><span class="line"><span class="attr">socks-port:</span> <span class="number">7891</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># redir port for Linux and macOS</span></span><br><span class="line"><span class="comment"># redir-port: 7892</span></span><br><span class="line"></span><br><span class="line"><span class="attr">allow-lan:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Rule / Global/ Direct (default is Rule)</span></span><br><span class="line"><span class="attr">mode:</span> <span class="string">Rule</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set log level to stdout (default is info)</span></span><br><span class="line"><span class="comment"># info / warning / error / debug / silent</span></span><br><span class="line"><span class="attr">log-level:</span> <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A RESTful API for clash</span></span><br><span class="line"><span class="attr">external-controller:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9090</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># you can put the static web resource (such as clash-dashboard) to a directory, and clash would serve in `$&#123;API&#125;/ui`</span></span><br><span class="line"><span class="comment"># input is a relative path to the configuration directory or an absolute path</span></span><br><span class="line"><span class="comment"># external-ui: folder</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Secret for RESTful API (Optional)</span></span><br><span class="line"><span class="comment"># secret: &quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># experimental feature</span></span><br><span class="line"><span class="attr">experimental:</span></span><br><span class="line">  <span class="attr">ignore-resolve-fail:</span> <span class="literal">true</span> <span class="comment"># ignore dns resolve fail, default value is true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># authentication of local SOCKS5/HTTP(S) server</span></span><br><span class="line"><span class="comment"># authentication:</span></span><br><span class="line"><span class="comment">#  - &quot;user1:pass1&quot;</span></span><br><span class="line"><span class="comment">#  - &quot;user2:pass2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># dns:</span></span><br><span class="line">  <span class="comment"># enable: true # set true to enable dns (default is false)</span></span><br><span class="line">  <span class="comment"># ipv6: false # default is false</span></span><br><span class="line">  <span class="comment"># listen: 0.0.0.0:53</span></span><br><span class="line">  <span class="comment"># enhanced-mode: redir-host # or fake-ip</span></span><br><span class="line">  <span class="comment"># # fake-ip-range: 198.18.0.1/16 # if you don&#x27;t know what it is, don&#x27;t change it</span></span><br><span class="line">  <span class="comment"># nameserver:</span></span><br><span class="line">  <span class="comment">#   - 114.114.114.114</span></span><br><span class="line">  <span class="comment">#   - tls://dns.rubyfish.cn:853 # dns over tls</span></span><br><span class="line">  <span class="comment">#   - https://1.1.1.1/dns-query # dns over https</span></span><br><span class="line">  <span class="comment"># fallback: # concurrent request with nameserver, fallback used when GEOIP country isn&#x27;t CN</span></span><br><span class="line">  <span class="comment">#   - tcp://1.1.1.1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Proxy:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># shadowsocks</span></span><br><span class="line"><span class="comment"># The types of cipher are consistent with go-shadowsocks2</span></span><br><span class="line"><span class="comment"># support AEAD_AES_128_GCM AEAD_AES_192_GCM AEAD_AES_256_GCM AEAD_CHACHA20_POLY1305 AES-128-CTR AES-192-CTR AES-256-CTR AES-128-CFB AES-192-CFB AES-256-CFB CHACHA20-IETF XCHACHA20</span></span><br><span class="line"><span class="comment"># In addition to what go-shadowsocks2 supports, it also supports chacha20 rc4-md5 xchacha20-ietf-poly1305</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;ss1&quot;</span>, <span class="attr">type:</span> <span class="string">ss</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">cipher:</span> <span class="string">AEAD_CHACHA20_POLY1305</span>, <span class="attr">password:</span> <span class="string">&quot;password&quot;</span>, <span class="attr">udp:</span> <span class="literal">true</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># old obfs configuration remove after prerelease</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;ss2&quot;</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ss</span></span><br><span class="line">  <span class="attr">server:</span> <span class="string">server</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">443</span></span><br><span class="line">  <span class="attr">cipher:</span> <span class="string">AEAD_CHACHA20_POLY1305</span></span><br><span class="line">  <span class="attr">password:</span> <span class="string">&quot;password&quot;</span></span><br><span class="line">  <span class="attr">plugin:</span> <span class="string">obfs</span></span><br><span class="line">  <span class="attr">plugin-opts:</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">tls</span> <span class="comment"># or http</span></span><br><span class="line">    <span class="comment"># host: bing.com</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;ss3&quot;</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ss</span></span><br><span class="line">  <span class="attr">server:</span> <span class="string">server</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">443</span></span><br><span class="line">  <span class="attr">cipher:</span> <span class="string">AEAD_CHACHA20_POLY1305</span></span><br><span class="line">  <span class="attr">password:</span> <span class="string">&quot;password&quot;</span></span><br><span class="line">  <span class="attr">plugin:</span> <span class="string">v2ray-plugin</span></span><br><span class="line">  <span class="attr">plugin-opts:</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">websocket</span> <span class="comment"># no QUIC now</span></span><br><span class="line">    <span class="comment"># tls: true # wss</span></span><br><span class="line">    <span class="comment"># skip-cert-verify: true</span></span><br><span class="line">    <span class="comment"># host: bing.com</span></span><br><span class="line">    <span class="comment"># path: &quot;/&quot;</span></span><br><span class="line">    <span class="comment"># headers:</span></span><br><span class="line">    <span class="comment">#   custom: value</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># vmess</span></span><br><span class="line"><span class="comment"># cipher support auto/aes-128-gcm/chacha20-poly1305/none</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;vmess&quot;</span>, <span class="attr">type:</span> <span class="string">vmess</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">uuid:</span> <span class="string">uuid</span>, <span class="attr">alterId:</span> <span class="number">32</span>, <span class="attr">cipher:</span> <span class="string">auto</span> &#125;</span><br><span class="line"><span class="comment"># with tls</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;vmess&quot;</span>, <span class="attr">type:</span> <span class="string">vmess</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">uuid:</span> <span class="string">uuid</span>, <span class="attr">alterId:</span> <span class="number">32</span>, <span class="attr">cipher:</span> <span class="string">auto</span>, <span class="attr">tls:</span> <span class="literal">true</span> &#125;</span><br><span class="line"><span class="comment"># with tls and skip-cert-verify</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;vmess&quot;</span>, <span class="attr">type:</span> <span class="string">vmess</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">uuid:</span> <span class="string">uuid</span>, <span class="attr">alterId:</span> <span class="number">32</span>, <span class="attr">cipher:</span> <span class="string">auto</span>, <span class="attr">tls:</span> <span class="literal">true</span>, <span class="attr">skip-cert-verify:</span> <span class="literal">true</span> &#125;</span><br><span class="line"><span class="comment"># with ws-path and ws-headers</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;vmess&quot;</span>, <span class="attr">type:</span> <span class="string">vmess</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">uuid:</span> <span class="string">uuid</span>, <span class="attr">alterId:</span> <span class="number">32</span>, <span class="attr">cipher:</span> <span class="string">auto</span>, <span class="attr">network:</span> <span class="string">ws</span>, <span class="attr">ws-path:</span> <span class="string">/path</span>, <span class="attr">ws-headers:</span> &#123; <span class="attr">Host:</span> <span class="string">v2ray.com</span> &#125; &#125;</span><br><span class="line"><span class="comment"># with ws + tls</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;vmess&quot;</span>, <span class="attr">type:</span> <span class="string">vmess</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">uuid:</span> <span class="string">uuid</span>, <span class="attr">alterId:</span> <span class="number">32</span>, <span class="attr">cipher:</span> <span class="string">auto</span>, <span class="attr">network:</span> <span class="string">ws</span>, <span class="attr">ws-path:</span> <span class="string">/path</span>, <span class="attr">tls:</span> <span class="literal">true</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># socks5</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;socks&quot;</span>, <span class="attr">type:</span> <span class="string">socks5</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span> &#125;</span><br><span class="line"><span class="comment"># socks5 with authentication</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;socks&quot;</span>, <span class="attr">type:</span> <span class="string">socks5</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">username:</span> <span class="string">&quot;username&quot;</span>, <span class="attr">password:</span> <span class="string">&quot;password&quot;</span> &#125;</span><br><span class="line"><span class="comment"># with tls</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;socks&quot;</span>, <span class="attr">type:</span> <span class="string">socks5</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">tls:</span> <span class="literal">true</span> &#125;</span><br><span class="line"><span class="comment"># with tls and skip-cert-verify</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;socks&quot;</span>, <span class="attr">type:</span> <span class="string">socks5</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">tls:</span> <span class="literal">true</span>, <span class="attr">skip-cert-verify:</span> <span class="literal">true</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># http</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;http&quot;</span>, <span class="attr">type:</span> <span class="string">http</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span> &#125;</span><br><span class="line"><span class="comment"># http with authentication</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;http&quot;</span>, <span class="attr">type:</span> <span class="string">http</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">username:</span> <span class="string">&quot;username&quot;</span>, <span class="attr">password:</span> <span class="string">&quot;password&quot;</span> &#125;</span><br><span class="line"><span class="comment"># with tls (https)</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;http&quot;</span>, <span class="attr">type:</span> <span class="string">http</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">tls:</span> <span class="literal">true</span> &#125;</span><br><span class="line"><span class="comment"># with tls (https) and skip-cert-verify</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;http&quot;</span>, <span class="attr">type:</span> <span class="string">http</span>, <span class="attr">server:</span> <span class="string">server</span>, <span class="attr">port:</span> <span class="number">443</span>, <span class="attr">tls:</span> <span class="literal">true</span>, <span class="attr">skip-cert-verify:</span> <span class="literal">true</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">Proxy Group:</span></span><br><span class="line"><span class="comment"># url-test select which proxy will be used by benchmarking speed to a URL.</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;auto&quot;</span>, <span class="attr">type:</span> <span class="string">url-test</span>, <span class="attr">proxies:</span> [<span class="string">&quot;ss1&quot;</span>, <span class="string">&quot;ss2&quot;</span>, <span class="string">&quot;vmess1&quot;</span>], <span class="attr">url:</span> <span class="string">&quot;http://www.gstatic.com/generate_204&quot;</span>, <span class="attr">interval:</span> <span class="number">300</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># fallback select an available policy by priority. The availability is tested by accessing an URL, just like an auto url-test group.</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;fallback-auto&quot;</span>, <span class="attr">type:</span> <span class="string">fallback</span>, <span class="attr">proxies:</span> [<span class="string">&quot;ss1&quot;</span>, <span class="string">&quot;ss2&quot;</span>, <span class="string">&quot;vmess1&quot;</span>], <span class="attr">url:</span> <span class="string">&quot;http://www.gstatic.com/generate_204&quot;</span>, <span class="attr">interval:</span> <span class="number">300</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># load-balance: The request of the same eTLD will be dial on the same proxy.</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;load-balance&quot;</span>, <span class="attr">type:</span> <span class="string">load-balance</span>, <span class="attr">proxies:</span> [<span class="string">&quot;ss1&quot;</span>, <span class="string">&quot;ss2&quot;</span>, <span class="string">&quot;vmess1&quot;</span>], <span class="attr">url:</span> <span class="string">&quot;http://www.gstatic.com/generate_204&quot;</span>, <span class="attr">interval:</span> <span class="number">300</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># select is used for selecting proxy or proxy group</span></span><br><span class="line"><span class="comment"># you can use RESTful API to switch proxy, is recommended for use in GUI.</span></span><br><span class="line"><span class="bullet">-</span> &#123; <span class="attr">name:</span> <span class="string">&quot;Proxy&quot;</span>, <span class="attr">type:</span> <span class="string">select</span>, <span class="attr">proxies:</span> [<span class="string">&quot;ss1&quot;</span>, <span class="string">&quot;ss2&quot;</span>, <span class="string">&quot;vmess1&quot;</span>, <span class="string">&quot;auto&quot;</span>] &#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">Rule:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN-SUFFIX,google.com,auto</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN-KEYWORD,google,auto</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN,google.com,auto</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN-SUFFIX,ad.com,REJECT</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">IP-CIDR,127.0.0.0/8,DIRECT</span></span><br><span class="line"><span class="comment"># rename SOURCE-IP-CIDR and would remove after prerelease</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">SRC-IP-CIDR,192.168.1.201/32,DIRECT</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">GEOIP,CN,DIRECT</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DST-PORT,80,DIRECT</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">SRC-PORT,7777,DIRECT</span></span><br><span class="line"><span class="comment"># FINAL would remove after prerelease</span></span><br><span class="line"><span class="comment"># you also can use `FINAL,Proxy` or `FINAL,,Proxy` now</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">MATCH,auto</span></span><br></pre></td></tr></table></figure>
+
+<p>为了缩短文章的长度对配置文件做了适当的精简，该配置文件的全部内容可以直接在 Clash 的 Github 仓库中找到。</p>
+<p>整份配置文件由四部分构成：</p>
+<ol>
+<li><p>通用配置</p>
+<p> 对 Clash 进行配置，比如本机代理端口、日志等级、默认代理方式等，具体的可以查看示例配置文件中的配置项及其注释。</p>
+</li>
+<li><p>节点</p>
+<p> 远程代理服务器，一般有订阅机场提供。</p>
+</li>
+<li><p>代理组</p>
+<p> 针对不同的场景会设置不同的代理方式，一个组就是一种代理方式，目前 Clash 提供如下的四种代理方式：</p>
+<ul>
+<li>url-test：对URL进行基准测试来选择将使用哪个代理。</li>
+<li>fallback：按优先级选择可用策略。 就像自动url测试组一样，通过访问URL来测试可用性。</li>
+<li>load-balance：负载均衡，同一 eTLD 的请求将在同一代理上拨号。</li>
+<li>select：自定义选择代理或代理组。</li>
+</ul>
+<p> 组可以相互之间进行引用，但是被引用的组要放置在配置文件的前边。</p>
+</li>
+<li><p>规则</p>
+<p> Clash 的规则有如下的九种类型：</p>
+<ul>
+<li>DOMAIN-SUFFIX：域名后缀匹配。</li>
+<li>DOMAIN：域名匹配。</li>
+<li>DOMAIN-KEYWORD：域名关键字匹配。</li>
+<li>IP-CIDR：IP段匹配。</li>
+<li>SRC-IP-CIDR：源IP段匹配。</li>
+<li>GEOIP：GEOIP数据库（国家代码）匹配。</li>
+<li>DST-PORT：目标端口匹配。</li>
+<li>SRC-PORT：源端口匹配。</li>
+<li>MATCH：全匹配（一般放在最后）。</li>
+</ul>
+<p> Clash 配置文件中规则的书写方式如下：</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Rule:</span></span><br><span class="line"><span class="comment"># &lt;类型&gt;,&lt;匹配的内容&gt;,&lt;代理组&gt;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN-SUFFIX,edgedatg.com,auto</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN-SUFFIX,go.com,auto</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>redxiiikk
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://redxiiikk.github.io/20210822-01/" title="Clash For Windows 使用">https://redxiiikk.github.io/20210822-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Clash/" rel="tag"># Clash</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+              <a href="/tags/%E6%8A%98%E8%85%BE/" rel="tag"># 折腾</a>
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/20210720-01/" rel="prev" title="有限状态机">
+                  <i class="fa fa-chevron-left"></i> 有限状态机
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">redxiiikk</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"qingke-hk-github-page","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
