@@ -220,7 +220,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-09-15 22:24:20 / Modified: 22:59:21" itemprop="dateCreated datePublished" datetime="2021-09-15T22:24:20+08:00">2021-09-15</time>
+      <time title="Created: 2021-09-15 22:24:20 / Modified: 23:03:19" itemprop="dateCreated datePublished" datetime="2021-09-15T22:24:20+08:00">2021-09-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -261,25 +261,16 @@
 <h1 id="生成不同的-SSH-配置"><a href="#生成不同的-SSH-配置" class="headerlink" title="生成不同的 SSH 配置"></a>生成不同的 SSH 配置</h1><p>首先是为两个用户生成各自的 SSH 配置。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;a@test.com&quot;</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;b@test.com&quot;</span></span></span><br></pre></td></tr></table></figure>
 
-<p>在这一一步我们需要注意的是在生成 SSH 配置的时候需要自定义文件名，不然文件就会被覆盖掉。</p>
+<p>在这一步我们需要注意的是在生成 SSH 配置的时候需要自定义文件名，不然文件就会被覆盖掉。</p>
 <p><img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210915223539.png"></p>
-<p>完成之后 <strong>.ssh</strong> 文件夹的结构应该如下所示：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ tree ~/.ssh</span><br><span class="line">.ssh</span><br><span class="line">├── id_rsa_a</span><br><span class="line">├── id_rsa_a.pub</span><br><span class="line">├── id_rsa_b</span><br><span class="line">└── id_rsa_b.pub</span><br></pre></td></tr></table></figure>
-
-<h1 id="配置-Git-配置文件"><a href="#配置-Git-配置文件" class="headerlink" title="配置 Git 配置文件"></a>配置 Git 配置文件</h1><p>首先是全局的 Git 配置文件，主要是根据 <code>includeIf</code> 配置让不同文件夹下的仓库使用不同的配置。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-config#_includes">includeIf · Git - git-config Document</a></p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.gitconfig</span><br><span class="line">[includeIf <span class="string">&quot;gitdir:~/Workspaces/a/&quot;</span>]</span><br><span class="line">    path = ~/.a-gitconfig</span><br><span class="line">[includeIf <span class="string">&quot;gitdir:~/Workspaces/b/&quot;</span>]</span><br><span class="line">    path = ~/.b-gitconfig</span><br></pre></td></tr></table></figure>
-
-<p>然后才是具体的用户的配置文件，主要是配置了不同的用户名和邮箱，最重要的是加载不同的 SSH 配置，这里主要是使用了 <code>core.sshCommand</code> 配置项在执行 Git 命令的时候使用指定的 SSH 配置。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresshCommand">core.sshCommand · Git - git-config Document</a></p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.a-gitconfig</span><br><span class="line">[user]</span><br><span class="line">    name = A</span><br><span class="line">    email = a@test.com</span><br><span class="line">[core]</span><br><span class="line">    sshCommand = <span class="string">&quot;ssh -i ~/.ssh/id_rsa_a&quot;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.b-gitconfig</span><br><span class="line">[user]</span><br><span class="line">    name = B</span><br><span class="line">    email = b@test.com</span><br><span class="line">[core]</span><br><span class="line">    sshCommand = <span class="string">&quot;ssh -i ~/.ssh/id_rsa_b&quot;</span></span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/20210915-01/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -336,7 +327,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -430,7 +421,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -531,7 +522,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -644,7 +635,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -741,7 +732,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -838,7 +829,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -939,7 +930,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1040,7 +1031,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1144,7 +1135,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-15 22:59:21" itemprop="dateModified" datetime="2021-09-15T22:59:21+08:00">2021-09-15</time>
+        <time title="Modified: 2021-09-15 23:03:19" itemprop="dateModified" datetime="2021-09-15T23:03:19+08:00">2021-09-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
