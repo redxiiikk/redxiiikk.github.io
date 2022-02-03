@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112534.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112601.png">
 <meta property="article:published_time" content="2021-02-21T01:30:00.000Z">
-<meta property="article:modified_time" content="2022-02-03T00:55:10.179Z">
+<meta property="article:modified_time" content="2022-02-03T00:55:47.630Z">
 <meta property="article:author" content="redxiiikk">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Github Actions">
@@ -235,7 +235,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-03 08:55:10" itemprop="dateModified" datetime="2022-02-03T08:55:10+08:00">2022-02-03</time>
+      <time title="Modified: 2022-02-03 08:55:47" itemprop="dateModified" datetime="2022-02-03T08:55:47+08:00">2022-02-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -279,7 +279,7 @@
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://docs.github.com/cn/actions">Github Action 文档 - Github Docs</a></p>
 </blockquote>
-<p>首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：GitHub Actions文档 - GitHub Docs首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：</p>
+<p>首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github&#x2F;workflows 文件夹下，如下所示：GitHub Actions文档 - GitHub Docs首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github&#x2F;workflows 文件夹下，如下所示：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Continuous</span> <span class="string">integration</span></span><br><span class="line"><span class="attr">on:</span> <span class="string">push</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">checkstyle:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Checkstyle</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-18.04</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">reviewdog/action-setup@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">reviewdog_version:</span> <span class="string">latest</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">download</span> <span class="string">checkstyle</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">curl</span> <span class="string">-o</span> <span class="string">checkstyle.jar</span> <span class="string">-L</span> <span class="string">https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.40/checkstyle-8.40-all.jar</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">checkstyle</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">REVIEWDOG_GITHUB_API_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">java</span> <span class="string">-jar</span> <span class="string">checkstyle.jar</span> <span class="string">-c</span> <span class="string">checkstyle-config.xml</span> <span class="string">-f</span> <span class="string">xml</span> <span class="string">src</span> <span class="string">|</span> <span class="string">reviewdog</span> <span class="string">-f=checkstyle</span> <span class="string">-name=&quot;Checkstyle&quot;</span> <span class="string">-reporter=github-check</span></span><br></pre></td></tr></table></figure>
 
 <p>关于 Github Actions 配置文件的语法可以参考官方文档的定义：</p>
@@ -290,7 +290,7 @@
 <ol>
 <li><p>首先所有的 job 都是并行的，两个 job 可以同时开始运行，如果 job 之间存在依赖关系的可以使用 <code>jobs.&lt;job id&gt;</code>.needs 表示依赖关系</p>
 </li>
-<li><p>steps 中需要首先使用 actions/checkout@v2 将拉取代码，否则工作目录将是一个空目录，actions/checkout@v2 是已经定义好的工作流模板，可以直接在自己的工作流中使用</p>
+<li><p>steps 中需要首先使用 actions&#x2F;checkout@v2 将拉取代码，否则工作目录将是一个空目录，actions&#x2F;checkout@v2 是已经定义好的工作流模板，可以直接在自己的工作流中使用</p>
 </li>
 </ol>
 <p>3.工作流默认提供了 <code>$&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;</code> 的 token， 对应的权限如下：</p>
@@ -319,17 +319,18 @@
 <ol>
 <li><p>下载 checkstyle 的 jar<br>checkstyle 的代码托管在 Github 上，这样就可以从 Github Releases 中直接下载最新的 jar。</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/checkstyle/checkstyle/releases">Releases · checkstyle/checkstyle</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/checkstyle/checkstyle/releases">Releases · checkstyle&#x2F;checkstyle</a></p>
 </blockquote>
 </li>
 <li><p>cli 模式下进行 checkstyle 检查</p>
-<p> CLI 中进行 checkstyle 检查也十分的简单，官方文档中也对这种方式进行了说明：</p>
+<p>CLI 中进行 checkstyle 检查也十分的简单，官方文档中也对这种方式进行了说明：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://checkstyle.org/cmdline.html">checkstyle - Command Line</a></p>
 </blockquote>
-<p> 具体的命令如下：</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar checkstyle.jar -c checkstyle-config.xml -f xml src</span><br></pre></td></tr></table></figure>
-<p> <code>-f</code> 表示输出格式，这里使用了 XML 的格式进行输出。</p>
+<p>具体的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar checkstyle.jar -c checkstyle-config.xml -f xml src</span><br></pre></td></tr></table></figure>
+
+<p><code>-f</code> 表示输出格式，这里使用了 XML 的格式进行输出。</p>
 </li>
 </ol>
 <h1 id="reviewdog"><a href="#reviewdog" class="headerlink" title="reviewdog"></a>reviewdog</h1><p>通过在 Github Actions 中直接以 CLI 的方式运行 Checkstyle 已经可以对代码的风格进行检查了，但是这样的检查结果将直接显示在 Gihtub Actions 日志中，不利于查看，这是就要使用 reviewdog 将检查的结果直接显示在 Gihtub Actions 界面中：</p>
@@ -340,7 +341,7 @@
 
 <p>reviewdog 已经适配了 Checkstyle 的输出格式，因此可以直接使用。</p>
 <p>关于 reviewdog 的具体细节可以查看其官方文档：</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/reviewdog/reviewdog">reviewdog/reviewdog</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/reviewdog/reviewdog">reviewdog&#x2F;reviewdog</a></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>当然上述方法仍有不足之处，依然需要不断的改进：</p>
 <ol>
 <li><p>代码风格检查未通过时应该不允许提交代码</p>
