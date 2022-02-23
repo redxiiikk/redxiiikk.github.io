@@ -1,0 +1,138 @@
+<!doctype html><html lang=en>
+<head>
+<title>单台电脑上的多 Git 用户配置 :: redxiiikk blog</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="本地多 Git 用户隔离。">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://redxiiikk.github.io/posts/20210915-01-multi-git-user/>
+<link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css>
+<link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css>
+<link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单台电脑上的多 Git 用户配置">
+<meta property="og:description" content="本地多 Git 用户隔离。">
+<meta property="og:url" content="https://redxiiikk.github.io/posts/20210915-01-multi-git-user/">
+<meta property="og:site_name" content="redxiiikk blog">
+<meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2021-09-15 22:24:20 +0000 UTC">
+</head>
+<body class=green>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+redxiiikk
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://redxiiikk.github.io/posts/20210915-01-multi-git-user/>单台电脑上的多 Git 用户配置</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2021-09-15
+</span>
+</div>
+<div class=post-content><div>
+<p>本文主要是解决如何在一台电脑上实现过个 Git 用户的配置，实现不同用户之间的隔离，保证代码的安全性。</p>
+<p>假设我们现在有两个 Git 用户，分别是 a@test.com 和 b@test.com ，接下来我们将使用中这两个用户来演示如何配置多份 Git 配置。</p>
+<h1 id=生成不同的-ssh-配置>生成不同的 SSH 配置<a href=#生成不同的-ssh-配置 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>首先是为两个用户生成各自的 SSH 配置。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ ssh-keygen -t rsa -b <span style=color:#ae81ff>4096</span> -C <span style=color:#e6db74>&#34;a@test.com&#34;</span>
+$ ssh-keygen -t rsa -b <span style=color:#ae81ff>4096</span> -C <span style=color:#e6db74>&#34;b@test.com&#34;</span>
+</code></pre></div><p>在这一步我们需要注意的是在生成 SSH 配置的时候需要自定义文件名，不然文件就会被覆盖掉。</p>
+<p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210915232613.png alt></p>
+<p>完成之后 <strong>.ssh</strong> 文件夹的结构应该如下所示：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ tree ~/.ssh
+.ssh
+├── id_rsa_a
+├── id_rsa_a.pub
+├── id_rsa_b
+└── id_rsa_b.pub
+</code></pre></div><h1 id=配置-git-配置文件>配置 Git 配置文件<a href=#配置-git-配置文件 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>首先是全局的 Git 配置文件，主要是根据 <code>includeIf</code> 配置让不同文件夹下的仓库使用不同的配置。</p>
+<blockquote>
+<p><a href=https://git-scm.com/docs/git-config#_includes>includeIf · Git - git-config Document</a></p>
+</blockquote>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ cat ~/.gitconfig
+<span style=color:#f92672>[</span>includeIf <span style=color:#e6db74>&#34;gitdir:~/Workspaces/a/&#34;</span><span style=color:#f92672>]</span>
+    path <span style=color:#f92672>=</span> ~/.a-gitconfig
+<span style=color:#f92672>[</span>includeIf <span style=color:#e6db74>&#34;gitdir:~/Workspaces/b/&#34;</span><span style=color:#f92672>]</span>
+    path <span style=color:#f92672>=</span> ~/.b-gitconfig
+</code></pre></div><p>然后才是具体的用户的配置文件，主要是配置了不同的用户名和邮箱，最重要的是加载不同的 SSH 配置，这里主要是使用了 <code>core.sshCommand</code> 配置项在执行 Git 命令的时候使用指定的 SSH 配置。</p>
+<blockquote>
+<p><a href=https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresshCommand>core.sshCommand · Git - git-config Document</a></p>
+</blockquote>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ cat ~/.a-gitconfig
+<span style=color:#f92672>[</span>user<span style=color:#f92672>]</span>
+    name <span style=color:#f92672>=</span> A
+    email <span style=color:#f92672>=</span> a@test.com
+<span style=color:#f92672>[</span>core<span style=color:#f92672>]</span>
+    sshCommand <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;ssh -i ~/.ssh/id_rsa_a&#34;</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ cat ~/.b-gitconfig
+<span style=color:#f92672>[</span>user<span style=color:#f92672>]</span>
+    name <span style=color:#f92672>=</span> B
+    email <span style=color:#f92672>=</span> b@test.com
+<span style=color:#f92672>[</span>core<span style=color:#f92672>]</span>
+    sshCommand <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;ssh -i ~/.ssh/id_rsa_b&#34;</span>
+</code></pre></div>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://redxiiikk.github.io/posts/20210525-01-condition-bean-in-spring-mvc/>
+<span class=button__icon>←</span>
+<span class=button__text>Spring MVC 中条件注解导致 @Autowired 注解失效的 BUG</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://redxiiikk.github.io/posts/20210910-01-update-github-action-and-npm-in-github/>
+<span class=button__text>使用 dependabot 自动升级依赖</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://redxiiikk.github.io/assets/main.js></script>
+<script src=https://redxiiikk.github.io/assets/prism.js></script>
+<script src=https://redxiiikk.github.io/assets/languageSelector.js></script>
+</div>
+</body>
+</html>

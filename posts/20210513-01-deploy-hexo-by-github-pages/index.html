@@ -1,0 +1,258 @@
+<!doctype html><html lang=en>
+<head>
+<title>使用 Hexo 与 Github 搭建个人博客 :: redxiiikk blog</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="本文主要是对自己利用 Hexo 以及 Github 搭建博客的过程进行一个记录。">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://redxiiikk.github.io/posts/20210513-01-deploy-hexo-by-github-pages/>
+<link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css>
+<link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css>
+<link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Hexo 与 Github 搭建个人博客">
+<meta property="og:description" content="本文主要是对自己利用 Hexo 以及 Github 搭建博客的过程进行一个记录。">
+<meta property="og:url" content="https://redxiiikk.github.io/posts/20210513-01-deploy-hexo-by-github-pages/">
+<meta property="og:site_name" content="redxiiikk blog">
+<meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2021-05-26 17:04:02 +0000 UTC">
+</head>
+<body class=green>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+redxiiikk
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://redxiiikk.github.io/posts/20210513-01-deploy-hexo-by-github-pages/>使用 Hexo 与 Github 搭建个人博客</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2021-05-26
+</span>
+</div>
+<div class=post-content><div>
+<h1 id=前置工作>前置工作<a href=#前置工作 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=部署方式的选择>部署方式的选择<a href=#部署方式的选择 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>目前书写个人博客有使用成熟的博客站点（例如简书、 CSDN 等等）或自己搭建属于自己的博客网站这两种方式，之所以不选择已经成熟的博客站点是因为一下的一些原因：</p>
+<ol>
+<li>可定制型较差，通常都不太满足个人要求</li>
+<li>写作方式不够友好（大部分都需要在线书写，相比于一些专业的 Markdown 编辑器来说仍有不足）</li>
+</ol>
+<p>自建博客站点也是存在两种不同的方式：</p>
+<ol>
+<li>购买域名、服务器等设施自行搭建博客站点</li>
+<li>利用 Github 、 Gitee 等提供的能力托管静态页面</li>
+</ol>
+<p>受限囊中羞涩，个人选择了使用 Github Pages 来托管自己的博客内容，具体的可以看 <a href=https://pages.github.com/>Github Pages</a></p>
+<h2 id=静态博客生成框架选择>静态博客生成框架选择<a href=#静态博客生成框架选择 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>首先是选择一个静态网页生成框架，目前比较广泛所致的有以下的几个框架：</p>
+<ul>
+<li>Jekyll: 使用 Ruby 语言进行开发的框架，并且也是 Github 官方推荐的框架。</li>
+<li>Hexo: 使用 Node.js 进行开发。</li>
+<li>Hugo: 使用 Go 语言开发。</li>
+<li>Pelican: 使用 Python 进行开发</li>
+</ul>
+<p>个人选择了 Hexo ，主要是因为之前有使用该框架的经验，可以减少自己的学习成本，同时该框架也是使用 JS 进行开发的，方便只有进行自定义扩展。当然处理上述列举出来的框架，还有一下其他的选择，可以自定去探索。</p>
+<blockquote>
+<p>对于这种事情个人建议还是少折腾，将真正的精力集中在博客的内容上边 😅 。</p>
+</blockquote>
+<h1 id=hexo-框架设置>Hexo 框架设置<a href=#hexo-框架设置 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=初始化>初始化<a href=#初始化 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>因为 Hexo 是使用 Node.js 开发的，因此当我们使用 Hexo 的时候最好的方式也是通过 Node.js 进行使用。</p>
+<p>首先是全局安装 Hexo CLI 工具，具体的命令如下：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ npm install hexo-cli -g
+</code></pre></div><p>然后利用 Hexo CLI 工具初始化项目：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ hexo init my-personal-blog
+$ cd my-personal-blog
+</code></pre></div><p>这样我们就已经得到了一个标准的 Hexo 模板项目了，接下来就是对项目进行个性化配置了。</p>
+<h2 id=_configyml-进行修改>_config.yml 进行修改<a href=#_configyml-进行修改 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#75715e># Site</span>
+<span style=color:#f92672>title</span>: <span style=color:#ae81ff>Kai.He Blogs</span>
+<span style=color:#f92672>subtitle</span>: <span style=color:#e6db74>&#39;搬砖工程师&#39;</span>
+<span style=color:#f92672>author</span>: <span style=color:#ae81ff>Kai.He</span>
+<span style=color:#f92672>language</span>: <span style=color:#ae81ff>en</span>
+<span style=color:#f92672>timezone</span>: <span style=color:#e6db74>&#39;Asia/Shanghai&#39;</span>
+
+<span style=color:#75715e># URL</span>
+<span style=color:#f92672>url</span>: <span style=color:#ae81ff>https://redxiiikk.github.io</span>
+  <span style=color:#f92672>permalink</span>: :<span style=color:#ae81ff>urlpath/</span>
+  <span style=color:#f92672>permalink_defaults</span>:
+
+<span style=color:#75715e># Extensions</span>
+<span style=color:#75715e>## Plugins: https://hexo.io/plugins/</span>
+<span style=color:#75715e>## Themes: https://hexo.io/themes/</span>
+<span style=color:#f92672>theme</span>: <span style=color:#ae81ff>next</span>
+</code></pre></div><p>对于 _config.yml 的修改只有这一小部分，修改之后的效果可以根据下面的图片进行参照：</p>
+<p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210513174727.png alt=image-20210513151722295></p>
+<p>上述配置中还对文章的永久链接进行了配置，个人不在使用 Hexo 默认提供的方式，而是通过自定义的方式进行手动管理。</p>
+<p>具体的方式是在每一篇博客的 Front-matter 中添加一个自定义的参数，如下图：</p>
+<p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210513174728.png alt=image-20210513152434514></p>
+<blockquote>
+<p>参考文章：</p>
+<ol>
+<li><a href=https://hexo.io/zh-cn/docs/permalinks.html>永久链接 - Hexo 文档</a></li>
+</ol>
+</blockquote>
+<blockquote>
+<p>后期可以利用脚本或者 Hexo 插件的方式做到一定程度上的自动化（先挖一个坑）。</p>
+</blockquote>
+<p>最后在 _config.yml 中还修改了 Hexo 的主题，采用了 NexT 主题。</p>
+<h2 id=主题配置>主题配置<a href=#主题配置 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Hexo 提供了默认的主题，但是比不是特别的美观，我们可以采取一些三方的主题来优化我们的博客网站，在这里我个人采用的 NexT 这个主题。</p>
+<blockquote>
+<p>更多的主题可在 <a href=https://hexo.io/themes/>Theme - Hexo.io</a> 上边查看，如何配置主题请看主题作者的文档。</p>
+</blockquote>
+<p>目前 Hexo 对于对于各个主题提供了独立的 _config.[theme].yml 文件，对不同的主题我们可以使用独立的配置文件来进行控制。</p>
+<h3 id=安装-next-主题>安装 NexT 主题<a href=#安装-next-主题 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>首选我们需要安装 NexT 主题， NexT 提供了多种安装方式，具体的可看 <a href=https://theme-next.iissnan.com/getting-started.html>开始使用 - NexT</a> 。</p>
+<p>在这里我个人采用了 npm 包的方式进行安装，具体的命令如下：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ npm install hexo-theme-next --save
+</code></pre></div><p>安装完成之后就是修改 NexT 的配置文件了</p>
+<h3 id=配置-next-主题>配置 NexT 主题<a href=#配置-next-主题 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>首先直接 copy 一份 NexT 的默认配置</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ copy node_modules/hexo-theme-next/_config.yml ./_config.next.yml
+</code></pre></div><p>然后做出如下的修改：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#75715e># ---------------------------------------------------------------</span>
+<span style=color:#75715e># Scheme Settings</span>
+<span style=color:#75715e># ---------------------------------------------------------------</span>
+
+<span style=color:#75715e># Schemes</span>
+<span style=color:#75715e>#scheme: Muse</span>
+<span style=color:#75715e>#scheme: Mist</span>
+<span style=color:#75715e>#scheme: Pisces</span>
+<span style=color:#f92672>scheme</span>: <span style=color:#ae81ff>Gemini</span>
+
+<span style=color:#75715e># Dark Mode</span>
+<span style=color:#f92672>darkmode</span>: <span style=color:#66d9ef>true</span>
+
+<span style=color:#75715e># Creative Commons 4.0 International License.</span>
+<span style=color:#f92672>creative_commons</span>:
+  <span style=color:#f92672>license</span>: <span style=color:#ae81ff>by-nc-sa</span>
+  <span style=color:#f92672>sidebar</span>: <span style=color:#66d9ef>true</span>
+  <span style=color:#f92672>post</span>: <span style=color:#66d9ef>true</span>
+  <span style=color:#f92672>language</span>:
+
+<span style=color:#75715e># Usage: `Key: /link/ || icon`</span>
+<span style=color:#75715e># Key is the name of menu item. If the translation for this item is available, the translated text will be loaded, otherwise the Key name will be used. Key is case-senstive.</span>
+<span style=color:#75715e># Value before `||` delimiter is the target link, value after `||` delimiter is the name of Font Awesome icon.</span>
+<span style=color:#75715e># External url should start with http:// or https://</span>
+<span style=color:#f92672>menu</span>:
+  <span style=color:#f92672>home</span>: <span style=color:#ae81ff>/ || fa fa-home</span>
+  <span style=color:#75715e>#about: /about/ || fa fa-user</span>
+  <span style=color:#f92672>tags</span>: <span style=color:#ae81ff>/tags/ || fa fa-tags</span>
+  <span style=color:#f92672>categories</span>: <span style=color:#ae81ff>/categories/ || fa fa-th</span>
+  <span style=color:#f92672>archives</span>: <span style=color:#ae81ff>/archives/ || fa fa-archive</span>
+  <span style=color:#75715e>#schedule: /schedule/ || fa fa-calendar</span>
+  <span style=color:#75715e>#sitemap: /sitemap.xml || fa fa-sitemap</span>
+  <span style=color:#75715e>#commonweal: /404/ || fa fa-heartbeat</span>
+
+<span style=color:#75715e># Sidebar Avatar</span>
+<span style=color:#f92672>avatar</span>:
+  <span style=color:#75715e># Replace the default image and set the url here.</span>
+  <span style=color:#f92672>url</span>: <span style=color:#ae81ff>/images/avatar.jpeg</span>
+  <span style=color:#75715e># If true, the avatar will be dispalyed in circle.</span>
+  <span style=color:#f92672>rounded</span>: <span style=color:#66d9ef>true</span>
+  <span style=color:#75715e># If true, the avatar will be rotated with the cursor.</span>
+  <span style=color:#f92672>rotated</span>: <span style=color:#66d9ef>false</span>
+
+<span style=color:#75715e># Social Links</span>
+<span style=color:#75715e># Usage: `Key: permalink || icon`</span>
+<span style=color:#75715e># Key is the link label showing to end users.</span>
+<span style=color:#75715e># Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.</span>
+<span style=color:#f92672>social</span>:
+  <span style=color:#f92672>GitHub</span>: <span style=color:#ae81ff>https://github.com/redxiiikk || fab fa-github</span>
+</code></pre></div><p>这里唯一需要说明的就是 Sidebar Avatar 的设置，这个是设置头像的，需要提前在 <code>source</code> 目录下创建 <code>images</code> 目录，然后将头像文件放进去。</p>
+<p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210525165123.png alt=image-20210525165123634></p>
+<p>至此基本上静态博客就已经完成了，接下来我们需要的时将其部署到 Github Pages 上去。</p>
+<h1 id=github-pages>Github Pages<a href=#github-pages class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>关于如何创建一个仓库去部署 Github Pages 这里就不在做过多的叙述，这里只是去记录一些需要注意的点即可，更多的信息可以查看 <a href=https://pages.github.com/>GitHub Pages</a> 的相关的文档。</p>
+<h2 id=使用-github-actions-自动部署>使用 Github Actions 自动部署<a href=#使用-github-actions-自动部署 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Hexo Auto Deploy</span>
+<span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>branches</span>:
+      - <span style=color:#ae81ff>source</span>
+<span style=color:#f92672>jobs</span>:
+  <span style=color:#f92672>build-and-deploy</span>:
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+    <span style=color:#f92672>steps</span>:
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Checkout</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Setup Node</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-node@v2</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>node-version</span>: <span style=color:#e6db74>&#39;14&#39;</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Install and Build</span>
+        <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span><span style=color:#e6db74>          npm install hexo-cli -g
+</span><span style=color:#e6db74>          npm install
+</span><span style=color:#e6db74>          hexo generate</span>          
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Deploy</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>JamesIves/github-pages-deploy-action@4.1.3</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>branch</span>: <span style=color:#ae81ff>master</span>
+          <span style=color:#f92672>folder</span>: <span style=color:#ae81ff>public</span>
+</code></pre></div><p>这样在每一次将博客的原始文件进行提交的时候都会触发部署流程，减少手工部署的时间。</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://redxiiikk.github.io/posts/20210626-01-install-vscode-in-linux/>
+<span class=button__icon>←</span>
+<span class=button__text>Linux 下安装 VSCode</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://redxiiikk.github.io/posts/20210512-02-clash-in-linux/>
+<span class=button__text>在 Linux 中使用 Clash</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://redxiiikk.github.io/assets/main.js></script>
+<script src=https://redxiiikk.github.io/assets/prism.js></script>
+<script src=https://redxiiikk.github.io/assets/languageSelector.js></script>
+</div>
+</body>
+</html>

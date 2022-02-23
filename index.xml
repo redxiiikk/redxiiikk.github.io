@@ -1,0 +1,1291 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>redxiiikk blog</title><link>https://redxiiikk.github.io/</link><description>Recent content on redxiiikk blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Feb 2022 18:13:27 +0000</lastBuildDate><atom:link href="https://redxiiikk.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://redxiiikk.github.io/about/</link><pubDate>Wed, 23 Feb 2022 21:19:55 +0800</pubDate><guid>https://redxiiikk.github.io/about/</guid><description>Hello,
+我是 redxiiik, 一名全职 BUG 工程师.
+我的技术栈如下:
+偶尔写一点点前端, 主要是 Vue. 偶尔写一点点后端, 大部分是 Java, 但是也会写 Python 和 Golang, 绝大多数是与微服务相关. 了解一点点 DevOps 相关, 但是没正真的在项目实践过. 正在学习大数据相关的知识, 主要是 Apache Flink. 其他的时间都在愉快的摸鱼 🤣 . 你可以通过一下的方式联系我:
+Gihtub: github/redxiiikk Email: redxiiikk@outlook dot com 请不要使用垃圾邮件进行轰炸 🙏 .</description><content>&lt;p>Hello,&lt;/p>
+&lt;p>我是 redxiiik, 一名全职 BUG 工程师.&lt;/p>
+&lt;p>我的技术栈如下:&lt;/p>
+&lt;blockquote>
+&lt;ul>
+&lt;li>偶尔写一点点前端, 主要是 Vue.&lt;/li>
+&lt;li>偶尔写一点点后端, 大部分是 Java, 但是也会写 Python 和 Golang, 绝大多数是与微服务相关.&lt;/li>
+&lt;li>了解一点点 DevOps 相关, 但是没正真的在项目实践过.&lt;/li>
+&lt;li>正在学习大数据相关的知识, 主要是 Apache Flink.&lt;/li>
+&lt;li>其他的时间都在愉快的摸鱼 🤣 .&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>你可以通过一下的方式联系我:&lt;/p>
+&lt;ol>
+&lt;li>Gihtub: &lt;a href="https://github.com/redxiiikk">github/redxiiikk&lt;/a>&lt;/li>
+&lt;li>Email: redxiiikk@outlook dot com&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>请不要使用垃圾邮件进行轰炸 🙏 .&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/peep.png" alt="">&lt;/p></content></item><item><title>Apache Flink 02: DataStream / DataSet Api</title><link>https://redxiiikk.github.io/posts/20220222-02-flink-02/</link><pubDate>Tue, 22 Feb 2022 18:13:27 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20220222-02-flink-02/</guid><description>Flink API 层次结构 SQL Api Table Api DataStream / DataSet Api Stateful Processing Function Api DataStream / DataSet Api 因为 Apache Flink 是流批一体的处理引擎，并且社区目前也有计划统一 DataStream 与 DataSet 的 Api，因此我们将重点学习 DataStream Api ，至于 DataSet Api 与 DataStream Api 基本类似。
+DataStream 作业模式：
+Source Transformation Sink Source Flink 内置的一些支持 Flink 提供的一些 Connector 自定义 Source Sink Flink 内置的一些支持 Flink 提供的一些 Connector 自定义 Source Transformation 单流操作 多流操作 按照状态进行分类：</description><content>&lt;h1 id="flink-api-层次结构">Flink API 层次结构&lt;/h1>
+&lt;ol>
+&lt;li>SQL Api&lt;/li>
+&lt;li>Table Api&lt;/li>
+&lt;li>DataStream / DataSet Api&lt;/li>
+&lt;li>Stateful Processing Function Api&lt;/li>
+&lt;/ol>
+&lt;h1 id="datastream--dataset-api">DataStream / DataSet Api&lt;/h1>
+&lt;blockquote>
+&lt;p>因为 Apache Flink 是流批一体的处理引擎，并且社区目前也有计划统一 DataStream 与 DataSet 的 Api，因此我们将重点学习 DataStream Api ，至于 DataSet Api 与 DataStream Api 基本类似。&lt;/p>
+&lt;/blockquote>
+&lt;p>DataStream 作业模式：&lt;/p>
+&lt;ol>
+&lt;li>Source&lt;/li>
+&lt;li>Transformation&lt;/li>
+&lt;li>Sink&lt;/li>
+&lt;/ol>
+&lt;h2 id="source">Source&lt;/h2>
+&lt;ol>
+&lt;li>Flink 内置的一些支持&lt;/li>
+&lt;li>Flink 提供的一些 Connector&lt;/li>
+&lt;li>自定义 Source&lt;/li>
+&lt;/ol>
+&lt;h2 id="sink">Sink&lt;/h2>
+&lt;ol>
+&lt;li>Flink 内置的一些支持&lt;/li>
+&lt;li>Flink 提供的一些 Connector&lt;/li>
+&lt;li>自定义 Source&lt;/li>
+&lt;/ol>
+&lt;h2 id="transformation">Transformation&lt;/h2>
+&lt;ol>
+&lt;li>单流操作&lt;/li>
+&lt;li>多流操作&lt;/li>
+&lt;/ol>
+&lt;p>按照状态进行分类：&lt;/p>
+&lt;ol>
+&lt;li>无状态操作&lt;/li>
+&lt;li>有状态操作&lt;/li>
+&lt;/ol>
+&lt;h1 id="wordconvert">WordConvert&lt;/h1>
+&lt;blockquote>
+&lt;p>单流、无状态&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>flatMap&lt;/li>
+&lt;li>map&lt;/li>
+&lt;li>fliter&lt;/li>
+&lt;/ol>
+&lt;p>从 Kafka 的 word topic 中每次读取多行文本，然后将多行文本转换为小写的文本，并且全部小写&lt;/p>
+&lt;p>项目结构：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">word-count
+├── pom.xml
+└── src
+   └── main
+      └── java.com.github.redxiiikk.learn.flink.word.convert
+         └── WordConvertApplication.java
+&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>Apache Flink 01: 了解与环境搭建</title><link>https://redxiiikk.github.io/posts/20220222-01-flink-01/</link><pubDate>Tue, 22 Feb 2022 15:13:27 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20220222-01-flink-01/</guid><description>什么是 Flink Apache Flink 是一个在有界数据流和无界数据流上进行有状态计算分布式处理引擎和框架.Flink 设计旨在所有常见的集群环境中运行, 以任意规模和内存级速度执行计算.
+—— Apache Flink 社区
+为了更好的理解 Apache Flink 的定义，我们需要了解一些流计算相关的知识。
+批计算与流计算 大数据一共具有四种计算模式，分别是：
+批计算 流计算 交互计算 图计算 批计算和流计算是最为常见的两种模式，批计算较为好理解，是指对一批边界固定的数据进行处理，例如过去一个月的销售数据、一个 G 的汽车定位数据等等。
+但是批计算存在一些不足之处。首先是第一点是时效性无法满足，批计算无法及时决策提供依据。当我们需要根据各个渠道的销售数量的总和去及时的调整库存的时候，批计算只能等待一段时候收集到足够的数据之后才能计算出总和，例如一个月之后我们才能调整库存，当然可以缩短这一个周期，但是无论周期的长短，其时效性的问题始终存在，然而在如今激烈竞争、复杂多变的商业环境下，营销时机转瞬即逝，风险防控必须分秒必争，商业决策要求快速精准，因此数据的处理必须在更短的时间内得到结果，最好是能够做到实时处理。
+第二点就是不符合真实世界的数据产生的方式。真实世界中的数据是源源不断的产生的，传感器会不断的上传数据、订单会不断的产生、股票市场的交易每时每刻都在进行，批计算显然无法应对源源不断的数据。
+基于上述两个批计算的不足之处，提出了流计算的模型，可以在流数据上实时的处理数据，为商业决策提供依据。
+Apache Flink 之前的流计算框架 在 Apache Flink 出现之前，开源的流计算框架就有：
+Apache Storm Apache Spark Streaming Apache Spark Streaming 采用一种微批处理的思想实现流计算，本质上是将流数据分割为微小的一批一批的数据，将其转化为批处理，从而实现在流数据上进行计算。
+Apache Flink 真正的流计算模型
+流批一体的计算框架
+与 Spark 相反， Flink 将批计算视为流计算的一种特殊性形式流计算
+多层次 API
+方便的有状态计算
+丰富的时间语义的支持</description><content>&lt;h1 id="什么是-flink">什么是 Flink&lt;/h1>
+&lt;hr>
+&lt;p style="text-align:cente">Apache Flink 是一个在有界数据流和无界数据流上进行有状态计算分布式处理引擎和框架.Flink 设计旨在所有常见的集群环境中运行, 以任意规模和内存级速度执行计算.&lt;/p>
+&lt;p style="text-align:right">—— Apache Flink 社区&lt;/p>
+&lt;hr>
+&lt;p>为了更好的理解 Apache Flink 的定义，我们需要了解一些流计算相关的知识。&lt;/p>
+&lt;h2 id="批计算与流计算">批计算与流计算&lt;/h2>
+&lt;p>大数据一共具有四种计算模式，分别是：&lt;/p>
+&lt;ol>
+&lt;li>批计算&lt;/li>
+&lt;li>流计算&lt;/li>
+&lt;li>交互计算&lt;/li>
+&lt;li>图计算&lt;/li>
+&lt;/ol>
+&lt;p>批计算和流计算是最为常见的两种模式，批计算较为好理解，是指对一批边界固定的数据进行处理，例如过去一个月的销售数据、一个 G 的汽车定位数据等等。&lt;/p>
+&lt;p>但是批计算存在一些不足之处。首先是第一点是时效性无法满足，批计算无法及时决策提供依据。当我们需要根据各个渠道的销售数量的总和去及时的调整库存的时候，批计算只能等待一段时候收集到足够的数据之后才能计算出总和，例如一个月之后我们才能调整库存，当然可以缩短这一个周期，但是无论周期的长短，其时效性的问题始终存在，然而在如今激烈竞争、复杂多变的商业环境下，营销时机转瞬即逝，风险防控必须分秒必争，商业决策要求快速精准，因此数据的处理必须在更短的时间内得到结果，最好是能够做到实时处理。&lt;/p>
+&lt;p>第二点就是不符合真实世界的数据产生的方式。真实世界中的数据是源源不断的产生的，传感器会不断的上传数据、订单会不断的产生、股票市场的交易每时每刻都在进行，批计算显然无法应对源源不断的数据。&lt;/p>
+&lt;p>基于上述两个批计算的不足之处，提出了流计算的模型，可以在流数据上实时的处理数据，为商业决策提供依据。&lt;/p>
+&lt;h2 id="apache-flink-之前的流计算框架">Apache Flink 之前的流计算框架&lt;/h2>
+&lt;p>在 Apache Flink 出现之前，开源的流计算框架就有：&lt;/p>
+&lt;ol>
+&lt;li>Apache Storm&lt;/li>
+&lt;li>Apache Spark Streaming&lt;/li>
+&lt;/ol>
+&lt;p>Apache Spark Streaming 采用一种微批处理的思想实现流计算，本质上是将流数据分割为微小的一批一批的数据，将其转化为批处理，从而实现在流数据上进行计算。&lt;/p>
+&lt;h2 id="apache-flink">Apache Flink&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>真正的流计算模型&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>流批一体的计算框架&lt;/p>
+&lt;p>与 Spark 相反， Flink 将批计算视为流计算的一种特殊性形式流计算&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>多层次 API&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>方便的有状态计算&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>丰富的时间语义的支持&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="flink-环境搭建">Flink 环境搭建&lt;/h1>
+&lt;h2 id="部署模式与资源管理器">部署模式与资源管理器&lt;/h2>
+&lt;p>Flink 提供了多种部署模式：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Session Mode&lt;/strong>&lt;/p>
+&lt;p>多个 Flink 任务共享 JobManager 和所有的 TaskMangers&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Job Mode&lt;/strong>&lt;/p>
+&lt;p>每一个 Flink 任务独占 JobManager 和所有的 TaskManager&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Application Mode&lt;/strong>&lt;/p>
+&lt;p>每个 Flink 任务共享 JobManager, 但是每个 TaskManager 中只运行一个任务&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Native Mode&lt;/strong>&lt;/p>
+&lt;p>按需申请 TaskManager (所有的任务共享 TaskManager)&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>Flink 支持多种资源管理器，但是并不是每一种资源管理器都支持所有的部署模式，具体的对应关系如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>Session Mode&lt;/th>
+&lt;th>Job Mode&lt;/th>
+&lt;th>Application Mode&lt;/th>
+&lt;th>Native Mode&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Local&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Standalone&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Apache Yarn&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Apache Mesos&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>k8s&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Docker&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>✅&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;td>❌&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="standalone-部署">Standalone 部署&lt;/h2>
+&lt;p>将在本地利用容器部署 Flink 及其相关的其他基础设施，以便在后续的学习过程中开发和调试 Flink 任务。&lt;/p>
+&lt;h3 id="自定义-flink-镜像">自定义 Flink 镜像&lt;/h3>
+&lt;p>因为在后续的学习中，可能需要开启 Flink 一些可选的能力（例如 Queryable state），因此可以在官方提供的镜像的基础之上自行构建镜像，以便后续进行修改。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Dockerfile" data-lang="Dockerfile">&lt;span style="color:#75715e"># ./flink/Dockerfile&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">FROM&lt;/span>&lt;span style="color:#e6db74"> docker.io/flink:1.14.3-scala_2.12-java11&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#75715e"># 启用 Queryable State&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">RUN&lt;/span> cp /opt/flink/opt/flink-queryable-state-runtime-1.14.3.jar /opt/flink/lib/flink-queryable-state-runtime-1.14.3.jar&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">ENTRYPOINT&lt;/span> [&lt;span style="color:#e6db74">&amp;#34;/docker-entrypoint.sh&amp;#34;&lt;/span>]&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">EXPOSE&lt;/span>&lt;span style="color:#e6db74"> 6123 8081&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&lt;/span>&lt;span style="color:#66d9ef">CMD&lt;/span> [&lt;span style="color:#e6db74">&amp;#34;help&amp;#34;&lt;/span>]&lt;span style="color:#960050;background-color:#1e0010">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后将会在本地构建出镜像，以便后续的使用&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ nerdctl build -f ./flink/Dockerfile --tag &lt;span style="color:#e6db74">&amp;#39;my/flink:latest&amp;#39;&lt;/span> ./flink
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="搭建环境">搭建环境&lt;/h3>
+&lt;p>在本文中除去 Flink 之外，还会启动 Kafka 相关的服务，以方便后续的开发与测试功能，因此会使用 Docker Compose 在本地同时启动 5 个服务：&lt;/p>
+&lt;ol>
+&lt;li>JobManager: Flink 组件&lt;/li>
+&lt;li>TaskManager: Flink 组件&lt;/li>
+&lt;li>Zookeeper: Kafak 基础设施&lt;/li>
+&lt;li>Kafka: Kafka 服务&lt;/li>
+&lt;li>kowl: Kafka 可视化面板&lt;/li>
+&lt;/ol>
+&lt;p>具体的服务定义文件如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#75715e"># ./compose.yml&lt;/span>
+&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;3.8&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">services&lt;/span>:
+&lt;span style="color:#f92672">jobmanager&lt;/span>:
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">job-manager&lt;/span>
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">my/flink:latest&lt;/span>
+&lt;span style="color:#f92672">command&lt;/span>:
+- &lt;span style="color:#ae81ff">jobmanager&lt;/span>
+&lt;span style="color:#f92672">ports&lt;/span>:
+- &lt;span style="color:#e6db74">&amp;#34;8081:8081&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+&lt;span style="color:#f92672">FLINK_PROPERTIES&lt;/span>: |&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> jobmanager.rpc.address: jobmanager
+&lt;/span>&lt;span style="color:#e6db74"> queryable-state.enable: true&lt;/span>
+&lt;span style="color:#f92672">taskmanager&lt;/span>:
+&lt;span style="color:#f92672">depends_on&lt;/span>:
+- &lt;span style="color:#ae81ff">jobmanager&lt;/span>
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">task-manager&lt;/span>
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">my/flink:latest&lt;/span>
+&lt;span style="color:#f92672">command&lt;/span>:
+- &lt;span style="color:#ae81ff">taskmanager&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+&lt;span style="color:#f92672">FLINK_PROPERTIES&lt;/span>: |&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> jobmanager.rpc.address: jobmanager
+&lt;/span>&lt;span style="color:#e6db74"> taskmanager.numberOfTaskSlots: 4
+&lt;/span>&lt;span style="color:#e6db74"> queryable-state.enable: true&lt;/span>
+&lt;span style="color:#f92672">zookeeper&lt;/span>:
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">confluentinc/cp-zookeeper:7.0.0&lt;/span>
+&lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">zookeeper&lt;/span>
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">zookeeper&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+&lt;span style="color:#f92672">ZOOKEEPER_CLIENT_PORT&lt;/span>: &lt;span style="color:#ae81ff">2181&lt;/span>
+&lt;span style="color:#f92672">ZOOKEEPER_TICK_TIME&lt;/span>: &lt;span style="color:#ae81ff">2000&lt;/span>
+&lt;span style="color:#f92672">kafka&lt;/span>:
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">confluentinc/cp-kafka:7.0.0&lt;/span>
+&lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">kafka&lt;/span>
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">kafka&lt;/span>
+&lt;span style="color:#f92672">ports&lt;/span>:
+- &lt;span style="color:#e6db74">&amp;#34;9092:9092&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+&lt;span style="color:#f92672">KAFKA_BROKER_ID&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;span style="color:#f92672">KAFKA_ZOOKEEPER_CONNECT&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;zookeeper:2181&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">KAFKA_ADVERTISED_LISTENERS&lt;/span>: &lt;span style="color:#ae81ff">LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092&lt;/span>
+&lt;span style="color:#f92672">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP&lt;/span>: &lt;span style="color:#ae81ff">LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT&lt;/span>
+&lt;span style="color:#f92672">KAFKA_INTER_BROKER_LISTENER_NAME&lt;/span>: &lt;span style="color:#ae81ff">LISTENER_DOCKER_INTERNAL&lt;/span>
+&lt;span style="color:#f92672">KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;span style="color:#f92672">depends_on&lt;/span>:
+- &lt;span style="color:#ae81ff">zookeeper&lt;/span>
+&lt;span style="color:#f92672">kowl&lt;/span>:
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">quay.io/cloudhut/kowl:v1.4.0&lt;/span>
+&lt;span style="color:#f92672">restart&lt;/span>: &lt;span style="color:#66d9ef">on&lt;/span>-&lt;span style="color:#ae81ff">failure&lt;/span>
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">kowl&lt;/span>
+&lt;span style="color:#f92672">hostname&lt;/span>: &lt;span style="color:#ae81ff">kowl&lt;/span>
+&lt;span style="color:#f92672">ports&lt;/span>:
+- &lt;span style="color:#e6db74">&amp;#34;8080:8080&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+&lt;span style="color:#f92672">KAFKA_BROKERS&lt;/span>: &lt;span style="color:#ae81ff">kafka:19092&lt;/span>
+&lt;span style="color:#f92672">depends_on&lt;/span>:
+- &lt;span style="color:#ae81ff">kafka&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动服务的完整的脚本如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#75715e"># ./start.sh&lt;/span>
+nerdctl build -f ./flink/Dockerfile --tag &lt;span style="color:#e6db74">&amp;#39;my/flink:latest&amp;#39;&lt;/span> ./flink
+nerdctl compose -p flink -f ./compose.yml up -d
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>在每次启动之前都会预先构建 Flink 镜像&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>本文及后续博客将使用 containerd 和 nerdctl 来管理本地镜像，对于 docker 可以直接将脚本中的 nerdctl 替换为 docker 即可，绝大多数情况下可以兼容。&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>nerdctl 对于 Docker Compose 的支持并不完整 😂 ，因此 kowl 服务无法在失败之后自动重启，需要在执行上述脚本之后等待一分钟之后手动重启 kowl 服务：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ nerdctl container start kowl
+&lt;/code>&lt;/pre>&lt;/div>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>如果需要部署多个 TaskManger ，可以将 Compose 文件中的 taskmanager 服务定义多份即可（不要重名）&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="验证">验证&lt;/h3>
+&lt;p>当完成上述步骤的搭建之后，可以打开 &lt;a href="http://localhost:8081/">Apache Flink Dashboard (http://localhost:8081)&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20220222175635.png" alt="">&lt;/p>
+&lt;h1 id="参考文章">参考文章&lt;/h1>
+&lt;ol>
+&lt;li>&lt;a href="https://www.emqx.com/zh/blog/birth-of-streaming-database">当数据库遇上流计算：流数据库的诞生！&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.oracle.com/cn/big-data/what-is-big-data/">大数据介绍&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://www.qiujialin.me/2019/10/06/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Flink%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84%E4%B8%A4%E5%A4%A7%E9%9A%BE%E9%A2%98">Flink 学习笔记 &amp;ndash; Flink 是如何处理流式计算中的两大难题&lt;/a>&lt;/li>
+&lt;/ol></content></item><item><title>Spring MVC 中条件注解导致 @Autowired 注解失效的 BUG</title><link>https://redxiiikk.github.io/posts/20210525-01-condition-bean-in-spring-mvc/</link><pubDate>Wed, 20 Oct 2021 15:35:00 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210525-01-condition-bean-in-spring-mvc/</guid><description>背景介绍 项目的技术栈是一个 Spring MVC 的工程，并未采用 Spring Boot ，当时是要实现 Spring Boot 中 @ConditionalOnMissingBean 这个注解的功能，及当指定接口的不存在对应的实现的时候就装配 JAR 包中默认实现。
+因为项目没有采用 SpringBoot 因此需要继承 Condition 接口自行实现该功能。
+代码复现 完成的代码可以查看 redxiiikk/conditional-bean-in-spring-mvc ，项目结构如下：
+$ tree . . ├── pom.xml └── src └── main ├── java │ └── com │ └── github │ └── qingkehk │ └── demos │ └── springconditional │ ├── ChinaHelloService.java │ ├── EnglishHelloService.java │ ├── HelloController.java │ ├── HelloService.java │ ├── HelloServiceCondition.java │ └── ProxyService.java └── webapp └── WEB-INF ├── dispatcher-servlet.</description><content>&lt;h1 id="背景介绍">背景介绍&lt;/h1>
+&lt;p>项目的技术栈是一个 Spring MVC 的工程，并未采用 Spring Boot ，当时是要实现 Spring Boot 中 &lt;code>@ConditionalOnMissingBean&lt;/code> 这个注解的功能，及当指定接口的不存在对应的实现的时候就装配 JAR 包中默认实现。&lt;/p>
+&lt;p>因为项目没有采用 SpringBoot 因此需要继承 &lt;code>Condition&lt;/code> 接口自行实现该功能。&lt;/p>
+&lt;h1 id="代码复现">代码复现&lt;/h1>
+&lt;p>完成的代码可以查看 &lt;a href="https://github.com/redxiiikk/conditional-bean-in-spring-mvc">redxiiikk/conditional-bean-in-spring-mvc&lt;/a> ，项目结构如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ tree .
+.
+├── pom.xml
+└── src
+└── main
+├── java
+│   └── com
+│   └── github
+│   └── qingkehk
+│   └── demos
+│   └── springconditional
+│   ├── ChinaHelloService.java
+│   ├── EnglishHelloService.java
+│   ├── HelloController.java
+│   ├── HelloService.java
+│   ├── HelloServiceCondition.java
+│   └── ProxyService.java
+└── webapp
+└── WEB-INF
+├── dispatcher-servlet.xml
+└── web.xml
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="项目环境搭建">项目环境搭建&lt;/h2>
+&lt;p>首先是 pom.xml 中引入的依赖如下，主要是引入了 Spring MVC 相关的依赖：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;properties&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;project.build.sourceEncoding&amp;gt;&lt;/span>UTF-8&lt;span style="color:#f92672">&amp;lt;/project.build.sourceEncoding&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;maven.compiler.source&amp;gt;&lt;/span>11&lt;span style="color:#f92672">&amp;lt;/maven.compiler.source&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;maven.compiler.target&amp;gt;&lt;/span>11&lt;span style="color:#f92672">&amp;lt;/maven.compiler.target&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;spring.version&amp;gt;&lt;/span>5.2.15.RELEASE&lt;span style="color:#f92672">&amp;lt;/spring.version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/properties&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;dependencies&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;groupId&amp;gt;&lt;/span>org.springframework&lt;span style="color:#f92672">&amp;lt;/groupId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;artifactId&amp;gt;&lt;/span>spring-context&lt;span style="color:#f92672">&amp;lt;/artifactId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;version&amp;gt;&lt;/span>${spring.version}&lt;span style="color:#f92672">&amp;lt;/version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;groupId&amp;gt;&lt;/span>org.springframework&lt;span style="color:#f92672">&amp;lt;/groupId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;artifactId&amp;gt;&lt;/span>spring-web&lt;span style="color:#f92672">&amp;lt;/artifactId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;version&amp;gt;&lt;/span>${spring.version}&lt;span style="color:#f92672">&amp;lt;/version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;groupId&amp;gt;&lt;/span>org.springframework&lt;span style="color:#f92672">&amp;lt;/groupId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;artifactId&amp;gt;&lt;/span>spring-webmvc&lt;span style="color:#f92672">&amp;lt;/artifactId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;version&amp;gt;&lt;/span>${spring.version}&lt;span style="color:#f92672">&amp;lt;/version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;groupId&amp;gt;&lt;/span>javax.servlet&lt;span style="color:#f92672">&amp;lt;/groupId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;artifactId&amp;gt;&lt;/span>servlet-api&lt;span style="color:#f92672">&amp;lt;/artifactId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;version&amp;gt;&lt;/span>2.5&lt;span style="color:#f92672">&amp;lt;/version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;scope&amp;gt;&lt;/span>provided&lt;span style="color:#f92672">&amp;lt;/scope&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;groupId&amp;gt;&lt;/span>junit&lt;span style="color:#f92672">&amp;lt;/groupId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;artifactId&amp;gt;&lt;/span>junit&lt;span style="color:#f92672">&amp;lt;/artifactId&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;version&amp;gt;&lt;/span>4.12&lt;span style="color:#f92672">&amp;lt;/version&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;scope&amp;gt;&lt;/span>test&lt;span style="color:#f92672">&amp;lt;/scope&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/dependency&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/dependencies&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后配置 Spring MVC ，主要涉及两个配置文件分别是 web.xml 和 dispatcher-servlet.xml ，内容分别如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#75715e">&amp;lt;!DOCTYPE web-app PUBLIC
+&lt;/span>&lt;span style="color:#75715e"> &amp;#34;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&amp;#34;
+&lt;/span>&lt;span style="color:#75715e"> &amp;#34;http://java.sun.com/dtd/web-app_2_3.dtd&amp;#34; &amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;web-app&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;display-name&amp;gt;&lt;/span>Archetype Created Web Application&lt;span style="color:#f92672">&amp;lt;/display-name&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;servlet&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;servlet-name&amp;gt;&lt;/span>dispatcher&lt;span style="color:#f92672">&amp;lt;/servlet-name&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;servlet-class&amp;gt;&lt;/span>org.springframework.web.servlet.DispatcherServlet&lt;span style="color:#f92672">&amp;lt;/servlet-class&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;load-on-startup&amp;gt;&lt;/span>1&lt;span style="color:#f92672">&amp;lt;/load-on-startup&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/servlet&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;servlet-mapping&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;servlet-name&amp;gt;&lt;/span>dispatcher&lt;span style="color:#f92672">&amp;lt;/servlet-name&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;url-pattern&amp;gt;&lt;/span>/&lt;span style="color:#f92672">&amp;lt;/url-pattern&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/servlet-mapping&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/web-app&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#75715e">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;beans&lt;/span> &lt;span style="color:#a6e22e">xmlns=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http://www.springframework.org/schema/beans&amp;#34;&lt;/span>
+&lt;span style="color:#a6e22e">xmlns:xsi=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span>
+&lt;span style="color:#a6e22e">xmlns:context=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http://www.springframework.org/schema/context&amp;#34;&lt;/span>
+&lt;span style="color:#a6e22e">xsi:schemaLocation=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;http://www.springframework.org/schema/beans
+&lt;/span>&lt;span style="color:#e6db74"> http://www.springframework.org/schema/beans/spring-beans.xsd
+&lt;/span>&lt;span style="color:#e6db74"> http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;context:component-scan&lt;/span> &lt;span style="color:#a6e22e">base-package=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;com.github.qingkehk.demos.springconditional&amp;#34;&lt;/span>&lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/beans&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>主要是在 Servlet 中配置了 Spring MVC 中的 &lt;code>DispatcherServlet&lt;/code> ，并且对所有的 URL 进行拦截，然后再 Spring MVC 的配置文件中配置了自动扫描。&lt;/p>
+&lt;h2 id="代码模拟">代码模拟&lt;/h2>
+&lt;p>首先我们定义一个 &lt;code>HelloController&lt;/code> 对外暴露一个 API ，主要是调用 &lt;code>HelloService&lt;/code> 接口的 &lt;code>sayHello()&lt;/code> 方法， &lt;code>HelloService&lt;/code> 一共存在两个实现类，分别是 &lt;code>ChinaHelloService&lt;/code> ， &lt;code>EnglishHelloService&lt;/code> ，其中 &lt;code>ChinaHelloService&lt;/code> 是默认实现，只有当没有其他语言的服务时才会注入，因此我们在 &lt;code>ChinaHelloService&lt;/code> 上添加了一个条件注解，并且匹配的规则是由 &lt;code>HelloServiceCondition&lt;/code> 实现的，具体的代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">// HelloController.java
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">package&lt;/span> com.github.qingkehk.demos.springconditional&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.annotation.Autowired&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.web.bind.annotation.GetMapping&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.web.bind.annotation.RequestMapping&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.web.bind.annotation.RestController&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@RestController&lt;/span>
+&lt;span style="color:#a6e22e">@RequestMapping&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/hello&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">HelloController&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Autowired&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> HelloService service&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@GetMapping&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">hello&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> service&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">// ChinaHelloService.java
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">package&lt;/span> com.github.qingkehk.demos.springconditional&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.annotation.Autowired&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.Conditional&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.stereotype.Service&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@Service&lt;/span>
+&lt;span style="color:#a6e22e">@Conditional&lt;/span>&lt;span style="color:#f92672">({&lt;/span>HelloServiceCondition&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">})&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ChinaHelloService&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> HelloService &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Autowired&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> ProxyService service&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> service&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;你好&amp;#34;&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">// EnglishHelloService.java
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">package&lt;/span> com.github.qingkehk.demos.springconditional&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.annotation.Autowired&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.stereotype.Service&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@Service&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">EnglishHelloService&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> HelloService &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Autowired&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> ProxyService service&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> service&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sayHello&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;hello&amp;#34;&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">// HelloServiceCondition.java
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#f92672">package&lt;/span> com.github.qingkehk.demos.springconditional&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.config.ConfigurableListableBeanFactory&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.Condition&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.ConditionContext&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.ConfigurationCondition&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.core.type.AnnotatedTypeMetadata&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> java.util.List&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> java.util.Map&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">HelloServiceCondition&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> Condition&lt;span style="color:#f92672">,&lt;/span> ConfigurationCondition &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">matches&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ConditionContext conditionContext&lt;span style="color:#f92672">,&lt;/span> AnnotatedTypeMetadata annotatedTypeMetadata&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+ConfigurableListableBeanFactory beanFactory &lt;span style="color:#f92672">=&lt;/span> conditionContext&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getBeanFactory&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>beanFactory &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+Map&lt;span style="color:#f92672">&amp;lt;&lt;/span>String&lt;span style="color:#f92672">,&lt;/span> HelloService&lt;span style="color:#f92672">&amp;gt;&lt;/span> beans &lt;span style="color:#f92672">=&lt;/span> beanFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getBeansOfType&lt;/span>&lt;span style="color:#f92672">(&lt;/span>HelloService&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> beans&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span> 2&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ConfigurationPhase &lt;span style="color:#a6e22e">getConfigurationPhase&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> ConfigurationPhase&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">REGISTER_BEAN&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在最开始实现 &lt;code>HelloServiceCondition&lt;/code> 的时候思路还是比较简单的，通过 &lt;code>beanFactory&lt;/code> 获取实现了 &lt;code>HelloService&lt;/code> 接口的实现 bean ，如果有多个实现那么就不在提供默认的 &lt;code>ChinaHelloService&lt;/code> 而是采用用户自己的实现。&lt;/p>
+&lt;p>但是在实际的使用的时候存现了如下图所示的 BUG ，导致 &lt;code>EnglishHelloService&lt;/code> 没有自动注入。&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210527162812.png" alt="image-20210527162812525">&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210527162923.png" alt="image-20210527162923221">&lt;/p>
+&lt;blockquote>
+&lt;p>如果是使用构造器注入的方式会直接在应用启动的时候报错。&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="原因分析">原因分析&lt;/h1>
+&lt;p>做成这个问题的主要原因在于 &lt;code>HelloServiceCondition&lt;/code> 中的条件注解判断，当调用 &lt;code>HelloServiceCondition.match&lt;/code> 方法的时候 Spring 还处于加载 &lt;code>BeanDefinition&lt;/code> 的阶段。&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210527163922.png" alt="image-20210527163922294">&lt;/p>
+&lt;p>但是在 &lt;code>@Autowired&lt;/code> 注解的处理是在在 &lt;code>AutowiredAnnotationBeanPostProcessor&lt;/code> 中，此时 Spring 容器并未注册该 &lt;code>BeanPostProcessor&lt;/code> ，但是我们条件判断的实现中获取 Bean 对象导致 Bean 提前加载完成（没有处理 &lt;code>@Autowired&lt;/code> 注解），因此导致了该问题。&lt;/p>
+&lt;h1 id="解决方案">解决方案&lt;/h1>
+&lt;p>解决方案也很简单，那就是在实现条件注解的时候不在去获取 Bean ，而是获取 Bean Name ，从而避免 Bean 对象被提前加载。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#f92672">package&lt;/span> com.github.qingkehk.demos.springconditional&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.beans.factory.config.ConfigurableListableBeanFactory&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.Condition&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.ConditionContext&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.context.annotation.ConfigurationCondition&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">import&lt;/span> org.springframework.core.type.AnnotatedTypeMetadata&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">HelloServiceCondition&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> Condition&lt;span style="color:#f92672">,&lt;/span> ConfigurationCondition &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">matches&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ConditionContext conditionContext&lt;span style="color:#f92672">,&lt;/span> AnnotatedTypeMetadata annotatedTypeMetadata&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+ConfigurableListableBeanFactory beanFactory &lt;span style="color:#f92672">=&lt;/span> conditionContext&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getBeanFactory&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>beanFactory &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+String&lt;span style="color:#f92672">[]&lt;/span> bean &lt;span style="color:#f92672">=&lt;/span> beanFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getBeanNamesForType&lt;/span>&lt;span style="color:#f92672">(&lt;/span>HelloService&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> bean&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span> 2&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ConfigurationPhase &lt;span style="color:#a6e22e">getConfigurationPhase&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> ConfigurationPhase&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">REGISTER_BEAN&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>单台电脑上的多 Git 用户配置</title><link>https://redxiiikk.github.io/posts/20210915-01-multi-git-user/</link><pubDate>Wed, 15 Sep 2021 22:24:20 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210915-01-multi-git-user/</guid><description>本文主要是解决如何在一台电脑上实现过个 Git 用户的配置，实现不同用户之间的隔离，保证代码的安全性。
+假设我们现在有两个 Git 用户，分别是 a@test.com 和 b@test.com ，接下来我们将使用中这两个用户来演示如何配置多份 Git 配置。
+生成不同的 SSH 配置 首先是为两个用户生成各自的 SSH 配置。
+$ ssh-keygen -t rsa -b 4096 -C &amp;#34;a@test.com&amp;#34; $ ssh-keygen -t rsa -b 4096 -C &amp;#34;b@test.com&amp;#34; 在这一步我们需要注意的是在生成 SSH 配置的时候需要自定义文件名，不然文件就会被覆盖掉。
+完成之后 .ssh 文件夹的结构应该如下所示：
+$ tree ~/.ssh .ssh ├── id_rsa_a ├── id_rsa_a.pub ├── id_rsa_b └── id_rsa_b.pub 配置 Git 配置文件 首先是全局的 Git 配置文件，主要是根据 includeIf 配置让不同文件夹下的仓库使用不同的配置。
+includeIf · Git - git-config Document
+$ cat ~/.</description><content>&lt;p>本文主要是解决如何在一台电脑上实现过个 Git 用户的配置，实现不同用户之间的隔离，保证代码的安全性。&lt;/p>
+&lt;p>假设我们现在有两个 Git 用户，分别是 a@test.com 和 b@test.com ，接下来我们将使用中这两个用户来演示如何配置多份 Git 配置。&lt;/p>
+&lt;h1 id="生成不同的-ssh-配置">生成不同的 SSH 配置&lt;/h1>
+&lt;p>首先是为两个用户生成各自的 SSH 配置。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ ssh-keygen -t rsa -b &lt;span style="color:#ae81ff">4096&lt;/span> -C &lt;span style="color:#e6db74">&amp;#34;a@test.com&amp;#34;&lt;/span>
+$ ssh-keygen -t rsa -b &lt;span style="color:#ae81ff">4096&lt;/span> -C &lt;span style="color:#e6db74">&amp;#34;b@test.com&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在这一步我们需要注意的是在生成 SSH 配置的时候需要自定义文件名，不然文件就会被覆盖掉。&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210915232613.png" alt="">&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>完成之后 &lt;strong>.ssh&lt;/strong> 文件夹的结构应该如下所示：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ tree ~/.ssh
+.ssh
+├── id_rsa_a
+├── id_rsa_a.pub
+├── id_rsa_b
+└── id_rsa_b.pub
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="配置-git-配置文件">配置 Git 配置文件&lt;/h1>
+&lt;p>首先是全局的 Git 配置文件，主要是根据 &lt;code>includeIf&lt;/code> 配置让不同文件夹下的仓库使用不同的配置。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://git-scm.com/docs/git-config#_includes">includeIf · Git - git-config Document&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat ~/.gitconfig
+&lt;span style="color:#f92672">[&lt;/span>includeIf &lt;span style="color:#e6db74">&amp;#34;gitdir:~/Workspaces/a/&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
+path &lt;span style="color:#f92672">=&lt;/span> ~/.a-gitconfig
+&lt;span style="color:#f92672">[&lt;/span>includeIf &lt;span style="color:#e6db74">&amp;#34;gitdir:~/Workspaces/b/&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span>
+path &lt;span style="color:#f92672">=&lt;/span> ~/.b-gitconfig
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后才是具体的用户的配置文件，主要是配置了不同的用户名和邮箱，最重要的是加载不同的 SSH 配置，这里主要是使用了 &lt;code>core.sshCommand&lt;/code> 配置项在执行 Git 命令的时候使用指定的 SSH 配置。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresshCommand">core.sshCommand · Git - git-config Document&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat ~/.a-gitconfig
+&lt;span style="color:#f92672">[&lt;/span>user&lt;span style="color:#f92672">]&lt;/span>
+name &lt;span style="color:#f92672">=&lt;/span> A
+email &lt;span style="color:#f92672">=&lt;/span> a@test.com
+&lt;span style="color:#f92672">[&lt;/span>core&lt;span style="color:#f92672">]&lt;/span>
+sshCommand &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ssh -i ~/.ssh/id_rsa_a&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat ~/.b-gitconfig
+&lt;span style="color:#f92672">[&lt;/span>user&lt;span style="color:#f92672">]&lt;/span>
+name &lt;span style="color:#f92672">=&lt;/span> B
+email &lt;span style="color:#f92672">=&lt;/span> b@test.com
+&lt;span style="color:#f92672">[&lt;/span>core&lt;span style="color:#f92672">]&lt;/span>
+sshCommand &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;ssh -i ~/.ssh/id_rsa_b&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>使用 dependabot 自动升级依赖</title><link>https://redxiiikk.github.io/posts/20210910-01-update-github-action-and-npm-in-github/</link><pubDate>Fri, 10 Sep 2021 14:50:13 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210910-01-update-github-action-and-npm-in-github/</guid><description>相关文档：关于 Dependabot 版本更新 - Github
+version: 2 updates: - package-ecosystem: npm directory: &amp;#34;/&amp;#34; schedule: interval: daily open-pull-requests-limit: 20 - package-ecosystem: github-actions directory: &amp;#34;/&amp;#34; schedule: interval: daily open-pull-requests-limit: 20</description><content>&lt;p>相关文档：&lt;a href="https://docs.github.com/cn/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/about-dependabot-version-updates">关于 Dependabot 版本更新 - Github&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#ae81ff">2&lt;/span>
+&lt;span style="color:#f92672">updates&lt;/span>:
+- &lt;span style="color:#f92672">package-ecosystem&lt;/span>: &lt;span style="color:#ae81ff">npm&lt;/span>
+&lt;span style="color:#f92672">directory&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">schedule&lt;/span>:
+&lt;span style="color:#f92672">interval&lt;/span>: &lt;span style="color:#ae81ff">daily&lt;/span>
+&lt;span style="color:#f92672">open-pull-requests-limit&lt;/span>: &lt;span style="color:#ae81ff">20&lt;/span>
+- &lt;span style="color:#f92672">package-ecosystem&lt;/span>: &lt;span style="color:#ae81ff">github-actions&lt;/span>
+&lt;span style="color:#f92672">directory&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;/&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">schedule&lt;/span>:
+&lt;span style="color:#f92672">interval&lt;/span>: &lt;span style="color:#ae81ff">daily&lt;/span>
+&lt;span style="color:#f92672">open-pull-requests-limit&lt;/span>: &lt;span style="color:#ae81ff">20&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>Clash For Windows 使用</title><link>https://redxiiikk.github.io/posts/20210822-01-clash-in-windows/</link><pubDate>Sun, 22 Aug 2021 09:30:00 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210822-01-clash-in-windows/</guid><description>本文主要介绍如何在 Windows 中使用 Clash 代理本地网络。
+下载、安装与使用 CFW 从 Github 上可以下载：
+Fndroid/clash_for_windows_pkg
+该项目并没有在 Github 上开源，作者仅仅只是将软件安装包发布到 Github 上供大家进行下载，但是从软件安装包的上传记录来看 CFW 正在高速的进行开发。
+现在之后直接安装即可，除了安装位置也没有过多的选项，直接安装即可。安装完成之后如下图所示：
+同时作者编写了相应的文档，大家可直接参照文档使用 CFW。
+Clash for Windows
+目前 CFW 只支持 SS 以及 V2ray 协议，最常用的 SSR 协议目前并不支持。 但是 Github 上也有 ClashR 项目，就是支持 SSR 协议的。 并非是 CFW 不支持 SSR 协议，而是 Clash 本身不支持 SSR 协议。
+frainzy1477/clashr
+当然时候可以使用 Clash 还要看你订阅的机场是否支持 Clash 托管，当然也有一些曲线救国的方式，可以将其他协议的配置文件转为 Clash 配置文件的格式。
+Clash 规则 Clash 是一款基于 Go 语言开发的、基于规则的跨平台隧道代理软件。
+相比较于 SSR 客户端，Clash 有可以根据不同节点的速度自动选择最快的节点，同时基于规则实现代理。
+接下来让我们重点理解 Clash 的配置文件。这里先看一份示例的配置文件。</description><content>&lt;p>本文主要介绍如何在 Windows 中使用 Clash 代理本地网络。&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="下载安装与使用">下载、安装与使用&lt;/h1>
+&lt;p>CFW 从 Github 上可以下载：&lt;/p>
+&lt;p>&lt;a href="https://github.com/Fndroid/clash_for_windows_pkg">Fndroid/clash_for_windows_pkg&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/Untitled%205.png" alt="">&lt;/p>
+&lt;p>该项目并没有在 Github 上开源，作者仅仅只是将软件安装包发布到 Github 上供大家进行下载，但是从软件安装包的上传记录来看 CFW 正在高速的进行开发。&lt;/p>
+&lt;p>现在之后直接安装即可，除了安装位置也没有过多的选项，直接安装即可。安装完成之后如下图所示：&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822121415.png" alt="">&lt;/p>
+&lt;p>同时作者编写了相应的文档，大家可直接参照文档使用 CFW。&lt;/p>
+&lt;p>&lt;a href="https://docs.cfw.lbyczf.com/">Clash for Windows&lt;/a>&lt;/p>
+&lt;p>目前 CFW 只支持 SS 以及 V2ray 协议，最常用的 SSR 协议目前并不支持。
+但是 Github 上也有 ClashR 项目，就是支持 SSR 协议的。
+并非是 CFW 不支持 SSR 协议，而是 Clash 本身不支持 SSR 协议。&lt;/p>
+&lt;p>&lt;a href="https://github.com/frainzy1477/clashr">frainzy1477/clashr&lt;/a>&lt;/p>
+&lt;p>当然时候可以使用 Clash 还要看你订阅的机场是否支持 Clash 托管，当然也有一些曲线救国的方式，可以将其他协议的配置文件转为 Clash 配置文件的格式。&lt;/p>
+&lt;h1 id="clash-规则">Clash 规则&lt;/h1>
+&lt;p>Clash 是一款基于 Go 语言开发的、基于规则的跨平台隧道代理软件。&lt;/p>
+&lt;p>相比较于 SSR 客户端，Clash 有可以根据不同节点的速度自动选择最快的节点，同时基于规则实现代理。&lt;/p>
+&lt;p>接下来让我们重点理解 Clash 的配置文件。这里先看一份示例的配置文件。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#75715e"># port of HTTP&lt;/span>
+&lt;span style="color:#f92672">port&lt;/span>: &lt;span style="color:#ae81ff">7890&lt;/span>
+&lt;span style="color:#75715e"># port of SOCKS5&lt;/span>
+&lt;span style="color:#f92672">socks-port&lt;/span>: &lt;span style="color:#ae81ff">7891&lt;/span>
+&lt;span style="color:#75715e"># redir port for Linux and macOS&lt;/span>
+&lt;span style="color:#75715e"># redir-port: 7892&lt;/span>
+&lt;span style="color:#f92672">allow-lan&lt;/span>: &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;span style="color:#75715e"># Rule / Global/ Direct (default is Rule)&lt;/span>
+&lt;span style="color:#f92672">mode&lt;/span>: &lt;span style="color:#ae81ff">Rule&lt;/span>
+&lt;span style="color:#75715e"># set log level to stdout (default is info)&lt;/span>
+&lt;span style="color:#75715e"># info / warning / error / debug / silent&lt;/span>
+&lt;span style="color:#f92672">log-level&lt;/span>: &lt;span style="color:#ae81ff">info&lt;/span>
+&lt;span style="color:#75715e"># A RESTful API for clash&lt;/span>
+&lt;span style="color:#f92672">external-controller&lt;/span>: &lt;span style="color:#ae81ff">127.0.0.1&lt;/span>:&lt;span style="color:#ae81ff">9090&lt;/span>
+&lt;span style="color:#75715e"># you can put the static web resource (such as clash-dashboard) to a directory, and clash would serve in `${API}/ui`&lt;/span>
+&lt;span style="color:#75715e"># input is a relative path to the configuration directory or an absolute path&lt;/span>
+&lt;span style="color:#75715e"># external-ui: folder&lt;/span>
+&lt;span style="color:#75715e"># Secret for RESTful API (Optional)&lt;/span>
+&lt;span style="color:#75715e"># secret: &amp;#34;&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># experimental feature&lt;/span>
+&lt;span style="color:#f92672">experimental&lt;/span>:
+&lt;span style="color:#f92672">ignore-resolve-fail&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> &lt;span style="color:#75715e"># ignore dns resolve fail, default value is true&lt;/span>
+&lt;span style="color:#75715e"># authentication of local SOCKS5/HTTP(S) server&lt;/span>
+&lt;span style="color:#75715e"># authentication:&lt;/span>
+&lt;span style="color:#75715e"># - &amp;#34;user1:pass1&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># - &amp;#34;user2:pass2&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># dns:&lt;/span>
+&lt;span style="color:#75715e"># enable: true # set true to enable dns (default is false)&lt;/span>
+&lt;span style="color:#75715e"># ipv6: false # default is false&lt;/span>
+&lt;span style="color:#75715e"># listen: 0.0.0.0:53&lt;/span>
+&lt;span style="color:#75715e"># enhanced-mode: redir-host # or fake-ip&lt;/span>
+&lt;span style="color:#75715e"># # fake-ip-range: 198.18.0.1/16 # if you don&amp;#39;t know what it is, don&amp;#39;t change it&lt;/span>
+&lt;span style="color:#75715e"># nameserver:&lt;/span>
+&lt;span style="color:#75715e"># - 114.114.114.114&lt;/span>
+&lt;span style="color:#75715e"># - tls://dns.rubyfish.cn:853 # dns over tls&lt;/span>
+&lt;span style="color:#75715e"># - https://1.1.1.1/dns-query # dns over https&lt;/span>
+&lt;span style="color:#75715e"># fallback: # concurrent request with nameserver, fallback used when GEOIP country isn&amp;#39;t CN&lt;/span>
+&lt;span style="color:#75715e"># - tcp://1.1.1.1&lt;/span>
+&lt;span style="color:#f92672">Proxy&lt;/span>:
+&lt;span style="color:#75715e"># shadowsocks&lt;/span>
+&lt;span style="color:#75715e"># The types of cipher are consistent with go-shadowsocks2&lt;/span>
+&lt;span style="color:#75715e"># support AEAD_AES_128_GCM AEAD_AES_192_GCM AEAD_AES_256_GCM AEAD_CHACHA20_POLY1305 AES-128-CTR AES-192-CTR AES-256-CTR AES-128-CFB AES-192-CFB AES-256-CFB CHACHA20-IETF XCHACHA20&lt;/span>
+&lt;span style="color:#75715e"># In addition to what go-shadowsocks2 supports, it also supports chacha20 rc4-md5 xchacha20-ietf-poly1305&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;ss1&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: ss, server: server, port: 443, cipher: AEAD_CHACHA20_POLY1305, password&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;password&amp;#34;&lt;/span>&lt;span style="color:#f92672">, udp&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># old obfs configuration remove after prerelease&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;ss2&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">type&lt;/span>: &lt;span style="color:#ae81ff">ss&lt;/span>
+&lt;span style="color:#f92672">server&lt;/span>: &lt;span style="color:#ae81ff">server&lt;/span>
+&lt;span style="color:#f92672">port&lt;/span>: &lt;span style="color:#ae81ff">443&lt;/span>
+&lt;span style="color:#f92672">cipher&lt;/span>: &lt;span style="color:#ae81ff">AEAD_CHACHA20_POLY1305&lt;/span>
+&lt;span style="color:#f92672">password&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;password&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">plugin&lt;/span>: &lt;span style="color:#ae81ff">obfs&lt;/span>
+&lt;span style="color:#f92672">plugin-opts&lt;/span>:
+&lt;span style="color:#f92672">mode&lt;/span>: &lt;span style="color:#ae81ff">tls&lt;/span> &lt;span style="color:#75715e"># or http&lt;/span>
+&lt;span style="color:#75715e"># host: bing.com&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;ss3&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">type&lt;/span>: &lt;span style="color:#ae81ff">ss&lt;/span>
+&lt;span style="color:#f92672">server&lt;/span>: &lt;span style="color:#ae81ff">server&lt;/span>
+&lt;span style="color:#f92672">port&lt;/span>: &lt;span style="color:#ae81ff">443&lt;/span>
+&lt;span style="color:#f92672">cipher&lt;/span>: &lt;span style="color:#ae81ff">AEAD_CHACHA20_POLY1305&lt;/span>
+&lt;span style="color:#f92672">password&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;password&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">plugin&lt;/span>: &lt;span style="color:#ae81ff">v2ray-plugin&lt;/span>
+&lt;span style="color:#f92672">plugin-opts&lt;/span>:
+&lt;span style="color:#f92672">mode&lt;/span>: &lt;span style="color:#ae81ff">websocket&lt;/span> &lt;span style="color:#75715e"># no QUIC now&lt;/span>
+&lt;span style="color:#75715e"># tls: true # wss&lt;/span>
+&lt;span style="color:#75715e"># skip-cert-verify: true&lt;/span>
+&lt;span style="color:#75715e"># host: bing.com&lt;/span>
+&lt;span style="color:#75715e"># path: &amp;#34;/&amp;#34;&lt;/span>
+&lt;span style="color:#75715e"># headers:&lt;/span>
+&lt;span style="color:#75715e"># custom: value&lt;/span>
+&lt;span style="color:#75715e"># vmess&lt;/span>
+&lt;span style="color:#75715e"># cipher support auto/aes-128-gcm/chacha20-poly1305/none&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;vmess&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher&lt;/span>: &lt;span style="color:#ae81ff">auto }&lt;/span>
+&lt;span style="color:#75715e"># with tls&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;vmess&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, tls&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># with tls and skip-cert-verify&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;vmess&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, tls: true, skip-cert-verify&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># with ws-path and ws-headers&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;vmess&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, network: ws, ws-path: /path, ws-headers&lt;/span>: { &lt;span style="color:#f92672">Host&lt;/span>: &lt;span style="color:#ae81ff">v2ray.com } }&lt;/span>
+&lt;span style="color:#75715e"># with ws + tls&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;vmess&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: vmess, server: server, port: 443, uuid: uuid, alterId: 32, cipher: auto, network: ws, ws-path: /path, tls&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># socks5&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;socks&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: socks5, server: server, port&lt;/span>: &lt;span style="color:#ae81ff">443&lt;/span> }
+&lt;span style="color:#75715e"># socks5 with authentication&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;socks&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: socks5, server: server, port: 443, username&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;username&amp;#34;&lt;/span>&lt;span style="color:#f92672">, password&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;password&amp;#34;&lt;/span> }
+&lt;span style="color:#75715e"># with tls&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;socks&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: socks5, server: server, port: 443, tls&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># with tls and skip-cert-verify&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;socks&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: socks5, server: server, port: 443, tls: true, skip-cert-verify&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># http&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: http, server: server, port&lt;/span>: &lt;span style="color:#ae81ff">443&lt;/span> }
+&lt;span style="color:#75715e"># http with authentication&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: http, server: server, port: 443, username&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;username&amp;#34;&lt;/span>&lt;span style="color:#f92672">, password&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;password&amp;#34;&lt;/span> }
+&lt;span style="color:#75715e"># with tls (https)&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: http, server: server, port: 443, tls&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#75715e"># with tls (https) and skip-cert-verify&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: http, server: server, port: 443, tls: true, skip-cert-verify&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span> }
+&lt;span style="color:#f92672">Proxy Group&lt;/span>:
+&lt;span style="color:#75715e"># url-test select which proxy will be used by benchmarking speed to a URL.&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;auto&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: url-test, proxies&lt;/span>: [&lt;span style="color:#e6db74">&amp;#34;ss1&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;ss2&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;vmess1&amp;#34;&lt;/span>&lt;span style="color:#f92672">], url&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http://www.gstatic.com/generate_204&amp;#34;&lt;/span>&lt;span style="color:#f92672">, interval&lt;/span>: &lt;span style="color:#ae81ff">300&lt;/span> }
+&lt;span style="color:#75715e"># fallback select an available policy by priority. The availability is tested by accessing an URL, just like an auto url-test group.&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;fallback-auto&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: fallback, proxies&lt;/span>: [&lt;span style="color:#e6db74">&amp;#34;ss1&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;ss2&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;vmess1&amp;#34;&lt;/span>&lt;span style="color:#f92672">], url&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http://www.gstatic.com/generate_204&amp;#34;&lt;/span>&lt;span style="color:#f92672">, interval&lt;/span>: &lt;span style="color:#ae81ff">300&lt;/span> }
+&lt;span style="color:#75715e"># load-balance: The request of the same eTLD will be dial on the same proxy.&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;load-balance&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: load-balance, proxies&lt;/span>: [&lt;span style="color:#e6db74">&amp;#34;ss1&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;ss2&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;vmess1&amp;#34;&lt;/span>&lt;span style="color:#f92672">], url&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;http://www.gstatic.com/generate_204&amp;#34;&lt;/span>&lt;span style="color:#f92672">, interval&lt;/span>: &lt;span style="color:#ae81ff">300&lt;/span> }
+&lt;span style="color:#75715e"># select is used for selecting proxy or proxy group&lt;/span>
+&lt;span style="color:#75715e"># you can use RESTful API to switch proxy, is recommended for use in GUI.&lt;/span>
+- { &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;Proxy&amp;#34;&lt;/span>&lt;span style="color:#f92672">, type: select, proxies&lt;/span>: [&lt;span style="color:#e6db74">&amp;#34;ss1&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;ss2&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;vmess1&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;auto&amp;#34;&lt;/span>] }
+&lt;span style="color:#f92672">Rule&lt;/span>:
+- &lt;span style="color:#ae81ff">DOMAIN-SUFFIX,google.com,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN-KEYWORD,google,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN,google.com,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN-SUFFIX,ad.com,REJECT&lt;/span>
+- &lt;span style="color:#ae81ff">IP-CIDR,127.0.0.0/8,DIRECT&lt;/span>
+&lt;span style="color:#75715e"># rename SOURCE-IP-CIDR and would remove after prerelease&lt;/span>
+- &lt;span style="color:#ae81ff">SRC-IP-CIDR,192.168.1.201/32,DIRECT&lt;/span>
+- &lt;span style="color:#ae81ff">GEOIP,CN,DIRECT&lt;/span>
+- &lt;span style="color:#ae81ff">DST-PORT,80,DIRECT&lt;/span>
+- &lt;span style="color:#ae81ff">SRC-PORT,7777,DIRECT&lt;/span>
+&lt;span style="color:#75715e"># FINAL would remove after prerelease&lt;/span>
+&lt;span style="color:#75715e"># you also can use `FINAL,Proxy` or `FINAL,,Proxy` now&lt;/span>
+- &lt;span style="color:#ae81ff">MATCH,auto&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>为了缩短文章的长度对配置文件做了适当的精简，该配置文件的全部内容可以直接在 Clash 的 Github 仓库中找到。&lt;/p>
+&lt;p>整份配置文件由四部分构成：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>通用配置&lt;/p>
+&lt;p>对 Clash 进行配置，比如本机代理端口、日志等级、默认代理方式等，具体的可以查看示例配置文件中的配置项及其注释。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>节点&lt;/p>
+&lt;p>远程代理服务器，一般有订阅机场提供。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>代理组&lt;/p>
+&lt;p>针对不同的场景会设置不同的代理方式，一个组就是一种代理方式，目前 Clash 提供如下的四种代理方式：&lt;/p>
+&lt;ul>
+&lt;li>url-test：对URL进行基准测试来选择将使用哪个代理。&lt;/li>
+&lt;li>fallback：按优先级选择可用策略。 就像自动url测试组一样，通过访问URL来测试可用性。&lt;/li>
+&lt;li>load-balance：负载均衡，同一 eTLD 的请求将在同一代理上拨号。&lt;/li>
+&lt;li>select：自定义选择代理或代理组。&lt;/li>
+&lt;/ul>
+&lt;p>组可以相互之间进行引用，但是被引用的组要放置在配置文件的前边。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>规则&lt;/p>
+&lt;p>Clash 的规则有如下的九种类型：&lt;/p>
+&lt;ul>
+&lt;li>DOMAIN-SUFFIX：域名后缀匹配。&lt;/li>
+&lt;li>DOMAIN：域名匹配。&lt;/li>
+&lt;li>DOMAIN-KEYWORD：域名关键字匹配。&lt;/li>
+&lt;li>IP-CIDR：IP段匹配。&lt;/li>
+&lt;li>SRC-IP-CIDR：源IP段匹配。&lt;/li>
+&lt;li>GEOIP：GEOIP数据库（国家代码）匹配。&lt;/li>
+&lt;li>DST-PORT：目标端口匹配。&lt;/li>
+&lt;li>SRC-PORT：源端口匹配。&lt;/li>
+&lt;li>MATCH：全匹配（一般放在最后）。&lt;/li>
+&lt;/ul>
+&lt;p>Clash 配置文件中规则的书写方式如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#f92672">Rule&lt;/span>:
+&lt;span style="color:#75715e"># &amp;lt;类型&amp;gt;,&amp;lt;匹配的内容&amp;gt;,&amp;lt;代理组&amp;gt;&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN-SUFFIX,edgedatg.com,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN-SUFFIX,go.com,auto&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ol></content></item><item><title>Linux 下安装 VSCode</title><link>https://redxiiikk.github.io/posts/20210626-01-install-vscode-in-linux/</link><pubDate>Sat, 26 Jun 2021 09:30:00 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210626-01-install-vscode-in-linux/</guid><description>在国内因为网络的限制在安装一些软件的时候会过于耗时甚至导致软件安装失败， VSCode 就是其中之一，这是因为在安装 VSCode 的时候默认会连接到微软在国外站点上部署的服务器，因此我们可以通过修改地址直接链接国内的 Azure 服务来加速这一过程。 只需要软件包下载的域名替换为 https://vscode.cdn.azure.cn 即可。
+暂时只能做到快速下载，无法利用 Linux 的包管理工具进行自动更新</description><content>&lt;p>在国内因为网络的限制在安装一些软件的时候会过于耗时甚至导致软件安装失败， VSCode 就是其中之一，这是因为在安装 VSCode 的时候默认会连接到微软在国外站点上部署的服务器，因此我们可以通过修改地址直接链接国内的 Azure 服务来加速这一过程。
+只需要软件包下载的域名替换为 &lt;code>https://vscode.cdn.azure.cn&lt;/code> 即可。&lt;/p>
+&lt;blockquote>
+&lt;p>暂时只能做到快速下载，无法利用 Linux 的包管理工具进行自动更新&lt;/p>
+&lt;/blockquote></content></item><item><title>使用 Hexo 与 Github 搭建个人博客</title><link>https://redxiiikk.github.io/posts/20210513-01-deploy-hexo-by-github-pages/</link><pubDate>Wed, 26 May 2021 17:04:02 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210513-01-deploy-hexo-by-github-pages/</guid><description>前置工作 部署方式的选择 目前书写个人博客有使用成熟的博客站点（例如简书、 CSDN 等等）或自己搭建属于自己的博客网站这两种方式，之所以不选择已经成熟的博客站点是因为一下的一些原因：
+可定制型较差，通常都不太满足个人要求 写作方式不够友好（大部分都需要在线书写，相比于一些专业的 Markdown 编辑器来说仍有不足） 自建博客站点也是存在两种不同的方式：
+购买域名、服务器等设施自行搭建博客站点 利用 Github 、 Gitee 等提供的能力托管静态页面 受限囊中羞涩，个人选择了使用 Github Pages 来托管自己的博客内容，具体的可以看 Github Pages
+静态博客生成框架选择 首先是选择一个静态网页生成框架，目前比较广泛所致的有以下的几个框架：
+Jekyll: 使用 Ruby 语言进行开发的框架，并且也是 Github 官方推荐的框架。 Hexo: 使用 Node.js 进行开发。 Hugo: 使用 Go 语言开发。 Pelican: 使用 Python 进行开发 个人选择了 Hexo ，主要是因为之前有使用该框架的经验，可以减少自己的学习成本，同时该框架也是使用 JS 进行开发的，方便只有进行自定义扩展。当然处理上述列举出来的框架，还有一下其他的选择，可以自定去探索。
+对于这种事情个人建议还是少折腾，将真正的精力集中在博客的内容上边 😅 。
+Hexo 框架设置 初始化 因为 Hexo 是使用 Node.js 开发的，因此当我们使用 Hexo 的时候最好的方式也是通过 Node.js 进行使用。</description><content>&lt;h1 id="前置工作">前置工作&lt;/h1>
+&lt;h2 id="部署方式的选择">部署方式的选择&lt;/h2>
+&lt;p>目前书写个人博客有使用成熟的博客站点（例如简书、 CSDN 等等）或自己搭建属于自己的博客网站这两种方式，之所以不选择已经成熟的博客站点是因为一下的一些原因：&lt;/p>
+&lt;ol>
+&lt;li>可定制型较差，通常都不太满足个人要求&lt;/li>
+&lt;li>写作方式不够友好（大部分都需要在线书写，相比于一些专业的 Markdown 编辑器来说仍有不足）&lt;/li>
+&lt;/ol>
+&lt;p>自建博客站点也是存在两种不同的方式：&lt;/p>
+&lt;ol>
+&lt;li>购买域名、服务器等设施自行搭建博客站点&lt;/li>
+&lt;li>利用 Github 、 Gitee 等提供的能力托管静态页面&lt;/li>
+&lt;/ol>
+&lt;p>受限囊中羞涩，个人选择了使用 Github Pages 来托管自己的博客内容，具体的可以看 &lt;a href="https://pages.github.com/">Github Pages&lt;/a>&lt;/p>
+&lt;h2 id="静态博客生成框架选择">静态博客生成框架选择&lt;/h2>
+&lt;p>首先是选择一个静态网页生成框架，目前比较广泛所致的有以下的几个框架：&lt;/p>
+&lt;ul>
+&lt;li>Jekyll: 使用 Ruby 语言进行开发的框架，并且也是 Github 官方推荐的框架。&lt;/li>
+&lt;li>Hexo: 使用 Node.js 进行开发。&lt;/li>
+&lt;li>Hugo: 使用 Go 语言开发。&lt;/li>
+&lt;li>Pelican: 使用 Python 进行开发&lt;/li>
+&lt;/ul>
+&lt;p>个人选择了 Hexo ，主要是因为之前有使用该框架的经验，可以减少自己的学习成本，同时该框架也是使用 JS 进行开发的，方便只有进行自定义扩展。当然处理上述列举出来的框架，还有一下其他的选择，可以自定去探索。&lt;/p>
+&lt;blockquote>
+&lt;p>对于这种事情个人建议还是少折腾，将真正的精力集中在博客的内容上边 😅 。&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="hexo-框架设置">Hexo 框架设置&lt;/h1>
+&lt;h2 id="初始化">初始化&lt;/h2>
+&lt;p>因为 Hexo 是使用 Node.js 开发的，因此当我们使用 Hexo 的时候最好的方式也是通过 Node.js 进行使用。&lt;/p>
+&lt;p>首先是全局安装 Hexo CLI 工具，具体的命令如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ npm install hexo-cli -g
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后利用 Hexo CLI 工具初始化项目：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ hexo init my-personal-blog
+$ cd my-personal-blog
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样我们就已经得到了一个标准的 Hexo 模板项目了，接下来就是对项目进行个性化配置了。&lt;/p>
+&lt;h2 id="_configyml-进行修改">_config.yml 进行修改&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#75715e"># Site&lt;/span>
+&lt;span style="color:#f92672">title&lt;/span>: &lt;span style="color:#ae81ff">Kai.He Blogs&lt;/span>
+&lt;span style="color:#f92672">subtitle&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;搬砖工程师&amp;#39;&lt;/span>
+&lt;span style="color:#f92672">author&lt;/span>: &lt;span style="color:#ae81ff">Kai.He&lt;/span>
+&lt;span style="color:#f92672">language&lt;/span>: &lt;span style="color:#ae81ff">en&lt;/span>
+&lt;span style="color:#f92672">timezone&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;Asia/Shanghai&amp;#39;&lt;/span>
+&lt;span style="color:#75715e"># URL&lt;/span>
+&lt;span style="color:#f92672">url&lt;/span>: &lt;span style="color:#ae81ff">https://redxiiikk.github.io&lt;/span>
+&lt;span style="color:#f92672">permalink&lt;/span>: :&lt;span style="color:#ae81ff">urlpath/&lt;/span>
+&lt;span style="color:#f92672">permalink_defaults&lt;/span>:
+&lt;span style="color:#75715e"># Extensions&lt;/span>
+&lt;span style="color:#75715e">## Plugins: https://hexo.io/plugins/&lt;/span>
+&lt;span style="color:#75715e">## Themes: https://hexo.io/themes/&lt;/span>
+&lt;span style="color:#f92672">theme&lt;/span>: &lt;span style="color:#ae81ff">next&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>对于 _config.yml 的修改只有这一小部分，修改之后的效果可以根据下面的图片进行参照：&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210513174727.png" alt="image-20210513151722295">&lt;/p>
+&lt;p>上述配置中还对文章的永久链接进行了配置，个人不在使用 Hexo 默认提供的方式，而是通过自定义的方式进行手动管理。&lt;/p>
+&lt;p>具体的方式是在每一篇博客的 Front-matter 中添加一个自定义的参数，如下图：&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210513174728.png" alt="image-20210513152434514">&lt;/p>
+&lt;blockquote>
+&lt;p>参考文章：&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="https://hexo.io/zh-cn/docs/permalinks.html">永久链接 - Hexo 文档&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>后期可以利用脚本或者 Hexo 插件的方式做到一定程度上的自动化（先挖一个坑）。&lt;/p>
+&lt;/blockquote>
+&lt;p>最后在 _config.yml 中还修改了 Hexo 的主题，采用了 NexT 主题。&lt;/p>
+&lt;h2 id="主题配置">主题配置&lt;/h2>
+&lt;p>Hexo 提供了默认的主题，但是比不是特别的美观，我们可以采取一些三方的主题来优化我们的博客网站，在这里我个人采用的 NexT 这个主题。&lt;/p>
+&lt;blockquote>
+&lt;p>更多的主题可在 &lt;a href="https://hexo.io/themes/">Theme - Hexo.io&lt;/a> 上边查看，如何配置主题请看主题作者的文档。&lt;/p>
+&lt;/blockquote>
+&lt;p>目前 Hexo 对于对于各个主题提供了独立的 _config.[theme].yml 文件，对不同的主题我们可以使用独立的配置文件来进行控制。&lt;/p>
+&lt;h3 id="安装-next-主题">安装 NexT 主题&lt;/h3>
+&lt;p>首选我们需要安装 NexT 主题， NexT 提供了多种安装方式，具体的可看 &lt;a href="https://theme-next.iissnan.com/getting-started.html">开始使用 - NexT&lt;/a> 。&lt;/p>
+&lt;p>在这里我个人采用了 npm 包的方式进行安装，具体的命令如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ npm install hexo-theme-next --save
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成之后就是修改 NexT 的配置文件了&lt;/p>
+&lt;h3 id="配置-next-主题">配置 NexT 主题&lt;/h3>
+&lt;p>首先直接 copy 一份 NexT 的默认配置&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ copy node_modules/hexo-theme-next/_config.yml ./_config.next.yml
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后做出如下的修改：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#75715e"># ---------------------------------------------------------------&lt;/span>
+&lt;span style="color:#75715e"># Scheme Settings&lt;/span>
+&lt;span style="color:#75715e"># ---------------------------------------------------------------&lt;/span>
+&lt;span style="color:#75715e"># Schemes&lt;/span>
+&lt;span style="color:#75715e">#scheme: Muse&lt;/span>
+&lt;span style="color:#75715e">#scheme: Mist&lt;/span>
+&lt;span style="color:#75715e">#scheme: Pisces&lt;/span>
+&lt;span style="color:#f92672">scheme&lt;/span>: &lt;span style="color:#ae81ff">Gemini&lt;/span>
+&lt;span style="color:#75715e"># Dark Mode&lt;/span>
+&lt;span style="color:#f92672">darkmode&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;span style="color:#75715e"># Creative Commons 4.0 International License.&lt;/span>
+&lt;span style="color:#f92672">creative_commons&lt;/span>:
+&lt;span style="color:#f92672">license&lt;/span>: &lt;span style="color:#ae81ff">by-nc-sa&lt;/span>
+&lt;span style="color:#f92672">sidebar&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;span style="color:#f92672">post&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;span style="color:#f92672">language&lt;/span>:
+&lt;span style="color:#75715e"># Usage: `Key: /link/ || icon`&lt;/span>
+&lt;span style="color:#75715e"># Key is the name of menu item. If the translation for this item is available, the translated text will be loaded, otherwise the Key name will be used. Key is case-senstive.&lt;/span>
+&lt;span style="color:#75715e"># Value before `||` delimiter is the target link, value after `||` delimiter is the name of Font Awesome icon.&lt;/span>
+&lt;span style="color:#75715e"># External url should start with http:// or https://&lt;/span>
+&lt;span style="color:#f92672">menu&lt;/span>:
+&lt;span style="color:#f92672">home&lt;/span>: &lt;span style="color:#ae81ff">/ || fa fa-home&lt;/span>
+&lt;span style="color:#75715e">#about: /about/ || fa fa-user&lt;/span>
+&lt;span style="color:#f92672">tags&lt;/span>: &lt;span style="color:#ae81ff">/tags/ || fa fa-tags&lt;/span>
+&lt;span style="color:#f92672">categories&lt;/span>: &lt;span style="color:#ae81ff">/categories/ || fa fa-th&lt;/span>
+&lt;span style="color:#f92672">archives&lt;/span>: &lt;span style="color:#ae81ff">/archives/ || fa fa-archive&lt;/span>
+&lt;span style="color:#75715e">#schedule: /schedule/ || fa fa-calendar&lt;/span>
+&lt;span style="color:#75715e">#sitemap: /sitemap.xml || fa fa-sitemap&lt;/span>
+&lt;span style="color:#75715e">#commonweal: /404/ || fa fa-heartbeat&lt;/span>
+&lt;span style="color:#75715e"># Sidebar Avatar&lt;/span>
+&lt;span style="color:#f92672">avatar&lt;/span>:
+&lt;span style="color:#75715e"># Replace the default image and set the url here.&lt;/span>
+&lt;span style="color:#f92672">url&lt;/span>: &lt;span style="color:#ae81ff">/images/avatar.jpeg&lt;/span>
+&lt;span style="color:#75715e"># If true, the avatar will be dispalyed in circle.&lt;/span>
+&lt;span style="color:#f92672">rounded&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;span style="color:#75715e"># If true, the avatar will be rotated with the cursor.&lt;/span>
+&lt;span style="color:#f92672">rotated&lt;/span>: &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;span style="color:#75715e"># Social Links&lt;/span>
+&lt;span style="color:#75715e"># Usage: `Key: permalink || icon`&lt;/span>
+&lt;span style="color:#75715e"># Key is the link label showing to end users.&lt;/span>
+&lt;span style="color:#75715e"># Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.&lt;/span>
+&lt;span style="color:#f92672">social&lt;/span>:
+&lt;span style="color:#f92672">GitHub&lt;/span>: &lt;span style="color:#ae81ff">https://github.com/redxiiikk || fab fa-github&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里唯一需要说明的就是 Sidebar Avatar 的设置，这个是设置头像的，需要提前在 &lt;code>source&lt;/code> 目录下创建 &lt;code>images&lt;/code> 目录，然后将头像文件放进去。&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210525165123.png" alt="image-20210525165123634">&lt;/p>
+&lt;p>至此基本上静态博客就已经完成了，接下来我们需要的时将其部署到 Github Pages 上去。&lt;/p>
+&lt;h1 id="github-pages">Github Pages&lt;/h1>
+&lt;p>关于如何创建一个仓库去部署 Github Pages 这里就不在做过多的叙述，这里只是去记录一些需要注意的点即可，更多的信息可以查看 &lt;a href="https://pages.github.com/">GitHub Pages&lt;/a> 的相关的文档。&lt;/p>
+&lt;h2 id="使用-github-actions-自动部署">使用 Github Actions 自动部署&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Hexo Auto Deploy&lt;/span>
+&lt;span style="color:#f92672">on&lt;/span>:
+&lt;span style="color:#f92672">push&lt;/span>:
+&lt;span style="color:#f92672">branches&lt;/span>:
+- &lt;span style="color:#ae81ff">source&lt;/span>
+&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;span style="color:#f92672">build-and-deploy&lt;/span>:
+&lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">ubuntu-latest&lt;/span>
+&lt;span style="color:#f92672">steps&lt;/span>:
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Checkout&lt;/span>
+&lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v2&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Setup Node&lt;/span>
+&lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/setup-node@v2&lt;/span>
+&lt;span style="color:#f92672">with&lt;/span>:
+&lt;span style="color:#f92672">node-version&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;14&amp;#39;&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Install and Build&lt;/span>
+&lt;span style="color:#f92672">run&lt;/span>: |&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> npm install hexo-cli -g
+&lt;/span>&lt;span style="color:#e6db74"> npm install
+&lt;/span>&lt;span style="color:#e6db74"> hexo generate&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Deploy&lt;/span>
+&lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">JamesIves/github-pages-deploy-action@4.1.3&lt;/span>
+&lt;span style="color:#f92672">with&lt;/span>:
+&lt;span style="color:#f92672">branch&lt;/span>: &lt;span style="color:#ae81ff">master&lt;/span>
+&lt;span style="color:#f92672">folder&lt;/span>: &lt;span style="color:#ae81ff">public&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样在每一次将博客的原始文件进行提交的时候都会触发部署流程，减少手工部署的时间。&lt;/p></content></item><item><title>在 Linux 中使用 Clash</title><link>https://redxiiikk.github.io/posts/20210512-02-clash-in-linux/</link><pubDate>Wed, 12 May 2021 21:10:38 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210512-02-clash-in-linux/</guid><description>Clash 是什么？ Clash 是一个使用 Go 语言编写的基于规则的隧道代理程序，具体的信息可以查看 Clash in Github 。使用较多的场景是利用 Clash 代理本地网络，至于代理本地网络干嘛这个就不用多说了，大家都知道 🤪。
+目前 Windows 和 Mac 有着比较成熟的图形化工具：
+Windows: Clash For Windiws MacOs: ClashX 而 Linux 则并未出现一个大家公认比较完善的图形化界面，大概是因为 Linux 用户的都习惯使用命令行吧，因此本文主要介绍如何通过命令行的方式使用 Clash 。
+Clash 脚本 本文可能存在滞后性，可以访问 Clash Run Config · redxiiikk - Github 获取最新的脚本。
+首先来看看项目结构：
+$ tree Clash ├── clash # Clash 执行程序，可以从 Gihtub 上获取 ├── config # 配置文件夹 │ ├── backup # 配置备份文件夹，每次重新获取 Clash 最新配置的时候都会将当前的文件进行备份 │ │ └── config-2021-05-05.</description><content>&lt;h1 id="clash-是什么">Clash 是什么？&lt;/h1>
+&lt;p>Clash 是一个使用 Go 语言编写的基于规则的隧道代理程序，具体的信息可以查看 &lt;a href="https://github.com/Dreamacro/clash">Clash in Github&lt;/a> 。使用较多的场景是利用 Clash 代理本地网络，至于代理本地网络干嘛这个就不用多说了，大家都知道 🤪。&lt;/p>
+&lt;p>目前 Windows 和 Mac 有着比较成熟的图形化工具：&lt;/p>
+&lt;ul>
+&lt;li>Windows: &lt;a href="https://github.com/Fndroid/clash_for_windows_pkg/releases">Clash For Windiws&lt;/a>&lt;/li>
+&lt;li>MacOs: &lt;a href="https://github.com/yichengchen/clashX/releases">ClashX&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>而 Linux 则并未出现一个大家公认比较完善的图形化界面，大概是因为 Linux 用户的都习惯使用命令行吧，因此本文主要介绍如何通过命令行的方式使用 Clash 。&lt;/p>
+&lt;h1 id="clash-脚本">Clash 脚本&lt;/h1>
+&lt;blockquote>
+&lt;p>本文可能存在滞后性，可以访问 &lt;a href="https://github.com/redxiiikk/Clash-Run-Script">Clash Run Config · redxiiikk - Github&lt;/a> 获取最新的脚本。&lt;/p>
+&lt;/blockquote>
+&lt;p>首先来看看项目结构：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ tree
+Clash
+├── clash &lt;span style="color:#75715e"># Clash 执行程序，可以从 Gihtub 上获取&lt;/span>
+├── config &lt;span style="color:#75715e"># 配置文件夹&lt;/span>
+│   ├── backup &lt;span style="color:#75715e"># 配置备份文件夹，每次重新获取 Clash 最新配置的时候都会将当前的文件进行备份&lt;/span>
+│   │   └── config-2021-05-05.yml &lt;span style="color:#75715e"># 配置备份&lt;/span>
+│   ├── config.yml &lt;span style="color:#75715e"># 最新配置&lt;/span>
+│   └── Country.mmdb &lt;span style="color:#75715e"># Clash 运行时的配置，在 Clash 第一次运行的时候回自动的生成&lt;/span>
+├── log &lt;span style="color:#75715e"># 日志文件夹，按照 Clash 运行的时间进行命名，不会自动按时间分割日志文件&lt;/span>
+│   └── 2021-05-05.log &lt;span style="color:#75715e"># 日志文件&lt;/span>
+├── README.md &lt;span style="color:#75715e"># 项目介绍文件&lt;/span>
+├── run.sh &lt;span style="color:#75715e"># 运行脚本&lt;/span>
+└── .env &lt;span style="color:#75715e"># 个人配置项&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中 &lt;em>.env&lt;/em> 文件保存着 Clash 配置文件的获取地址，需要配置自己的代理提供商的提供的 Clash 配置文件的下载链接，如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat .env
+CLASH_CONFIG_URL&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>run.sh&lt;/em> 是整个工程的核心脚本，内容如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">DATE&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>date --iso-8601&lt;span style="color:#f92672">=&lt;/span>date&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+CLASH_DIR&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;~/Tools/Clash&amp;#34;&lt;/span>
+CLASH_LOG_FILE&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/log/&lt;/span>$DATE&lt;span style="color:#e6db74">.log&amp;#34;&lt;/span>
+func_active_secret_env&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+. &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/.env&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+func_get_clash_config_file&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># 备份配置文件&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> -f &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/config/config.yml&amp;#34;&lt;/span> &lt;span style="color:#f92672">]&lt;/span>;&lt;span style="color:#66d9ef">then&lt;/span>
+mv &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/config/config.yml&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/config/backup/config-&lt;/span>$DATE&lt;span style="color:#e6db74">.yml&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;span style="color:#75715e"># 获取最新的配置文件&lt;/span>
+wget $CLASH_CONFIG_URL -O &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/config/config.yml&amp;#34;&lt;/span> &amp;gt; $CLASH_LOG_FILE
+&lt;span style="color:#f92672">}&lt;/span>
+func_try_kill_exist_clash&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+EXIST_CLASH_PID&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>ps -aux | grep clash | grep -v grep | awk &lt;span style="color:#e6db74">&amp;#39;{print $2}&amp;#39;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[&lt;/span> ! -z &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$EXIST_CLASH_PID&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">]&lt;/span>;&lt;span style="color:#66d9ef">then&lt;/span>
+kill &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$EXIST_CLASH_PID&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+func_run_clash&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+nohup &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/clash&amp;#34;&lt;/span> -f &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$CLASH_DIR&lt;span style="color:#e6db74">/config/config.yml&amp;#34;&lt;/span> &amp;gt; $CLASH_LOG_FILE 2&amp;gt;&amp;amp;&lt;span style="color:#ae81ff">1&lt;/span> &amp;amp;
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e"># 激活个人配置信息&lt;/span>
+func_active_secret_env
+&lt;span style="color:#75715e"># 重新获取配置文件&lt;/span>
+func_get_clash_config_file
+&lt;span style="color:#75715e"># 关闭已经在运行的 Clash&lt;/span>
+func_try_kill_exist_clash
+&lt;span style="color:#75715e"># 重新启动 Clash&lt;/span>
+func_run_clash
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>目前 &lt;em>run.sh&lt;/em> 只提供获取最新的配置文件重新启 Clash 的功能。并不是特别的完善，后期会对脚本的功能进行进一步的完善。&lt;/p>
+&lt;h1 id="clash-配置文件">Clash 配置文件&lt;/h1>
+&lt;p>Clash 最为核心的是配置文件，而配置文件中最为核心的配置肯定是下边这两部分：&lt;/p>
+&lt;ul>
+&lt;li>代理服务器配置&lt;/li>
+&lt;li>代理规则配置&lt;/li>
+&lt;/ul>
+&lt;p>代理服务器是及其敏感的配置信息，一定不要将其公开；而代理规则则是定义了那些 URL 应该走代理，那些不用进行代理，完善的代理规则可以减少代理的流量，优化我们的使用体验，因此掌握自定义代理规则可以帮助我们更好的使用 Clash 。&lt;/p>
+&lt;blockquote>
+&lt;p>走代理会增加网络相应的时间，甚至部分网站走代理会导致无法访问。&lt;/p>
+&lt;/blockquote>
+&lt;p>代理规则在配置文件中的书写如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#f92672">Rule&lt;/span>:
+- &lt;span style="color:#ae81ff">DOMAIN-SUFFIX,google.com,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN-KEYWORD,google,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN,google.com,auto&lt;/span>
+- &lt;span style="color:#ae81ff">DOMAIN-SUFFIX,ad.com,REJECT&lt;/span>
+- &lt;span style="color:#ae81ff">IP-CIDR,127.0.0.0/8,DIRECT&lt;/span>
+&lt;span style="color:#75715e"># rename SOURCE-IP-CIDR and would remove after prerelease&lt;/span>
+- &lt;span style="color:#ae81ff">SRC-IP-CIDR,192.168.1.201/32,DIRECT&lt;/span>
+- &lt;span style="color:#ae81ff">GEOIP,CN,DIRECT&lt;/span>
+- &lt;span style="color:#ae81ff">DST-PORT,80,DIRECT&lt;/span>
+- &lt;span style="color:#ae81ff">SRC-PORT,7777,DIRECT&lt;/span>
+&lt;span style="color:#75715e"># FINAL would remove after prerelease&lt;/span>
+&lt;span style="color:#75715e"># you also can use `FINAL,Proxy` or `FINAL,,Proxy` now&lt;/span>
+- &lt;span style="color:#ae81ff">MATCH,auto&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Clash 的规则有如下的九种类型：&lt;/p>
+&lt;ul>
+&lt;li>DOMAIN-SUFFIX：域名后缀匹配。&lt;/li>
+&lt;li>DOMAIN：域名匹配。&lt;/li>
+&lt;li>DOMAIN-KEYWORD：域名关键字匹配。&lt;/li>
+&lt;li>IP-CIDR：IP 段匹配。&lt;/li>
+&lt;li>SRC-IP-CIDR：源 IP 段匹配。&lt;/li>
+&lt;li>GEOIP：GEOIP 数据库（国家代码）匹配。&lt;/li>
+&lt;li>DST-PORT：目标端口匹配。&lt;/li>
+&lt;li>SRC-PORT：源端口匹配。&lt;/li>
+&lt;li>MATCH：全匹配（一般放在最后）。&lt;/li>
+&lt;/ul></content></item><item><title>在 Spring 中优雅的实现策略模式</title><link>https://redxiiikk.github.io/posts/20210512-01-strategy-pattern-in-spring/</link><pubDate>Wed, 12 May 2021 17:30:43 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210512-01-strategy-pattern-in-spring/</guid><description>能用出来的设计模式才是好的设计模式。
+需求假设 假设存在一个如下的需求：用户可以根据选择将文件内容存储在磁盘文件系统或 S3 中，并且产品经理明确的告诉你之后的文件存储系统还会的增加。
+if 判断 那么则是最简单的方式就是通过 if 语句判断用户选择，从而将文件存储到目标文件系统中，类似的代码如下：
+if (targetFileSystem = &amp;#34;disk&amp;#34;) { logger.info(&amp;#34;file to disk: {}&amp;#34;, file); } else if (targetFileSystem = &amp;#39;s3&amp;#39;) { logger.info(&amp;#34;file to s3: {}&amp;#34;, file); } else { throw new RuntimeException(&amp;#34;not support target file system&amp;#34;); } 当后续文件系统增加的时候再继续添加 if 判断就可以了。
+但是这是一段简单的示意性质的代码，在项目中需求一般都及其复杂的。
+例如在广告系统中，会存在多种不同类型的广告，虽然每一种广告的创建流程都是大致相同的，分为好几个阶段，但是在每一个阶段中会根据用户选择的类型不同从而执行不同的逻辑，这个时候再去通过 if 判断就会导致代码逐渐趋于复杂，最终导致不可维护。
+并且仔细去思考，这样的实现方式在每一次需求变更的时候都修改代码，不符合 对扩展开发，对修改封闭 这个原则，毕竟修改总会带来一定的风险，对原有的逻辑造成一定的冲击，导致出现 BUG 的几率变大。
+策略模式 为了避免直接使用 if 的缺点，我们可以采用设计模式中的策略模式。
+设计模式是针对特定上下文中发生的问题的可重用的解决方案，在了解一个设计模式的我们可以从三个方面入手，分别是：需求、结果上下文、相关模式
+需求：是指描述了必须解决的问题和围绕这个问题的特性的上下文环境
+结果上下文：描述了采用这个模式的结果，它包含三部分：
+好处：这个模式的好处和它解决了什么需求 弊端：这个模式的弊端和它没有解决那些需求 问题：使用这个模式所引入的新的问题 相关模式：描述了这个模式与其他模式之间的关系。模式之间存在 5 中关系：</description><content>&lt;blockquote>
+&lt;p>能用出来的设计模式才是好的设计模式。&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="需求假设">需求假设&lt;/h1>
+&lt;p>假设存在一个如下的需求：用户可以根据选择将文件内容存储在磁盘文件系统或 S3 中，并且产品经理明确的告诉你之后的文件存储系统还会的增加。&lt;/p>
+&lt;h1 id="if-判断">if 判断&lt;/h1>
+&lt;p>那么则是最简单的方式就是通过 if 语句判断用户选择，从而将文件存储到目标文件系统中，类似的代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>targetFileSystem &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;disk&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+logger&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">info&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;file to disk: {}&amp;#34;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> file&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>targetFileSystem &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>s3&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+logger&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">info&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;file to s3: {}&amp;#34;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> file&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> RuntimeException&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;not support target file system&amp;#34;&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>当后续文件系统增加的时候再继续添加 if 判断就可以了。&lt;/p>
+&lt;p>但是这是一段简单的示意性质的代码，在项目中需求一般都及其复杂的。&lt;/p>
+&lt;p>例如在广告系统中，会存在多种不同类型的广告，虽然每一种广告的创建流程都是大致相同的，分为好几个阶段，但是在每一个阶段中会根据用户选择的类型不同从而执行不同的逻辑，这个时候再去通过 if 判断就会导致代码逐渐趋于复杂，最终导致不可维护。&lt;/p>
+&lt;p>并且仔细去思考，这样的实现方式在每一次需求变更的时候都修改代码，不符合 &lt;code>对扩展开发，对修改封闭&lt;/code> 这个原则，毕竟修改总会带来一定的风险，对原有的逻辑造成一定的冲击，导致出现 BUG 的几率变大。&lt;/p>
+&lt;h1 id="策略模式">策略模式&lt;/h1>
+&lt;p>为了避免直接使用 &lt;code>if&lt;/code> 的缺点，我们可以采用设计模式中的策略模式。&lt;/p>
+&lt;blockquote>
+&lt;p>设计模式是针对特定上下文中发生的问题的可重用的解决方案，在了解一个设计模式的我们可以从三个方面入手，分别是：需求、结果上下文、相关模式&lt;/p>
+&lt;p>需求：是指描述了必须解决的问题和围绕这个问题的特性的上下文环境&lt;/p>
+&lt;p>结果上下文：描述了采用这个模式的结果，它包含三部分：&lt;/p>
+&lt;ul>
+&lt;li>好处：这个模式的好处和它解决了什么需求&lt;/li>
+&lt;li>弊端：这个模式的弊端和它没有解决那些需求&lt;/li>
+&lt;li>问题：使用这个模式所引入的新的问题&lt;/li>
+&lt;/ul>
+&lt;p>相关模式：描述了这个模式与其他模式之间的关系。模式之间存在 5 中关系：&lt;/p>
+&lt;ul>
+&lt;li>前导：催生出当前模式需求的模式&lt;/li>
+&lt;li>后续：用来解决当前模式引入的新问题的模式&lt;/li>
+&lt;li>代替：当前模式的代替模式，提供了另外的解决方案&lt;/li>
+&lt;li>泛华：针对一个问题的一般性解决方案&lt;/li>
+&lt;li>特化：针对特定模式的具体的解决方案&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h2 id="策略模式的需求">策略模式的需求&lt;/h2>
+&lt;ol>
+&lt;li>必须解决的问题： 在有多种算法相似的情况下，使用 if&amp;hellip;else 所带来的复杂和难以维护。&lt;/li>
+&lt;li>围绕这个问题的特性的上下文环境： 多种算法相似（可以理解为对外暴露出来的行为是一致的），只是内部的实现细节具有差别。&lt;/li>
+&lt;/ol>
+&lt;h2 id="策略模式的结果上下文">策略模式的结果上下文&lt;/h2>
+&lt;ol>
+&lt;li>好处： 通过使用策略模式可以做到 &lt;code>对扩展开发、对修改封闭&lt;/code> ，减少在添加新功能时引入 BUG 的几率。&lt;/li>
+&lt;li>弊端：
+&lt;ul>
+&lt;li>在一定程度上增加程序的复杂性&lt;/li>
+&lt;li>客户端必须知晓策略之间不同，从而选择不同的策略&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>问题： 策略模式模式虽然会在一定程度上增加系统的复杂性，但是个人认为这完全是可以接受的；真正引入的问题在于客户端必须知晓策略之间的不同。&lt;/li>
+&lt;/ol>
+&lt;h1 id="spring-中优雅的实现策略模式">Spring 中优雅的实现策略模式&lt;/h1>
+&lt;p>首先通过接口定义策略：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> &lt;span style="color:#a6e22e">StoreSystem&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isStoreSystem&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String targetStoreSystem&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">store&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String file&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后实现两种不同的存储系统：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#a6e22e">@Component&lt;/span>
+&lt;span style="color:#a6e22e">@Scope&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ConfigurableBeanFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">SCOPE_PROTOTYPE&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">DiskStoreSystem&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> StoreSystem &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> Logger LOGGER &lt;span style="color:#f92672">=&lt;/span> LoggerFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getLogger&lt;/span>&lt;span style="color:#f92672">(&lt;/span>DiskStoreSystem&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isTargetStoreSystem&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String targetStorSystem&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;disk&amp;#34;&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">equals&lt;/span>&lt;span style="color:#f92672">(&lt;/span>targetingStoreSystem&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">store&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String file&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+LOGGER&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">info&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>file to disk&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#f92672">{}&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> file&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#a6e22e">@Component&lt;/span>
+&lt;span style="color:#a6e22e">@Scope&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ConfigurableBeanFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">SCOPE_PROTOTYPE&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">S3StoreSystem&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> StoreSystem &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> Logger LOGGER &lt;span style="color:#f92672">=&lt;/span> LoggerFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getLogger&lt;/span>&lt;span style="color:#f92672">(&lt;/span>S3StoreSystem&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isTargetStoreSystem&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String targetStorSystem&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;s3&amp;#34;&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">equals&lt;/span>&lt;span style="color:#f92672">(&lt;/span>targetingStoreSystem&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">store&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String file&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+LOGGER&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">info&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>file to s3&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#f92672">{}&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> file&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在上述的代码中可以使用 @Component 注解类交由 Spring 进行管理，同时这里将 bean 的 Scop 修改为 prototype，这样在每一次使用时都会生成一个新的 bean，在一定程度上保证多线程安全。&lt;/p>
+&lt;p>接下来将实现策略选择的过程：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#a6e22e">@Compnonent&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">StoreSystemDispatch&lt;/span> &lt;span style="color:#66d9ef">implements&lt;/span> ApplicationContextAware &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">final&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> Logger LOGGER &lt;span style="color:#f92672">=&lt;/span> LoggerFactory&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getLogger&lt;/span>&lt;span style="color:#f92672">(&lt;/span>StoreSystemDispatch&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> ApplicationContext applicationContext&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#a6e22e">@Override&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setApplicationContext&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ApplicationContext applicationContext&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#66d9ef">throws&lt;/span> BeansException &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">applicationContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> applicationContext&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">doHandle&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String targetStoreSystem&lt;span style="color:#f92672">,&lt;/span> String file&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+Map&lt;span style="color:#f92672">&amp;lt;&lt;/span>String&lt;span style="color:#f92672">,&lt;/span> StoreSystem&lt;span style="color:#f92672">&amp;gt;&lt;/span> storeSystems &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">applicationContext&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getBeansOfType&lt;/span>&lt;span style="color:#f92672">(&lt;/span>StoreSystem&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>Map&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">Entry&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>String&lt;span style="color:#f92672">,&lt;/span> StoreSystem&lt;span style="color:#f92672">&amp;gt;&lt;/span> storeSystemEntry &lt;span style="color:#f92672">:&lt;/span> storeSystems&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">entrySet&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+StoreSystem StoreSystem &lt;span style="color:#f92672">=&lt;/span> storeSystemEntry&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getValue&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>storeSystem&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">isMatcher&lt;/span>&lt;span style="color:#f92672">(&lt;/span>targetStoreSystem&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+LOGGER&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">info&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;selected storage system is {}:{}&amp;#34;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> storeSystemEntry&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getKey&lt;/span>&lt;span style="color:#f92672">(),&lt;/span> storeSystem&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">hashCode&lt;/span>&lt;span style="color:#f92672">());&lt;/span>
+storeSystem&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">store&lt;/span>&lt;span style="color:#f92672">(&lt;/span>file&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里使用了 Spring 的 ApplicationContextAware 接口，该接口要求实现 setApplicationContext 方法，然后在通过 applicationContext 获取所有的 StoreSystem 接口实现，这样就可以选择不同的实现完成问价存储。&lt;/p>
+&lt;p>同时这样做一个最大的好处就是添加新的存储系统的时候直接继承 StoreSystem 接口进行实现即可，无需对原有的代码进行修改，做到了真正的对修改封闭，对扩展开放。&lt;/p>
+&lt;blockquote>
+&lt;p>在上述中我们谈到策略模式的最大的弊端就是客户端必须知晓各个策略的不同，从而选择不同的策略。其实这个问题也是比较容易去处理的，如果我们必须屏蔽不同的策略的差异性对于客户端的应用，那么我们完全可以在策略选择的过程中，结合系统具体的上线文环境为客户端选择不同的算法。&lt;/p>
+&lt;p>具体到我们这里例子中就是在 &lt;code>StoreSystemDispatch&lt;/code> 的中根据系统的上下文进行选择，比如当前磁盘储存系统已经满了，那么就为用户选择 S3 存储的方式。&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="参考文章">参考文章&lt;/h1>
+&lt;ol>
+&lt;li>&lt;a href="https://zhuanlan.zhihu.com/p/347389684">使用 Spring 特性优雅书写业务代码 - 阿里巴巴淘系技术&lt;/a>&lt;/li>
+&lt;li>第一章 逃离单体地狱 · 1.6.2 模式和模式语言 - 微服务架构设计模式&lt;/li>
+&lt;li>&lt;a href="https://www.runoob.com/design-pattern/strategy-pattern.html">策略模式 - 菜鸟教程&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://geek-docs.com/design-pattern/strategy-pattern/strategy-pattern-index.html">策略模式 - 极客教程&lt;/a>&lt;/li>
+&lt;/ol></content></item><item><title>Github Actions 与 Checkstyle</title><link>https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/</link><pubDate>Sun, 21 Feb 2021 09:30:00 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/</guid><description>Github Actions Github Actions 是 Github 推出的持续集成服务，具体的资料可以查看官网文档，本文将直接开始使用 Github Actions。
+Github Action 文档 - Github Docs
+首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：GitHub Actions文档 - GitHub Docs首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：
+name: Continuous integration on: push jobs: checkstyle: name: Checkstyle runs-on: ubuntu-18.04 steps: - uses: actions/checkout@v2 - uses: reviewdog/action-setup@v1 with: reviewdog_version: latest - name: download checkstyle run: curl -o checkstyle.jar -L https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.40/checkstyle-8.40-all.jar - name: checkstyle env: REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.</description><content>&lt;h1 id="github-actions">Github Actions&lt;/h1>
+&lt;p>Github Actions 是 Github 推出的持续集成服务，具体的资料可以查看官网文档，本文将直接开始使用 Github Actions。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://docs.github.com/cn/actions">Github Action 文档 - Github Docs&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：GitHub Actions文档 - GitHub Docs首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Continuous integration&lt;/span>
+&lt;span style="color:#f92672">on&lt;/span>: &lt;span style="color:#ae81ff">push&lt;/span>
+&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;span style="color:#f92672">checkstyle&lt;/span>:
+&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Checkstyle&lt;/span>
+&lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">ubuntu-18.04&lt;/span>
+&lt;span style="color:#f92672">steps&lt;/span>:
+- &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v2&lt;/span>
+- &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">reviewdog/action-setup@v1&lt;/span>
+&lt;span style="color:#f92672">with&lt;/span>:
+&lt;span style="color:#f92672">reviewdog_version&lt;/span>: &lt;span style="color:#ae81ff">latest&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">download checkstyle&lt;/span>
+&lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">curl -o checkstyle.jar -L https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.40/checkstyle-8.40-all.jar&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">checkstyle&lt;/span>
+&lt;span style="color:#f92672">env&lt;/span>:
+&lt;span style="color:#f92672">REVIEWDOG_GITHUB_API_TOKEN&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.GITHUB_TOKEN }}&lt;/span>
+&lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">java -jar checkstyle.jar -c checkstyle-config.xml -f xml src | reviewdog -f=checkstyle -name=&amp;#34;Checkstyle&amp;#34; -reporter=github-check&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>关于 Github Actions 配置文件的语法可以参考官方文档的定义：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://docs.github.com/cn/actions/reference/workflow-syntax-for-github-actions">Github 操作的工作流程语法&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>在文件定义中有一些需要注意的地方：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>首先所有的 job 都是并行的，两个 job 可以同时开始运行，如果 job 之间存在依赖关系的可以使用 &lt;code>jobs.&amp;lt;job id&amp;gt;&lt;/code>.needs 表示依赖关系&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>steps 中需要首先使用 actions/checkout@v2 将拉取代码，否则工作目录将是一个空目录，actions/checkout@v2 是已经定义好的工作流模板，可以直接在自己的工作流中使用&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>3.工作流默认提供了 &lt;code>${{ secrets.GITHUB_TOKEN }}&lt;/code> 的 token， 对应的权限如下：&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822111730.png" alt="Github Token 的权限">&lt;/p>
+&lt;h1 id="checkstyle">Checkstyle&lt;/h1>
+&lt;p>使用 Checkstyle 首先需要定义一个配置文件，用于规范团队的代码风格，如下所示：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#75715e">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
+&lt;span style="color:#75715e">&amp;lt;!DOCTYPE module PUBLIC
+&lt;/span>&lt;span style="color:#75715e"> &amp;#34;-//Checkstyle//DTD Checkstyle Configuration 1.3//EN&amp;#34;
+&lt;/span>&lt;span style="color:#75715e"> &amp;#34;https://checkstyle.org/dtds/configuration_1_3.dtd&amp;#34;&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;module&lt;/span> &lt;span style="color:#a6e22e">name =&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Checker&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;property&lt;/span> &lt;span style="color:#a6e22e">name=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">value=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>&lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;property&lt;/span> &lt;span style="color:#a6e22e">name=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">value=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>&lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;module&lt;/span> &lt;span style="color:#a6e22e">name=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/module&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/module&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>配置文件主要有 &lt;code>module&lt;/code> 组成，并且 &lt;code>module&lt;/code> 支持嵌套，具体的 Checkstyle 的检查项非常多，可以自由的配置，文档地址如下：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://checkstyle.sourceforge.io/config.html">Checkstyle - Configuration&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>当然要是一项一项配置较为繁琐的话也可以使用现有的风格配置文件：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Google Checkstyle Config File:&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml">Google Checkstyle Config&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>Sun Checkstyle Config File:&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/sun_checks.xml">Sun Checkstyle Config File&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="cli-运行">CLI 运行&lt;/h1>
+&lt;p>通常会在 IDE 中使用插件去检查 Checkstyle，但是在 Github Actions 中无法使用该种方式，必须使用 CLI 模式去运行 Checkstyle，具体的方式如下：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>下载 checkstyle 的 jar
+checkstyle 的代码托管在 Github 上，这样就可以从 Github Releases 中直接下载最新的 jar。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://github.com/checkstyle/checkstyle/releases">Releases · checkstyle/checkstyle&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>cli 模式下进行 checkstyle 检查&lt;/p>
+&lt;p>CLI 中进行 checkstyle 检查也十分的简单，官方文档中也对这种方式进行了说明：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://checkstyle.org/cmdline.html">checkstyle - Command Line&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>具体的命令如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">java -jar checkstyle.jar -c checkstyle-config.xml -f xml src
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>-f&lt;/code> 表示输出格式，这里使用了 XML 的格式进行输出。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="reviewdog">reviewdog&lt;/h1>
+&lt;p>通过在 Github Actions 中直接以 CLI 的方式运行 Checkstyle 已经可以对代码的风格进行检查了，但是这样的检查结果将直接显示在 Gihtub Actions 日志中，不利于查看，这是就要使用 reviewdog 将检查的结果直接显示在 Gihtub Actions 界面中：&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112534.png" alt="">&lt;/p>
+&lt;p>同时也会在提交记录中显示运行状态：&lt;/p>
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112601.png" alt="">&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">java -jar checkstyle.jar -c checkstyle-config.xml -f xml src | reviewdog -f&lt;span style="color:#f92672">=&lt;/span>checkstyle -name&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Checkstyle&amp;#34;&lt;/span> -reporter&lt;span style="color:#f92672">=&lt;/span>github-check
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>reviewdog 已经适配了 Checkstyle 的输出格式，因此可以直接使用。&lt;/p>
+&lt;p>关于 reviewdog 的具体细节可以查看其官方文档：&lt;/p>
+&lt;p>&lt;a href="https://github.com/reviewdog/reviewdog">reviewdog/reviewdog&lt;/a>&lt;/p>
+&lt;h1 id="总结">总结&lt;/h1>
+&lt;p>当然上述方法仍有不足之处，依然需要不断的改进：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>代码风格检查未通过时应该不允许提交代码&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>检查结果通知提交人&lt;/p>
+&lt;/li>
+&lt;/ol></content></item></channel></rss>

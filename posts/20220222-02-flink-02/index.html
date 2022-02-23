@@ -1,0 +1,147 @@
+<!doctype html><html lang=en>
+<head>
+<title>Apache Flink 02: DataStream / DataSet Api :: redxiiikk blog</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Apache Flink DataStream / DataSet Api 使用指北">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://redxiiikk.github.io/posts/20220222-02-flink-02/>
+<link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css>
+<link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css>
+<link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache Flink 02: DataStream / DataSet Api">
+<meta property="og:description" content="Apache Flink DataStream / DataSet Api 使用指北">
+<meta property="og:url" content="https://redxiiikk.github.io/posts/20220222-02-flink-02/">
+<meta property="og:site_name" content="redxiiikk blog">
+<meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-02-22 18:13:27 +0000 UTC">
+</head>
+<body class=green>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+redxiiikk
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://redxiiikk.github.io/posts/20220222-02-flink-02/>Apache Flink 02: DataStream / DataSet Api</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-22
+</span>
+</div>
+<div class=post-content><div>
+<h1 id=flink-api-层次结构>Flink API 层次结构<a href=#flink-api-层次结构 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<ol>
+<li>SQL Api</li>
+<li>Table Api</li>
+<li>DataStream / DataSet Api</li>
+<li>Stateful Processing Function Api</li>
+</ol>
+<h1 id=datastream--dataset-api>DataStream / DataSet Api<a href=#datastream--dataset-api class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<blockquote>
+<p>因为 Apache Flink 是流批一体的处理引擎，并且社区目前也有计划统一 DataStream 与 DataSet 的 Api，因此我们将重点学习 DataStream Api ，至于 DataSet Api 与 DataStream Api 基本类似。</p>
+</blockquote>
+<p>DataStream 作业模式：</p>
+<ol>
+<li>Source</li>
+<li>Transformation</li>
+<li>Sink</li>
+</ol>
+<h2 id=source>Source<a href=#source class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ol>
+<li>Flink 内置的一些支持</li>
+<li>Flink 提供的一些 Connector</li>
+<li>自定义 Source</li>
+</ol>
+<h2 id=sink>Sink<a href=#sink class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ol>
+<li>Flink 内置的一些支持</li>
+<li>Flink 提供的一些 Connector</li>
+<li>自定义 Source</li>
+</ol>
+<h2 id=transformation>Transformation<a href=#transformation class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ol>
+<li>单流操作</li>
+<li>多流操作</li>
+</ol>
+<p>按照状态进行分类：</p>
+<ol>
+<li>无状态操作</li>
+<li>有状态操作</li>
+</ol>
+<h1 id=wordconvert>WordConvert<a href=#wordconvert class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<blockquote>
+<p>单流、无状态</p>
+</blockquote>
+<ol>
+<li>flatMap</li>
+<li>map</li>
+<li>fliter</li>
+</ol>
+<p>从 Kafka 的 word topic 中每次读取多行文本，然后将多行文本转换为小写的文本，并且全部小写</p>
+<p>项目结构：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>word-count
+├── pom.xml
+└── src
+    └── main
+        └── java.com.github.redxiiikk.learn.flink.word.convert
+            └── WordConvertApplication.java
+</code></pre></div>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button next">
+<a href=https://redxiiikk.github.io/posts/20220222-01-flink-01/>
+<span class=button__text>Apache Flink 01: 了解与环境搭建</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://redxiiikk.github.io/assets/main.js></script>
+<script src=https://redxiiikk.github.io/assets/prism.js></script>
+<script src=https://redxiiikk.github.io/assets/languageSelector.js></script>
+</div>
+</body>
+</html>
