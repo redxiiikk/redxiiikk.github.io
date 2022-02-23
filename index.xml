@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>redxiiikk blog</title><link>https://redxiiikk.github.io/</link><description>Recent content on redxiiikk blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Feb 2022 18:13:27 +0000</lastBuildDate><atom:link href="https://redxiiikk.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://redxiiikk.github.io/about/</link><pubDate>Wed, 23 Feb 2022 21:19:55 +0800</pubDate><guid>https://redxiiikk.github.io/about/</guid><description>Hello,
-我是 redxiiik, 一名全职 BUG 工程师.
+我是 redxiiikk, 一名全职 BUG 工程师.
 我的技术栈如下:
 偶尔写一点点前端, 主要是 Vue. 偶尔写一点点后端, 大部分是 Java, 但是也会写 Python 和 Golang, 绝大多数是与微服务相关. 了解一点点 DevOps 相关, 但是没正真的在项目实践过. 正在学习大数据相关的知识, 主要是 Apache Flink. 其他的时间都在愉快的摸鱼 🤣 . 你可以通过一下的方式联系我:
 Gihtub: github/redxiiikk Email: redxiiikk@outlook dot com 请不要使用垃圾邮件进行轰炸 🙏 .</description><content>&lt;p>Hello,&lt;/p>
-&lt;p>我是 redxiiik, 一名全职 BUG 工程师.&lt;/p>
+&lt;p>我是 redxiiikk, 一名全职 BUG 工程师.&lt;/p>
 &lt;p>我的技术栈如下:&lt;/p>
 &lt;blockquote>
 &lt;ul>
