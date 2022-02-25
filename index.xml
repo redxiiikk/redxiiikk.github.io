@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>redxiiikk blog</title><link>https://redxiiikk.github.io/</link><description>Recent content on redxiiikk blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Feb 2022 18:13:27 +0000</lastBuildDate><atom:link href="https://redxiiikk.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://redxiiikk.github.io/about/</link><pubDate>Wed, 23 Feb 2022 21:19:55 +0800</pubDate><guid>https://redxiiikk.github.io/about/</guid><description>Hello,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>redxiiikk blog</title><link>https://redxiiikk.github.io/</link><description>Recent content on redxiiikk blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Feb 2022 15:13:27 +0000</lastBuildDate><atom:link href="https://redxiiikk.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://redxiiikk.github.io/about/</link><pubDate>Wed, 23 Feb 2022 21:19:55 +0800</pubDate><guid>https://redxiiikk.github.io/about/</guid><description>Hello,
 我是 redxiiikk, 一名全职 BUG 工程师.
 我的技术栈如下:
 偶尔写一点点前端, 主要是 Vue. 偶尔写一点点后端, 大部分是 Java, 但是也会写 Python 和 Golang, 绝大多数是与微服务相关. 了解一点点 DevOps 相关, 但是没正真的在项目实践过. 正在学习大数据相关的知识, 主要是 Apache Flink. 其他的时间都在愉快的摸鱼 🤣 . 你可以通过一下的方式联系我:
@@ -22,65 +22,7 @@ Gihtub: github/redxiiikk Email: redxiiikk@outlook dot com 请不要使用垃圾�
 &lt;blockquote>
 &lt;p>请不要使用垃圾邮件进行轰炸 🙏 .&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/peep.png" alt="">&lt;/p></content></item><item><title>Apache Flink 02: DataStream / DataSet Api</title><link>https://redxiiikk.github.io/posts/20220222-02-flink-02/</link><pubDate>Tue, 22 Feb 2022 18:13:27 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20220222-02-flink-02/</guid><description>Flink API 层次结构 SQL Api Table Api DataStream / DataSet Api Stateful Processing Function Api DataStream / DataSet Api 因为 Apache Flink 是流批一体的处理引擎，并且社区目前也有计划统一 DataStream 与 DataSet 的 Api，因此我们将重点学习 DataStream Api ，至于 DataSet Api 与 DataStream Api 基本类似。
-DataStream 作业模式：
-Source Transformation Sink Source Flink 内置的一些支持 Flink 提供的一些 Connector 自定义 Source Sink Flink 内置的一些支持 Flink 提供的一些 Connector 自定义 Source Transformation 单流操作 多流操作 按照状态进行分类：</description><content>&lt;h1 id="flink-api-层次结构">Flink API 层次结构&lt;/h1>
-&lt;ol>
-&lt;li>SQL Api&lt;/li>
-&lt;li>Table Api&lt;/li>
-&lt;li>DataStream / DataSet Api&lt;/li>
-&lt;li>Stateful Processing Function Api&lt;/li>
-&lt;/ol>
-&lt;h1 id="datastream--dataset-api">DataStream / DataSet Api&lt;/h1>
-&lt;blockquote>
-&lt;p>因为 Apache Flink 是流批一体的处理引擎，并且社区目前也有计划统一 DataStream 与 DataSet 的 Api，因此我们将重点学习 DataStream Api ，至于 DataSet Api 与 DataStream Api 基本类似。&lt;/p>
-&lt;/blockquote>
-&lt;p>DataStream 作业模式：&lt;/p>
-&lt;ol>
-&lt;li>Source&lt;/li>
-&lt;li>Transformation&lt;/li>
-&lt;li>Sink&lt;/li>
-&lt;/ol>
-&lt;h2 id="source">Source&lt;/h2>
-&lt;ol>
-&lt;li>Flink 内置的一些支持&lt;/li>
-&lt;li>Flink 提供的一些 Connector&lt;/li>
-&lt;li>自定义 Source&lt;/li>
-&lt;/ol>
-&lt;h2 id="sink">Sink&lt;/h2>
-&lt;ol>
-&lt;li>Flink 内置的一些支持&lt;/li>
-&lt;li>Flink 提供的一些 Connector&lt;/li>
-&lt;li>自定义 Source&lt;/li>
-&lt;/ol>
-&lt;h2 id="transformation">Transformation&lt;/h2>
-&lt;ol>
-&lt;li>单流操作&lt;/li>
-&lt;li>多流操作&lt;/li>
-&lt;/ol>
-&lt;p>按照状态进行分类：&lt;/p>
-&lt;ol>
-&lt;li>无状态操作&lt;/li>
-&lt;li>有状态操作&lt;/li>
-&lt;/ol>
-&lt;h1 id="wordconvert">WordConvert&lt;/h1>
-&lt;blockquote>
-&lt;p>单流、无状态&lt;/p>
-&lt;/blockquote>
-&lt;ol>
-&lt;li>flatMap&lt;/li>
-&lt;li>map&lt;/li>
-&lt;li>fliter&lt;/li>
-&lt;/ol>
-&lt;p>从 Kafka 的 word topic 中每次读取多行文本，然后将多行文本转换为小写的文本，并且全部小写&lt;/p>
-&lt;p>项目结构：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">word-count
-├── pom.xml
-└── src
-   └── main
-      └── java.com.github.redxiiikk.learn.flink.word.convert
-         └── WordConvertApplication.java
-&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>Apache Flink 01: 了解与环境搭建</title><link>https://redxiiikk.github.io/posts/20220222-01-flink-01/</link><pubDate>Tue, 22 Feb 2022 15:13:27 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20220222-01-flink-01/</guid><description>什么是 Flink Apache Flink 是一个在有界数据流和无界数据流上进行有状态计算分布式处理引擎和框架.Flink 设计旨在所有常见的集群环境中运行, 以任意规模和内存级速度执行计算.
+&lt;p>&lt;img src="https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/peep.png" alt="">&lt;/p></content></item><item><title>Apache Flink 01: 了解与环境搭建</title><link>https://redxiiikk.github.io/posts/20220222-01-flink-01/</link><pubDate>Tue, 22 Feb 2022 15:13:27 +0000</pubDate><guid>https://redxiiikk.github.io/posts/20220222-01-flink-01/</guid><description>什么是 Flink Apache Flink 是一个在有界数据流和无界数据流上进行有状态计算分布式处理引擎和框架.Flink 设计旨在所有常见的集群环境中运行, 以任意规模和内存级速度执行计算.
 —— Apache Flink 社区
 为了更好的理解 Apache Flink 的定义，我们需要了解一些流计算相关的知识。
 批计算与流计算 大数据一共具有四种计算模式，分别是：
