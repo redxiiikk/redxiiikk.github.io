@@ -1,7 +1,6 @@
 <!doctype html><html lang=en>
 <head>
-<title>在 Spring 中优雅的实现策略模式 :: redxiiikk blog</title>
-<meta charset=utf-8>
+<title>在 Spring 中优雅的实现策略模式 :: redxiiikk blog</title><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=description content="本文主要是利用 Spring 的相关的特性以一种优雅的方式去实现策略模型。">
 <meta name=keywords content>
@@ -24,8 +23,7 @@
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
 <meta property="article:published_time" content="2021-05-12 17:30:43 +0000 UTC">
-</head>
-<body class=green>
+</head><body class=green>
 <div class="container center headings--one-size">
 <header class=header>
 <div class=header__inner>
@@ -33,169 +31,99 @@
 <a href=/>
 <div class=logo>
 redxiiikk
-</div>
-</a>
-</div>
-<div class=menu-trigger>menu</div>
-</div>
-<nav class=menu>
+</div></a>
+</div><div class=menu-trigger>menu</div></div><nav class=menu>
 <ul class="menu__inner menu__inner--desktop">
-<li><a href=/about>About</a></li>
-</ul>
-<ul class="menu__inner menu__inner--mobile">
-<li><a href=/about>About</a></li>
-</ul>
-</nav>
-</header>
-<div class=content>
+<li><a href=/about>About</a></li></ul><ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li></ul></nav></header><div class=content>
 <div class=post>
 <h1 class=post-title>
-<a href=https://redxiiikk.github.io/posts/20210512-01-strategy-pattern-in-spring/>在 Spring 中优雅的实现策略模式</a></h1>
-<div class=post-meta>
+<a href=https://redxiiikk.github.io/posts/20210512-01-strategy-pattern-in-spring/>在 Spring 中优雅的实现策略模式</a></h1><div class=post-meta>
 <span class=post-date>
 2021-05-12
 </span>
-</div>
-<div class=post-content><div>
+</div><div class=post-content><div>
 <blockquote>
-<p>能用出来的设计模式才是好的设计模式。</p>
-</blockquote>
-<h1 id=需求假设>需求假设<a href=#需求假设 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
-<p>假设存在一个如下的需求：用户可以根据选择将文件内容存储在磁盘文件系统或 S3 中，并且产品经理明确的告诉你之后的文件存储系统还会的增加。</p>
-<h1 id=if-判断>if 判断<a href=#if-判断 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
-<p>那么则是最简单的方式就是通过 if 语句判断用户选择，从而将文件存储到目标文件系统中，类似的代码如下：</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>targetFileSystem <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;disk&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-  logger<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;file to disk: {}&#34;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
-<span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>targetFileSystem <span style=color:#f92672>=</span> <span style=color:#960050;background-color:#1e0010>&#39;</span>s3<span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-  logger<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;file to s3: {}&#34;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
-<span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-  <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;not support target file system&#34;</span><span style=color:#f92672>);</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><p>当后续文件系统增加的时候再继续添加 if 判断就可以了。</p>
-<p>但是这是一段简单的示意性质的代码，在项目中需求一般都及其复杂的。</p>
-<p>例如在广告系统中，会存在多种不同类型的广告，虽然每一种广告的创建流程都是大致相同的，分为好几个阶段，但是在每一个阶段中会根据用户选择的类型不同从而执行不同的逻辑，这个时候再去通过 if 判断就会导致代码逐渐趋于复杂，最终导致不可维护。</p>
-<p>并且仔细去思考，这样的实现方式在每一次需求变更的时候都修改代码，不符合 <code>对扩展开发，对修改封闭</code> 这个原则，毕竟修改总会带来一定的风险，对原有的逻辑造成一定的冲击，导致出现 BUG 的几率变大。</p>
-<h1 id=策略模式>策略模式<a href=#策略模式 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
-<p>为了避免直接使用 <code>if</code> 的缺点，我们可以采用设计模式中的策略模式。</p>
-<blockquote>
-<p>设计模式是针对特定上下文中发生的问题的可重用的解决方案，在了解一个设计模式的我们可以从三个方面入手，分别是：需求、结果上下文、相关模式</p>
-<p>需求：是指描述了必须解决的问题和围绕这个问题的特性的上下文环境</p>
-<p>结果上下文：描述了采用这个模式的结果，它包含三部分：</p>
+<p>能用出来的设计模式才是好的设计模式。</p></blockquote><h1 id=需求假设>需求假设<a href=#需求假设 class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>假设存在一个如下的需求：用户可以根据选择将文件内容存储在磁盘文件系统或 S3 中，并且产品经理明确的告诉你之后的文件存储系统还会的增加。</p><h1 id=if-判断>if 判断<a href=#if-判断 class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>那么则是最简单的方式就是通过 if 语句判断用户选择，从而将文件存储到目标文件系统中，类似的代码如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>targetFileSystem <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;disk&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  logger<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;file to disk: {}&#34;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>targetFileSystem <span style=color:#f92672>=</span> <span style=color:#960050;background-color:#1e0010>&#39;</span>s3<span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  logger<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;file to s3: {}&#34;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;not support target file system&#34;</span><span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>当后续文件系统增加的时候再继续添加 if 判断就可以了。</p><p>但是这是一段简单的示意性质的代码，在项目中需求一般都及其复杂的。</p><p>例如在广告系统中，会存在多种不同类型的广告，虽然每一种广告的创建流程都是大致相同的，分为好几个阶段，但是在每一个阶段中会根据用户选择的类型不同从而执行不同的逻辑，这个时候再去通过 if 判断就会导致代码逐渐趋于复杂，最终导致不可维护。</p><p>并且仔细去思考，这样的实现方式在每一次需求变更的时候都修改代码，不符合 <code>对扩展开发，对修改封闭</code> 这个原则，毕竟修改总会带来一定的风险，对原有的逻辑造成一定的冲击，导致出现 BUG 的几率变大。</p><h1 id=策略模式>策略模式<a href=#策略模式 class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>为了避免直接使用 <code>if</code> 的缺点，我们可以采用设计模式中的策略模式。</p><blockquote>
+<p>设计模式是针对特定上下文中发生的问题的可重用的解决方案，在了解一个设计模式的我们可以从三个方面入手，分别是：需求、结果上下文、相关模式</p><p>需求：是指描述了必须解决的问题和围绕这个问题的特性的上下文环境</p><p>结果上下文：描述了采用这个模式的结果，它包含三部分：</p><ul>
+<li>好处：这个模式的好处和它解决了什么需求</li><li>弊端：这个模式的弊端和它没有解决那些需求</li><li>问题：使用这个模式所引入的新的问题</li></ul><p>相关模式：描述了这个模式与其他模式之间的关系。模式之间存在 5 中关系：</p><ul>
+<li>前导：催生出当前模式需求的模式</li><li>后续：用来解决当前模式引入的新问题的模式</li><li>代替：当前模式的代替模式，提供了另外的解决方案</li><li>泛华：针对一个问题的一般性解决方案</li><li>特化：针对特定模式的具体的解决方案</li></ul></blockquote><h2 id=策略模式的需求>策略模式的需求<a href=#策略模式的需求 class=hanchor arialabel=Anchor>&#8983;</a> </h2><ol>
+<li>必须解决的问题： 在有多种算法相似的情况下，使用 if&mldr;else 所带来的复杂和难以维护。</li><li>围绕这个问题的特性的上下文环境： 多种算法相似（可以理解为对外暴露出来的行为是一致的），只是内部的实现细节具有差别。</li></ol><h2 id=策略模式的结果上下文>策略模式的结果上下文<a href=#策略模式的结果上下文 class=hanchor arialabel=Anchor>&#8983;</a> </h2><ol>
+<li>好处： 通过使用策略模式可以做到 <code>对扩展开发、对修改封闭</code> ，减少在添加新功能时引入 BUG 的几率。</li><li>弊端：
 <ul>
-<li>好处：这个模式的好处和它解决了什么需求</li>
-<li>弊端：这个模式的弊端和它没有解决那些需求</li>
-<li>问题：使用这个模式所引入的新的问题</li>
-</ul>
-<p>相关模式：描述了这个模式与其他模式之间的关系。模式之间存在 5 中关系：</p>
-<ul>
-<li>前导：催生出当前模式需求的模式</li>
-<li>后续：用来解决当前模式引入的新问题的模式</li>
-<li>代替：当前模式的代替模式，提供了另外的解决方案</li>
-<li>泛华：针对一个问题的一般性解决方案</li>
-<li>特化：针对特定模式的具体的解决方案</li>
-</ul>
-</blockquote>
-<h2 id=策略模式的需求>策略模式的需求<a href=#策略模式的需求 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<ol>
-<li>必须解决的问题： 在有多种算法相似的情况下，使用 if&mldr;else 所带来的复杂和难以维护。</li>
-<li>围绕这个问题的特性的上下文环境： 多种算法相似（可以理解为对外暴露出来的行为是一致的），只是内部的实现细节具有差别。</li>
-</ol>
-<h2 id=策略模式的结果上下文>策略模式的结果上下文<a href=#策略模式的结果上下文 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<ol>
-<li>好处： 通过使用策略模式可以做到 <code>对扩展开发、对修改封闭</code> ，减少在添加新功能时引入 BUG 的几率。</li>
-<li>弊端：
-<ul>
-<li>在一定程度上增加程序的复杂性</li>
-<li>客户端必须知晓策略之间不同，从而选择不同的策略</li>
-</ul>
-</li>
-<li>问题： 策略模式模式虽然会在一定程度上增加系统的复杂性，但是个人认为这完全是可以接受的；真正引入的问题在于客户端必须知晓策略之间的不同。</li>
-</ol>
-<h1 id=spring-中优雅的实现策略模式>Spring 中优雅的实现策略模式<a href=#spring-中优雅的实现策略模式 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
-<p>首先通过接口定义策略：</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>StoreSystem</span> <span style=color:#f92672>{</span>
-  <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isStoreSystem</span><span style=color:#f92672>(</span>String targetStoreSystem<span style=color:#f92672>);</span>
-
-  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>String file<span style=color:#f92672>);</span>
-<span style=color:#f92672>}</span>
-
-</code></pre></div><p>然后实现两种不同的存储系统：</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#a6e22e>@Component</span>
-<span style=color:#a6e22e>@Scope</span><span style=color:#f92672>(</span>ConfigurableBeanFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>SCOPE_PROTOTYPE</span><span style=color:#f92672>)</span>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DiskStoreSystem</span> <span style=color:#66d9ef>implements</span> StoreSystem <span style=color:#f92672>{</span>
-  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> Logger LOGGER <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>DiskStoreSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
-  <span style=color:#a6e22e>@Override</span>
-  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isTargetStoreSystem</span><span style=color:#f92672>(</span>String targetStorSystem<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;disk&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>targetingStoreSystem<span style=color:#f92672>);</span>
-  <span style=color:#f92672>}</span>
-
-  <span style=color:#a6e22e>@Override</span>
-  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>String file<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-    LOGGER<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#960050;background-color:#1e0010>&#39;</span>file to disk<span style=color:#f92672>:</span> <span style=color:#f92672>{}</span><span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
-  <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-
-<span style=color:#a6e22e>@Component</span>
-<span style=color:#a6e22e>@Scope</span><span style=color:#f92672>(</span>ConfigurableBeanFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>SCOPE_PROTOTYPE</span><span style=color:#f92672>)</span>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>S3StoreSystem</span> <span style=color:#66d9ef>implements</span> StoreSystem <span style=color:#f92672>{</span>
-  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> Logger LOGGER <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>S3StoreSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
-  <span style=color:#a6e22e>@Override</span>
-  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isTargetStoreSystem</span><span style=color:#f92672>(</span>String targetStorSystem<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;s3&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>targetingStoreSystem<span style=color:#f92672>);</span>
-  <span style=color:#f92672>}</span>
-
-  <span style=color:#a6e22e>@Override</span>
-  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>String file<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-    LOGGER<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#960050;background-color:#1e0010>&#39;</span>file to s3<span style=color:#f92672>:</span> <span style=color:#f92672>{}</span><span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
-  <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><p>在上述的代码中可以使用 @Component 注解类交由 Spring 进行管理，同时这里将 bean 的 Scop 修改为 prototype，这样在每一次使用时都会生成一个新的 bean，在一定程度上保证多线程安全。</p>
-<p>接下来将实现策略选择的过程：</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#a6e22e>@Compnonent</span>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>StoreSystemDispatch</span> <span style=color:#66d9ef>implements</span> ApplicationContextAware <span style=color:#f92672>{</span>
-  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> Logger LOGGER <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>StoreSystemDispatch<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
-
-  <span style=color:#66d9ef>private</span> ApplicationContext applicationContext<span style=color:#f92672>;</span>
-
-  <span style=color:#a6e22e>@Override</span>
-  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setApplicationContext</span><span style=color:#f92672>(</span>ApplicationContext applicationContext<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> BeansException <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>applicationContext</span> <span style=color:#f92672>=</span> applicationContext<span style=color:#f92672>;</span>
-  <span style=color:#f92672>}</span>
-
-  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doHandle</span><span style=color:#f92672>(</span>String targetStoreSystem<span style=color:#f92672>,</span> String file<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-    Map<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> StoreSystem<span style=color:#f92672>&gt;</span> storeSystems <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>applicationContext</span><span style=color:#f92672>.</span><span style=color:#a6e22e>getBeansOfType</span><span style=color:#f92672>(</span>StoreSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
-    <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span>Map<span style=color:#f92672>.</span><span style=color:#a6e22e>Entry</span><span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> StoreSystem<span style=color:#f92672>&gt;</span> storeSystemEntry <span style=color:#f92672>:</span> storeSystems<span style=color:#f92672>.</span><span style=color:#a6e22e>entrySet</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-
-      StoreSystem StoreSystem <span style=color:#f92672>=</span> storeSystemEntry<span style=color:#f92672>.</span><span style=color:#a6e22e>getValue</span><span style=color:#f92672>();</span>
-
-      <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>storeSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>isMatcher</span><span style=color:#f92672>(</span>targetStoreSystem<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
-        LOGGER<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;selected storage system is {}:{}&#34;</span><span style=color:#f92672>,</span> storeSystemEntry<span style=color:#f92672>.</span><span style=color:#a6e22e>getKey</span><span style=color:#f92672>(),</span> storeSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>hashCode</span><span style=color:#f92672>());</span>
-        storeSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>file<span style=color:#f92672>);</span>
-        <span style=color:#66d9ef>return</span><span style=color:#f92672>;</span>
-      <span style=color:#f92672>}</span>
-    <span style=color:#f92672>}</span>
-  <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><p>这里使用了 Spring 的 ApplicationContextAware 接口，该接口要求实现 setApplicationContext 方法，然后在通过 applicationContext 获取所有的 StoreSystem 接口实现，这样就可以选择不同的实现完成问价存储。</p>
-<p>同时这样做一个最大的好处就是添加新的存储系统的时候直接继承 StoreSystem 接口进行实现即可，无需对原有的代码进行修改，做到了真正的对修改封闭，对扩展开放。</p>
-<blockquote>
-<p>在上述中我们谈到策略模式的最大的弊端就是客户端必须知晓各个策略的不同，从而选择不同的策略。其实这个问题也是比较容易去处理的，如果我们必须屏蔽不同的策略的差异性对于客户端的应用，那么我们完全可以在策略选择的过程中，结合系统具体的上线文环境为客户端选择不同的算法。</p>
-<p>具体到我们这里例子中就是在 <code>StoreSystemDispatch</code> 的中根据系统的上下文进行选择，比如当前磁盘储存系统已经满了，那么就为用户选择 S3 存储的方式。</p>
-</blockquote>
-<h1 id=参考文章>参考文章<a href=#参考文章 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
-<ol>
-<li><a href=https://zhuanlan.zhihu.com/p/347389684>使用 Spring 特性优雅书写业务代码 - 阿里巴巴淘系技术</a></li>
-<li>第一章 逃离单体地狱 · 1.6.2 模式和模式语言 - 微服务架构设计模式</li>
-<li><a href=https://www.runoob.com/design-pattern/strategy-pattern.html>策略模式 - 菜鸟教程</a></li>
-<li><a href=https://geek-docs.com/design-pattern/strategy-pattern/strategy-pattern-index.html>策略模式 - 极客教程</a></li>
-</ol>
-</div></div>
-<div class=pagination>
+<li>在一定程度上增加程序的复杂性</li><li>客户端必须知晓策略之间不同，从而选择不同的策略</li></ul></li><li>问题： 策略模式模式虽然会在一定程度上增加系统的复杂性，但是个人认为这完全是可以接受的；真正引入的问题在于客户端必须知晓策略之间的不同。</li></ol><h1 id=spring-中优雅的实现策略模式>Spring 中优雅的实现策略模式<a href=#spring-中优雅的实现策略模式 class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>首先通过接口定义策略：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>StoreSystem</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isStoreSystem</span><span style=color:#f92672>(</span>String targetStoreSystem<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>String file<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>然后实现两种不同的存储系统：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Scope</span><span style=color:#f92672>(</span>ConfigurableBeanFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>SCOPE_PROTOTYPE</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DiskStoreSystem</span> <span style=color:#66d9ef>implements</span> StoreSystem <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> Logger LOGGER <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>DiskStoreSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isTargetStoreSystem</span><span style=color:#f92672>(</span>String targetStorSystem<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;disk&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>targetingStoreSystem<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>String file<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    LOGGER<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#960050;background-color:#1e0010>&#39;</span>file to disk<span style=color:#f92672>:</span> <span style=color:#f92672>{}</span><span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Component</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@Scope</span><span style=color:#f92672>(</span>ConfigurableBeanFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>SCOPE_PROTOTYPE</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>S3StoreSystem</span> <span style=color:#66d9ef>implements</span> StoreSystem <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> Logger LOGGER <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>S3StoreSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isTargetStoreSystem</span><span style=color:#f92672>(</span>String targetStorSystem<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;s3&#34;</span><span style=color:#f92672>.</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>targetingStoreSystem<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>String file<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    LOGGER<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#960050;background-color:#1e0010>&#39;</span>file to s3<span style=color:#f92672>:</span> <span style=color:#f92672>{}</span><span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>,</span> file<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>在上述的代码中可以使用 @Component 注解类交由 Spring 进行管理，同时这里将 bean 的 Scop 修改为 prototype，这样在每一次使用时都会生成一个新的 bean，在一定程度上保证多线程安全。</p><p>接下来将实现策略选择的过程：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#a6e22e>@Compnonent</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>StoreSystemDispatch</span> <span style=color:#66d9ef>implements</span> ApplicationContextAware <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>static</span> Logger LOGGER <span style=color:#f92672>=</span> LoggerFactory<span style=color:#f92672>.</span><span style=color:#a6e22e>getLogger</span><span style=color:#f92672>(</span>StoreSystemDispatch<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>private</span> ApplicationContext applicationContext<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>@Override</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setApplicationContext</span><span style=color:#f92672>(</span>ApplicationContext applicationContext<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> BeansException <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>applicationContext</span> <span style=color:#f92672>=</span> applicationContext<span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doHandle</span><span style=color:#f92672>(</span>String targetStoreSystem<span style=color:#f92672>,</span> String file<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    Map<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> StoreSystem<span style=color:#f92672>&gt;</span> storeSystems <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>applicationContext</span><span style=color:#f92672>.</span><span style=color:#a6e22e>getBeansOfType</span><span style=color:#f92672>(</span>StoreSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span>Map<span style=color:#f92672>.</span><span style=color:#a6e22e>Entry</span><span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> StoreSystem<span style=color:#f92672>&gt;</span> storeSystemEntry <span style=color:#f92672>:</span> storeSystems<span style=color:#f92672>.</span><span style=color:#a6e22e>entrySet</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      StoreSystem StoreSystem <span style=color:#f92672>=</span> storeSystemEntry<span style=color:#f92672>.</span><span style=color:#a6e22e>getValue</span><span style=color:#f92672>();</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>storeSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>isMatcher</span><span style=color:#f92672>(</span>targetStoreSystem<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>        LOGGER<span style=color:#f92672>.</span><span style=color:#a6e22e>info</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;selected storage system is {}:{}&#34;</span><span style=color:#f92672>,</span> storeSystemEntry<span style=color:#f92672>.</span><span style=color:#a6e22e>getKey</span><span style=color:#f92672>(),</span> storeSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>hashCode</span><span style=color:#f92672>());</span>
+</span></span><span style=display:flex><span>        storeSystem<span style=color:#f92672>.</span><span style=color:#a6e22e>store</span><span style=color:#f92672>(</span>file<span style=color:#f92672>);</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>这里使用了 Spring 的 ApplicationContextAware 接口，该接口要求实现 setApplicationContext 方法，然后在通过 applicationContext 获取所有的 StoreSystem 接口实现，这样就可以选择不同的实现完成问价存储。</p><p>同时这样做一个最大的好处就是添加新的存储系统的时候直接继承 StoreSystem 接口进行实现即可，无需对原有的代码进行修改，做到了真正的对修改封闭，对扩展开放。</p><blockquote>
+<p>在上述中我们谈到策略模式的最大的弊端就是客户端必须知晓各个策略的不同，从而选择不同的策略。其实这个问题也是比较容易去处理的，如果我们必须屏蔽不同的策略的差异性对于客户端的应用，那么我们完全可以在策略选择的过程中，结合系统具体的上线文环境为客户端选择不同的算法。</p><p>具体到我们这里例子中就是在 <code>StoreSystemDispatch</code> 的中根据系统的上下文进行选择，比如当前磁盘储存系统已经满了，那么就为用户选择 S3 存储的方式。</p></blockquote><h1 id=参考文章>参考文章<a href=#参考文章 class=hanchor arialabel=Anchor>&#8983;</a> </h1><ol>
+<li><a href=https://zhuanlan.zhihu.com/p/347389684>使用 Spring 特性优雅书写业务代码 - 阿里巴巴淘系技术</a></li><li>第一章 逃离单体地狱 · 1.6.2 模式和模式语言 - 微服务架构设计模式</li><li><a href=https://www.runoob.com/design-pattern/strategy-pattern.html>策略模式 - 菜鸟教程</a></li><li><a href=https://geek-docs.com/design-pattern/strategy-pattern/strategy-pattern-index.html>策略模式 - 极客教程</a></li></ol></div></div><div class=pagination>
 <div class=pagination__title>
 <span class=pagination__title-h>Read other posts</span>
 <hr>
-</div>
-<div class=pagination__buttons>
+</div><div class=pagination__buttons>
 <span class="button previous">
 <a href=https://redxiiikk.github.io/posts/20210512-02-clash-in-linux/>
 <span class=button__icon>←</span>
@@ -208,22 +136,13 @@ redxiiikk
 <span class=button__icon>→</span>
 </a>
 </span>
-</div>
-</div>
-<script src=https://utteranc.es/client.js repo=redxiiikk/redxiiikk.github.io issue-term=og:title theme=preferred-color-scheme crossorigin=anonymous async></script>
-</div>
-</div>
-<footer class=footer>
+</div></div><script src=https://utteranc.es/client.js repo=redxiiikk/redxiiikk.github.io issue-term=og:title theme=preferred-color-scheme crossorigin=anonymous async></script>
+</div></div><footer class=footer>
 <div class=footer__inner>
 <div class=copyright>
 <span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
 <span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
-</div>
-</div>
-</footer>
-<script src=https://redxiiikk.github.io/assets/main.js></script>
+</div></div></footer><script src=https://redxiiikk.github.io/assets/main.js></script>
 <script src=https://redxiiikk.github.io/assets/prism.js></script>
 <script src=https://redxiiikk.github.io/assets/languageSelector.js></script>
-</div>
-</body>
-</html>
+</div></body></html>
