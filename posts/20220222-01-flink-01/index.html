@@ -1,74 +1,4 @@
-<!doctype html><html lang=en>
-<head>
-<title>Apache Flink 01: 了解与环境搭建 :: redxiiikk blog</title><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="Apache Flink 基本概念与本机开发环境搭建。">
-<meta name=keywords content>
-<meta name=robots content="noodp">
-<link rel=canonical href=https://redxiiikk.github.io/posts/20220222-01-flink-01/>
-<link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css>
-<link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css>
-<link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png>
-<link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png>
-<meta name=twitter:card content="summary">
-<meta name=twitter:site content>
-<meta name=twitter:creator content>
-<meta property="og:locale" content="en">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Apache Flink 01: 了解与环境搭建">
-<meta property="og:description" content="Apache Flink 基本概念与本机开发环境搭建。">
-<meta property="og:url" content="https://redxiiikk.github.io/posts/20220222-01-flink-01/">
-<meta property="og:site_name" content="redxiiikk blog">
-<meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-<meta property="article:published_time" content="2022-02-22 15:13:27 +0000 UTC">
-</head><body class=green>
-<div class="container center headings--one-size">
-<header class=header>
-<div class=header__inner>
-<div class=header__logo>
-<a href=/>
-<div class=logo>
-redxiiikk
-</div></a>
-</div><div class=menu-trigger>menu</div></div><nav class=menu>
-<ul class="menu__inner menu__inner--desktop">
-<li><a href=/about>About</a></li></ul><ul class="menu__inner menu__inner--mobile">
-<li><a href=/about>About</a></li></ul></nav></header><div class=content>
-<div class=post>
-<h1 class=post-title>
-<a href=https://redxiiikk.github.io/posts/20220222-01-flink-01/>Apache Flink 01: 了解与环境搭建</a></h1><div class=post-meta>
-<span class=post-date>
-2022-02-22
-</span>
-</div><div class=post-content><div>
-<h1 id=什么是-flink>什么是 Flink<a href=#什么是-flink class=hanchor arialabel=Anchor>&#8983;</a> </h1><hr>
-<p style=text-align:cente>Apache Flink 是一个在有界数据流和无界数据流上进行有状态计算分布式处理引擎和框架.Flink 设计旨在所有常见的集群环境中运行, 以任意规模和内存级速度执行计算.</p><p style=text-align:right>—— Apache Flink 社区</p><hr>
-<p>为了更好的理解 Apache Flink 的定义，我们需要了解一些流计算相关的知识。</p><h2 id=批计算与流计算>批计算与流计算<a href=#批计算与流计算 class=hanchor arialabel=Anchor>&#8983;</a> </h2><p>大数据一共具有四种计算模式，分别是：</p><ol>
-<li>批计算</li><li>流计算</li><li>交互计算</li><li>图计算</li></ol><p>批计算和流计算是最为常见的两种模式，批计算较为好理解，是指对一批边界固定的数据进行处理，例如过去一个月的销售数据、一个 G 的汽车定位数据等等。</p><p>但是批计算存在一些不足之处。首先是第一点是时效性无法满足，批计算无法及时决策提供依据。当我们需要根据各个渠道的销售数量的总和去及时的调整库存的时候，批计算只能等待一段时候收集到足够的数据之后才能计算出总和，例如一个月之后我们才能调整库存，当然可以缩短这一个周期，但是无论周期的长短，其时效性的问题始终存在，然而在如今激烈竞争、复杂多变的商业环境下，营销时机转瞬即逝，风险防控必须分秒必争，商业决策要求快速精准，因此数据的处理必须在更短的时间内得到结果，最好是能够做到实时处理。</p><p>第二点就是不符合真实世界的数据产生的方式。真实世界中的数据是源源不断的产生的，传感器会不断的上传数据、订单会不断的产生、股票市场的交易每时每刻都在进行，批计算显然无法应对源源不断的数据。</p><p>基于上述两个批计算的不足之处，提出了流计算的模型，可以在流数据上实时的处理数据，为商业决策提供依据。</p><h2 id=apache-flink-之前的流计算框架>Apache Flink 之前的流计算框架<a href=#apache-flink-之前的流计算框架 class=hanchor arialabel=Anchor>&#8983;</a> </h2><p>在 Apache Flink 出现之前，开源的流计算框架就有：</p><ol>
-<li>Apache Storm</li><li>Apache Spark Streaming</li></ol><p>Apache Spark Streaming 采用一种微批处理的思想实现流计算，本质上是将流数据分割为微小的一批一批的数据，将其转化为批处理，从而实现在流数据上进行计算。</p><h2 id=apache-flink>Apache Flink<a href=#apache-flink class=hanchor arialabel=Anchor>&#8983;</a> </h2><ol>
-<li>
-<p>真正的流计算模型</p></li><li>
-<p>流批一体的计算框架</p><p>与 Spark 相反， Flink 将批计算视为流计算的一种特殊性形式流计算</p></li><li>
-<p>多层次 API</p></li><li>
-<p>方便的有状态计算</p></li><li>
-<p>丰富的时间语义的支持</p></li></ol><h1 id=flink-环境搭建>Flink 环境搭建<a href=#flink-环境搭建 class=hanchor arialabel=Anchor>&#8983;</a> </h1><h2 id=部署模式与资源管理器>部署模式与资源管理器<a href=#部署模式与资源管理器 class=hanchor arialabel=Anchor>&#8983;</a> </h2><p>Flink 提供了多种部署模式：</p><ol>
-<li>
-<p><strong>Session Mode</strong></p><p>多个 Flink 任务共享 JobManager 和所有的 TaskMangers</p></li><li>
-<p><strong>Job Mode</strong></p><p>每一个 Flink 任务独占 JobManager 和所有的 TaskManager</p></li><li>
-<p><strong>Application Mode</strong></p><p>每个 Flink 任务共享 JobManager, 但是每个 TaskManager 中只运行一个任务</p></li><li>
-<p><strong>Native Mode</strong></p><p>按需申请 TaskManager (所有的任务共享 TaskManager)</p></li></ol><p>Flink 支持多种资源管理器，但是并不是每一种资源管理器都支持所有的部署模式，具体的对应关系如下：</p><table>
-<thead>
-<tr>
-<th></th><th>Session Mode</th><th>Job Mode</th><th>Application Mode</th><th>Native Mode</th></tr></thead><tbody>
-<tr>
-<td>Local</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr>
-<td>Standalone</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr>
-<td>Apache Yarn</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr>
-<td>Apache Mesos</td><td>✅</td><td>✅</td><td>❌</td><td>✅</td></tr><tr>
-<td>k8s</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr>
-<td>Docker</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr></tbody></table><h2 id=standalone-部署>Standalone 部署<a href=#standalone-部署 class=hanchor arialabel=Anchor>&#8983;</a> </h2><p>将在本地利用容器部署 Flink 及其相关的其他基础设施，以便在后续的学习过程中开发和调试 Flink 任务。</p><h3 id=自定义-flink-镜像>自定义 Flink 镜像<a href=#自定义-flink-镜像 class=hanchor arialabel=Anchor>&#8983;</a> </h3><p>因为在后续的学习中，可能需要开启 Flink 一些可选的能力（例如 Queryable state），因此可以在官方提供的镜像的基础之上自行构建镜像，以便后续进行修改。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Dockerfile data-lang=Dockerfile><span style=display:flex><span><span style=color:#75715e># ./flink/Dockerfile</span><span style=color:#960050;background-color:#1e0010>
+<!doctype html><html lang=en><head><title>Apache Flink 01: 了解与环境搭建 :: redxiiikk blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Apache Flink 基本概念与本机开发环境搭建。"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=https://redxiiikk.github.io/posts/20220222-01-flink-01/><link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css><link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css><link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Apache Flink 01: 了解与环境搭建"><meta property="og:description" content="Apache Flink 基本概念与本机开发环境搭建。"><meta property="og:url" content="https://redxiiikk.github.io/posts/20220222-01-flink-01/"><meta property="og:site_name" content="redxiiikk blog"><meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2022-02-22 15:13:27 +0000 UTC"></head><body class=green><div class="container center headings--one-size"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>redxiiikk</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/about>About</a></li></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/about>About</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=https://redxiiikk.github.io/posts/20220222-01-flink-01/>Apache Flink 01: 了解与环境搭建</a></h1><div class=post-meta><span class=post-date>2022-02-22</span></div><div class=post-content><div><h1 id=什么是-flink>什么是 Flink<a href=#什么是-flink class=hanchor arialabel=Anchor>&#8983;</a></h1><hr><p style=text-align:cente>Apache Flink 是一个在有界数据流和无界数据流上进行有状态计算分布式处理引擎和框架.Flink 设计旨在所有常见的集群环境中运行, 以任意规模和内存级速度执行计算.</p><p style=text-align:right>—— Apache Flink 社区</p><hr><p>为了更好的理解 Apache Flink 的定义，我们需要了解一些流计算相关的知识。</p><h2 id=批计算与流计算>批计算与流计算<a href=#批计算与流计算 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>大数据一共具有四种计算模式，分别是：</p><ol><li>批计算</li><li>流计算</li><li>交互计算</li><li>图计算</li></ol><p>批计算和流计算是最为常见的两种模式，批计算较为好理解，是指对一批边界固定的数据进行处理，例如过去一个月的销售数据、一个 G 的汽车定位数据等等。</p><p>但是批计算存在一些不足之处。首先是第一点是时效性无法满足，批计算无法及时决策提供依据。当我们需要根据各个渠道的销售数量的总和去及时的调整库存的时候，批计算只能等待一段时候收集到足够的数据之后才能计算出总和，例如一个月之后我们才能调整库存，当然可以缩短这一个周期，但是无论周期的长短，其时效性的问题始终存在，然而在如今激烈竞争、复杂多变的商业环境下，营销时机转瞬即逝，风险防控必须分秒必争，商业决策要求快速精准，因此数据的处理必须在更短的时间内得到结果，最好是能够做到实时处理。</p><p>第二点就是不符合真实世界的数据产生的方式。真实世界中的数据是源源不断的产生的，传感器会不断的上传数据、订单会不断的产生、股票市场的交易每时每刻都在进行，批计算显然无法应对源源不断的数据。</p><p>基于上述两个批计算的不足之处，提出了流计算的模型，可以在流数据上实时的处理数据，为商业决策提供依据。</p><h2 id=apache-flink-之前的流计算框架>Apache Flink 之前的流计算框架<a href=#apache-flink-之前的流计算框架 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>在 Apache Flink 出现之前，开源的流计算框架就有：</p><ol><li>Apache Storm</li><li>Apache Spark Streaming</li></ol><p>Apache Spark Streaming 采用一种微批处理的思想实现流计算，本质上是将流数据分割为微小的一批一批的数据，将其转化为批处理，从而实现在流数据上进行计算。</p><h2 id=apache-flink>Apache Flink<a href=#apache-flink class=hanchor arialabel=Anchor>&#8983;</a></h2><ol><li><p>真正的流计算模型</p></li><li><p>流批一体的计算框架</p><p>与 Spark 相反， Flink 将批计算视为流计算的一种特殊性形式流计算</p></li><li><p>多层次 API</p></li><li><p>方便的有状态计算</p></li><li><p>丰富的时间语义的支持</p></li></ol><h1 id=flink-环境搭建>Flink 环境搭建<a href=#flink-环境搭建 class=hanchor arialabel=Anchor>&#8983;</a></h1><h2 id=部署模式与资源管理器>部署模式与资源管理器<a href=#部署模式与资源管理器 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Flink 提供了多种部署模式：</p><ol><li><p><strong>Session Mode</strong></p><p>多个 Flink 任务共享 JobManager 和所有的 TaskMangers</p></li><li><p><strong>Job Mode</strong></p><p>每一个 Flink 任务独占 JobManager 和所有的 TaskManager</p></li><li><p><strong>Application Mode</strong></p><p>每个 Flink 任务共享 JobManager, 但是每个 TaskManager 中只运行一个任务</p></li><li><p><strong>Native Mode</strong></p><p>按需申请 TaskManager (所有的任务共享 TaskManager)</p></li></ol><p>Flink 支持多种资源管理器，但是并不是每一种资源管理器都支持所有的部署模式，具体的对应关系如下：</p><table><thead><tr><th></th><th>Session Mode</th><th>Job Mode</th><th>Application Mode</th><th>Native Mode</th></tr></thead><tbody><tr><td>Local</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr><td>Standalone</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr><tr><td>Apache Yarn</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>Apache Mesos</td><td>✅</td><td>✅</td><td>❌</td><td>✅</td></tr><tr><td>k8s</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>Docker</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr></tbody></table><h2 id=standalone-部署>Standalone 部署<a href=#standalone-部署 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>将在本地利用容器部署 Flink 及其相关的其他基础设施，以便在后续的学习过程中开发和调试 Flink 任务。</p><h3 id=自定义-flink-镜像>自定义 Flink 镜像<a href=#自定义-flink-镜像 class=hanchor arialabel=Anchor>&#8983;</a></h3><p>因为在后续的学习中，可能需要开启 Flink 一些可选的能力（例如 Queryable state），因此可以在官方提供的镜像的基础之上自行构建镜像，以便后续进行修改。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Dockerfile data-lang=Dockerfile><span style=display:flex><span><span style=color:#75715e># ./flink/Dockerfile</span><span style=color:#960050;background-color:#1e0010>
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>FROM</span><span style=color:#e6db74> docker.io/flink:1.14.3-scala_2.12-java11</span><span style=color:#960050;background-color:#1e0010>
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
@@ -79,8 +9,7 @@ redxiiikk
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>EXPOSE</span><span style=color:#e6db74> 6123 8081</span><span style=color:#960050;background-color:#1e0010>
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>CMD</span> [<span style=color:#e6db74>&#34;help&#34;</span>]<span style=color:#960050;background-color:#1e0010>
 </span></span></span></code></pre></div><p>之后将会在本地构建出镜像，以便后续的使用</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ nerdctl build -f ./flink/Dockerfile --tag <span style=color:#e6db74>&#39;my/flink:latest&#39;</span> ./flink
-</span></span></code></pre></div><h3 id=搭建环境>搭建环境<a href=#搭建环境 class=hanchor arialabel=Anchor>&#8983;</a> </h3><p>在本文中除去 Flink 之外，还会启动 Kafka 相关的服务，以方便后续的开发与测试功能，因此会使用 Docker Compose 在本地同时启动 5 个服务：</p><ol>
-<li>JobManager: Flink 组件</li><li>TaskManager: Flink 组件</li><li>Zookeeper: Kafak 基础设施</li><li>Kafka: Kafka 服务</li><li>kowl: Kafka 可视化面板</li></ol><p>具体的服务定义文件如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># ./compose.yml</span>
+</span></span></code></pre></div><h3 id=搭建环境>搭建环境<a href=#搭建环境 class=hanchor arialabel=Anchor>&#8983;</a></h3><p>在本文中除去 Flink 之外，还会启动 Kafka 相关的服务，以方便后续的开发与测试功能，因此会使用 Docker Compose 在本地同时启动 5 个服务：</p><ol><li>JobManager: Flink 组件</li><li>TaskManager: Flink 组件</li><li>Zookeeper: Kafak 基础设施</li><li>Kafka: Kafka 服务</li><li>kowl: Kafka 可视化面板</li></ol><p>具体的服务定义文件如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#75715e># ./compose.yml</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#e6db74>&#34;3.8&#34;</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>services</span>:
 </span></span><span style=display:flex><span>  <span style=color:#f92672>jobmanager</span>:
@@ -142,30 +71,9 @@ redxiiikk
 </span></span></code></pre></div><p>启动服务的完整的脚本如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># ./start.sh</span>
 </span></span><span style=display:flex><span>nerdctl build -f ./flink/Dockerfile --tag <span style=color:#e6db74>&#39;my/flink:latest&#39;</span> ./flink
 </span></span><span style=display:flex><span>nerdctl compose -p flink -f ./compose.yml up -d
-</span></span></code></pre></div><blockquote>
-<p>在每次启动之前都会预先构建 Flink 镜像</p></blockquote><blockquote>
-<p>本文及后续博客将使用 containerd 和 nerdctl 来管理本地镜像，对于 docker 可以直接将脚本中的 nerdctl 替换为 docker 即可，绝大多数情况下可以兼容。</p></blockquote><blockquote>
-<p>nerdctl 对于 Docker Compose 的支持并不完整 😂 ，因此 kowl 服务无法在失败之后自动重启，需要在执行上述脚本之后等待一分钟之后手动重启 kowl 服务：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ nerdctl container start kowl
-</span></span></code></pre></div></blockquote><blockquote>
-<p>如果需要部署多个 TaskManger ，可以将 Compose 文件中的 taskmanager 服务定义多份即可（不要重名）</p></blockquote><h3 id=验证>验证<a href=#验证 class=hanchor arialabel=Anchor>&#8983;</a> </h3><p>当完成上述步骤的搭建之后，可以打开 <a href=http://localhost:8081/>Apache Flink Dashboard (http://localhost:8081)</a></p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20220222175635.png alt></p><h1 id=参考文章>参考文章<a href=#参考文章 class=hanchor arialabel=Anchor>&#8983;</a> </h1><ol>
-<li><a href=https://www.emqx.com/zh/blog/birth-of-streaming-database>当数据库遇上流计算：流数据库的诞生！</a></li><li><a href=https://www.oracle.com/cn/big-data/what-is-big-data/>大数据介绍</a></li><li><a href=http://www.qiujialin.me/2019/10/06/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Flink%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84%E4%B8%A4%E5%A4%A7%E9%9A%BE%E9%A2%98>Flink 学习笔记 &ndash; Flink 是如何处理流式计算中的两大难题</a></li></ol></div></div><div class=pagination>
-<div class=pagination__title>
-<span class=pagination__title-h>Read other posts</span>
-<hr>
-</div><div class=pagination__buttons>
-<span class="button next">
-<a href=https://redxiiikk.github.io/posts/20210525-01-condition-bean-in-spring-mvc/>
-<span class=button__text>Spring MVC 中条件注解导致 @Autowired 注解失效的 BUG</span>
-<span class=button__icon>→</span>
-</a>
-</span>
-</div></div><script src=https://utteranc.es/client.js repo=redxiiikk/redxiiikk.github.io issue-term=og:title theme=preferred-color-scheme crossorigin=anonymous async></script>
-</div></div><footer class=footer>
-<div class=footer__inner>
-<div class=copyright>
-<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
-<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
-</div></div></footer><script src=https://redxiiikk.github.io/assets/main.js></script>
+</span></span></code></pre></div><blockquote><p>在每次启动之前都会预先构建 Flink 镜像</p></blockquote><blockquote><p>本文及后续博客将使用 containerd 和 nerdctl 来管理本地镜像，对于 docker 可以直接将脚本中的 nerdctl 替换为 docker 即可，绝大多数情况下可以兼容。</p></blockquote><blockquote><p>nerdctl 对于 Docker Compose 的支持并不完整 😂 ，因此 kowl 服务无法在失败之后自动重启，需要在执行上述脚本之后等待一分钟之后手动重启 kowl 服务：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ nerdctl container start kowl
+</span></span></code></pre></div></blockquote><blockquote><p>如果需要部署多个 TaskManger ，可以将 Compose 文件中的 taskmanager 服务定义多份即可（不要重名）</p></blockquote><h3 id=验证>验证<a href=#验证 class=hanchor arialabel=Anchor>&#8983;</a></h3><p>当完成上述步骤的搭建之后，可以打开 <a href=http://localhost:8081/>Apache Flink Dashboard (http://localhost:8081)</a></p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20220222175635.png alt></p><h1 id=参考文章>参考文章<a href=#参考文章 class=hanchor arialabel=Anchor>&#8983;</a></h1><ol><li><a href=https://www.emqx.com/zh/blog/birth-of-streaming-database>当数据库遇上流计算：流数据库的诞生！</a></li><li><a href=https://www.oracle.com/cn/big-data/what-is-big-data/>大数据介绍</a></li><li><a href=http://www.qiujialin.me/2019/10/06/Flink%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-Flink%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84%E4%B8%A4%E5%A4%A7%E9%9A%BE%E9%A2%98>Flink 学习笔记 &ndash; Flink 是如何处理流式计算中的两大难题</a></li></ol></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button next"><a href=https://redxiiikk.github.io/posts/20210525-01-condition-bean-in-spring-mvc/><span class=button__text>Spring MVC 中条件注解导致 @Autowired 注解失效的 BUG</span>
+<span class=button__icon>→</span></a></span></div></div><script src=https://utteranc.es/client.js repo=redxiiikk/redxiiikk.github.io issue-term=og:title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=https://redxiiikk.github.io/assets/main.js></script>
 <script src=https://redxiiikk.github.io/assets/prism.js></script>
-<script src=https://redxiiikk.github.io/assets/languageSelector.js></script>
-</div></body></html>
+<script src=https://redxiiikk.github.io/assets/languageSelector.js></script></div></body></html>

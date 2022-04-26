@@ -1,52 +1,6 @@
-<!doctype html><html lang=en>
-<head>
-<title>Github Actions 与 Checkstyle :: redxiiikk blog</title><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="团队合作是项目开发过程中不可避免的事情，因此一个统一的代码风格就显得格外的重要，可以有效的避免团队中所有的成员写出来的代码风格各不相同，减少合作之间的摩擦。
-在 Java 的世界中，Checkstyle 是最常使用的代码风格检查插件，因此本文将使用 Github Actions 在提交代码的时候进行 Checkstyle 检查。">
-<meta name=keywords content>
-<meta name=robots content="noodp">
-<link rel=canonical href=https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/>
-<link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css>
-<link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css>
-<link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png>
-<link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png>
-<meta name=twitter:card content="summary">
-<meta name=twitter:site content>
-<meta name=twitter:creator content>
-<meta property="og:locale" content="en">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Github Actions 与 Checkstyle">
-<meta property="og:description" content="团队合作是项目开发过程中不可避免的事情，因此一个统一的代码风格就显得格外的重要，可以有效的避免团队中所有的成员写出来的代码风格各不相同，减少合作之间的摩擦。
-在 Java 的世界中，Checkstyle 是最常使用的代码风格检查插件，因此本文将使用 Github Actions 在提交代码的时候进行 Checkstyle 检查。">
-<meta property="og:url" content="https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/">
-<meta property="og:site_name" content="redxiiikk blog">
-<meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-<meta property="article:published_time" content="2021-02-21 09:30:00 +0000 UTC">
-</head><body class=green>
-<div class="container center headings--one-size">
-<header class=header>
-<div class=header__inner>
-<div class=header__logo>
-<a href=/>
-<div class=logo>
-redxiiikk
-</div></a>
-</div><div class=menu-trigger>menu</div></div><nav class=menu>
-<ul class="menu__inner menu__inner--desktop">
-<li><a href=/about>About</a></li></ul><ul class="menu__inner menu__inner--mobile">
-<li><a href=/about>About</a></li></ul></nav></header><div class=content>
-<div class=post>
-<h1 class=post-title>
-<a href=https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/>Github Actions 与 Checkstyle</a></h1><div class=post-meta>
-<span class=post-date>
-2021-02-21
-</span>
-</div><div class=post-content><div>
-<h1 id=github-actions>Github Actions<a href=#github-actions class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>Github Actions 是 Github 推出的持续集成服务，具体的资料可以查看官网文档，本文将直接开始使用 Github Actions。</p><blockquote>
-<p><a href=https://docs.github.com/cn/actions>Github Action 文档 - Github Docs</a></p></blockquote><p>首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：GitHub Actions文档 - GitHub Docs首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Continuous integration</span>
+<!doctype html><html lang=en><head><title>Github Actions 与 Checkstyle :: redxiiikk blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="团队合作是项目开发过程中不可避免的事情，因此一个统一的代码风格就显得格外的重要，可以有效的避免团队中所有的成员写出来的代码风格各不相同，减少合作之间的摩擦。
+在 Java 的世界中，Checkstyle 是最常使用的代码风格检查插件，因此本文将使用 Github Actions 在提交代码的时候进行 Checkstyle 检查。"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/><link rel=stylesheet href=https://redxiiikk.github.io/assets/style.css><link rel=stylesheet href=https://redxiiikk.github.io/assets/green.css><link rel=apple-touch-icon href=https://redxiiikk.github.io/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=https://redxiiikk.github.io/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Github Actions 与 Checkstyle"><meta property="og:description" content="团队合作是项目开发过程中不可避免的事情，因此一个统一的代码风格就显得格外的重要，可以有效的避免团队中所有的成员写出来的代码风格各不相同，减少合作之间的摩擦。
+在 Java 的世界中，Checkstyle 是最常使用的代码风格检查插件，因此本文将使用 Github Actions 在提交代码的时候进行 Checkstyle 检查。"><meta property="og:url" content="https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/"><meta property="og:site_name" content="redxiiikk blog"><meta property="og:image" content="https://redxiiikk.github.io/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2021-02-21 09:30:00 +0000 UTC"></head><body class=green><div class="container center headings--one-size"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>redxiiikk</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/about>About</a></li></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/about>About</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=https://redxiiikk.github.io/posts/20210221-01-github-actions-and-checkstyle/>Github Actions 与 Checkstyle</a></h1><div class=post-meta><span class=post-date>2021-02-21</span></div><div class=post-content><div><h1 id=github-actions>Github Actions<a href=#github-actions class=hanchor arialabel=Anchor>&#8983;</a></h1><p>Github Actions 是 Github 推出的持续集成服务，具体的资料可以查看官网文档，本文将直接开始使用 Github Actions。</p><blockquote><p><a href=https://docs.github.com/cn/actions>Github Action 文档 - Github Docs</a></p></blockquote><p>首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：GitHub Actions文档 - GitHub Docs首先 Github Actions 是通过一个 YML 文件进行定义的，放在仓库根目录下的 .github/workflows 文件夹下，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Continuous integration</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>on</span>: <span style=color:#ae81ff>push</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
 </span></span><span style=display:flex><span>  <span style=color:#f92672>checkstyle</span>:
@@ -63,11 +17,7 @@ redxiiikk
 </span></span><span style=display:flex><span>        <span style=color:#f92672>env</span>:
 </span></span><span style=display:flex><span>          <span style=color:#f92672>REVIEWDOG_GITHUB_API_TOKEN</span>: <span style=color:#ae81ff>${{ secrets.GITHUB_TOKEN }}</span>
 </span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>java -jar checkstyle.jar -c checkstyle-config.xml -f xml src | reviewdog -f=checkstyle -name=&#34;Checkstyle&#34; -reporter=github-check</span>
-</span></span></code></pre></div><p>关于 Github Actions 配置文件的语法可以参考官方文档的定义：</p><blockquote>
-<p><a href=https://docs.github.com/cn/actions/reference/workflow-syntax-for-github-actions>Github 操作的工作流程语法</a></p></blockquote><p>在文件定义中有一些需要注意的地方：</p><ol>
-<li>
-<p>首先所有的 job 都是并行的，两个 job 可以同时开始运行，如果 job 之间存在依赖关系的可以使用 <code>jobs.&lt;job id></code>.needs 表示依赖关系</p></li><li>
-<p>steps 中需要首先使用 actions/checkout@v2 将拉取代码，否则工作目录将是一个空目录，actions/checkout@v2 是已经定义好的工作流模板，可以直接在自己的工作流中使用</p></li></ol><p>3.工作流默认提供了 <code>${{ secrets.GITHUB_TOKEN }}</code> 的 token， 对应的权限如下：</p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822111730.png alt="Github Token 的权限"></p><h1 id=checkstyle>Checkstyle<a href=#checkstyle class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>使用 Checkstyle 首先需要定义一个配置文件，用于规范团队的代码风格，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+</span></span></code></pre></div><p>关于 Github Actions 配置文件的语法可以参考官方文档的定义：</p><blockquote><p><a href=https://docs.github.com/cn/actions/reference/workflow-syntax-for-github-actions>Github 操作的工作流程语法</a></p></blockquote><p>在文件定义中有一些需要注意的地方：</p><ol><li><p>首先所有的 job 都是并行的，两个 job 可以同时开始运行，如果 job 之间存在依赖关系的可以使用 <code>jobs.&lt;job id></code>.needs 表示依赖关系</p></li><li><p>steps 中需要首先使用 actions/checkout@v2 将拉取代码，否则工作目录将是一个空目录，actions/checkout@v2 是已经定义好的工作流模板，可以直接在自己的工作流中使用</p></li></ol><p>3.工作流默认提供了 <code>${{ secrets.GITHUB_TOKEN }}</code> 的 token， 对应的权限如下：</p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822111730.png alt="Github Token 的权限"></p><h1 id=checkstyle>Checkstyle<a href=#checkstyle class=hanchor arialabel=Anchor>&#8983;</a></h1><p>使用 Checkstyle 首先需要定义一个配置文件，用于规范团队的代码风格，如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34;?&gt;</span>
 </span></span><span style=display:flex><span><span style=color:#75715e>&lt;!DOCTYPE module PUBLIC
 </span></span></span><span style=display:flex><span><span style=color:#75715e>        &#34;-//Checkstyle//DTD Checkstyle Configuration 1.3//EN&#34;
 </span></span></span><span style=display:flex><span><span style=color:#75715e>        &#34;https://checkstyle.org/dtds/configuration_1_3.dtd&#34;&gt;</span>
@@ -79,41 +29,11 @@ redxiiikk
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;module</span> <span style=color:#a6e22e>name=</span><span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>&gt;</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;/module&gt;</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>&lt;/module&gt;</span>
-</span></span></code></pre></div><p>配置文件主要有 <code>module</code> 组成，并且 <code>module</code> 支持嵌套，具体的 Checkstyle 的检查项非常多，可以自由的配置，文档地址如下：</p><blockquote>
-<p><a href=https://checkstyle.sourceforge.io/config.html>Checkstyle - Configuration</a></p></blockquote><p>当然要是一项一项配置较为繁琐的话也可以使用现有的风格配置文件：</p><ol>
-<li>
-<p>Google Checkstyle Config File:</p><blockquote>
-<p><a href=https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml>Google Checkstyle Config</a></p></blockquote></li><li>
-<p>Sun Checkstyle Config File:</p><blockquote>
-<p><a href=https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/sun_checks.xml>Sun Checkstyle Config File</a></p></blockquote></li></ol><h1 id=cli-运行>CLI 运行<a href=#cli-运行 class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>通常会在 IDE 中使用插件去检查 Checkstyle，但是在 Github Actions 中无法使用该种方式，必须使用 CLI 模式去运行 Checkstyle，具体的方式如下：</p><ol>
-<li>
-<p>下载 checkstyle 的 jar
-checkstyle 的代码托管在 Github 上，这样就可以从 Github Releases 中直接下载最新的 jar。</p><blockquote>
-<p><a href=https://github.com/checkstyle/checkstyle/releases>Releases · checkstyle/checkstyle</a></p></blockquote></li><li>
-<p>cli 模式下进行 checkstyle 检查</p><p>CLI 中进行 checkstyle 检查也十分的简单，官方文档中也对这种方式进行了说明：</p><blockquote>
-<p><a href=https://checkstyle.org/cmdline.html>checkstyle - Command Line</a></p></blockquote><p>具体的命令如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>java -jar checkstyle.jar -c checkstyle-config.xml -f xml src
-</span></span></code></pre></div><p><code>-f</code> 表示输出格式，这里使用了 XML 的格式进行输出。</p></li></ol><h1 id=reviewdog>reviewdog<a href=#reviewdog class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>通过在 Github Actions 中直接以 CLI 的方式运行 Checkstyle 已经可以对代码的风格进行检查了，但是这样的检查结果将直接显示在 Gihtub Actions 日志中，不利于查看，这是就要使用 reviewdog 将检查的结果直接显示在 Gihtub Actions 界面中：</p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112534.png alt></p><p>同时也会在提交记录中显示运行状态：</p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112601.png alt></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>java -jar checkstyle.jar -c checkstyle-config.xml -f xml src | reviewdog -f<span style=color:#f92672>=</span>checkstyle -name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Checkstyle&#34;</span> -reporter<span style=color:#f92672>=</span>github-check
-</span></span></code></pre></div><p>reviewdog 已经适配了 Checkstyle 的输出格式，因此可以直接使用。</p><p>关于 reviewdog 的具体细节可以查看其官方文档：</p><p><a href=https://github.com/reviewdog/reviewdog>reviewdog/reviewdog</a></p><h1 id=总结>总结<a href=#总结 class=hanchor arialabel=Anchor>&#8983;</a> </h1><p>当然上述方法仍有不足之处，依然需要不断的改进：</p><ol>
-<li>
-<p>代码风格检查未通过时应该不允许提交代码</p></li><li>
-<p>检查结果通知提交人</p></li></ol></div></div><div class=pagination>
-<div class=pagination__title>
-<span class=pagination__title-h>Read other posts</span>
-<hr>
-</div><div class=pagination__buttons>
-<span class="button previous">
-<a href=https://redxiiikk.github.io/posts/20210512-01-strategy-pattern-in-spring/>
-<span class=button__icon>←</span>
-<span class=button__text>在 Spring 中优雅的实现策略模式</span>
-</a>
-</span>
-</div></div><script src=https://utteranc.es/client.js repo=redxiiikk/redxiiikk.github.io issue-term=og:title theme=preferred-color-scheme crossorigin=anonymous async></script>
-</div></div><footer class=footer>
-<div class=footer__inner>
-<div class=copyright>
-<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
-<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
-</div></div></footer><script src=https://redxiiikk.github.io/assets/main.js></script>
+</span></span></code></pre></div><p>配置文件主要有 <code>module</code> 组成，并且 <code>module</code> 支持嵌套，具体的 Checkstyle 的检查项非常多，可以自由的配置，文档地址如下：</p><blockquote><p><a href=https://checkstyle.sourceforge.io/config.html>Checkstyle - Configuration</a></p></blockquote><p>当然要是一项一项配置较为繁琐的话也可以使用现有的风格配置文件：</p><ol><li><p>Google Checkstyle Config File:</p><blockquote><p><a href=https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml>Google Checkstyle Config</a></p></blockquote></li><li><p>Sun Checkstyle Config File:</p><blockquote><p><a href=https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/sun_checks.xml>Sun Checkstyle Config File</a></p></blockquote></li></ol><h1 id=cli-运行>CLI 运行<a href=#cli-运行 class=hanchor arialabel=Anchor>&#8983;</a></h1><p>通常会在 IDE 中使用插件去检查 Checkstyle，但是在 Github Actions 中无法使用该种方式，必须使用 CLI 模式去运行 Checkstyle，具体的方式如下：</p><ol><li><p>下载 checkstyle 的 jar
+checkstyle 的代码托管在 Github 上，这样就可以从 Github Releases 中直接下载最新的 jar。</p><blockquote><p><a href=https://github.com/checkstyle/checkstyle/releases>Releases · checkstyle/checkstyle</a></p></blockquote></li><li><p>cli 模式下进行 checkstyle 检查</p><p>CLI 中进行 checkstyle 检查也十分的简单，官方文档中也对这种方式进行了说明：</p><blockquote><p><a href=https://checkstyle.org/cmdline.html>checkstyle - Command Line</a></p></blockquote><p>具体的命令如下：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>java -jar checkstyle.jar -c checkstyle-config.xml -f xml src
+</span></span></code></pre></div><p><code>-f</code> 表示输出格式，这里使用了 XML 的格式进行输出。</p></li></ol><h1 id=reviewdog>reviewdog<a href=#reviewdog class=hanchor arialabel=Anchor>&#8983;</a></h1><p>通过在 Github Actions 中直接以 CLI 的方式运行 Checkstyle 已经可以对代码的风格进行检查了，但是这样的检查结果将直接显示在 Gihtub Actions 日志中，不利于查看，这是就要使用 reviewdog 将检查的结果直接显示在 Gihtub Actions 界面中：</p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112534.png alt></p><p>同时也会在提交记录中显示运行状态：</p><p><img src=https://raw.githubusercontent.com/redxiiikk/redxiiikk.github.io/images/20210822112601.png alt></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>java -jar checkstyle.jar -c checkstyle-config.xml -f xml src | reviewdog -f<span style=color:#f92672>=</span>checkstyle -name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Checkstyle&#34;</span> -reporter<span style=color:#f92672>=</span>github-check
+</span></span></code></pre></div><p>reviewdog 已经适配了 Checkstyle 的输出格式，因此可以直接使用。</p><p>关于 reviewdog 的具体细节可以查看其官方文档：</p><p><a href=https://github.com/reviewdog/reviewdog>reviewdog/reviewdog</a></p><h1 id=总结>总结<a href=#总结 class=hanchor arialabel=Anchor>&#8983;</a></h1><p>当然上述方法仍有不足之处，依然需要不断的改进：</p><ol><li><p>代码风格检查未通过时应该不允许提交代码</p></li><li><p>检查结果通知提交人</p></li></ol></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=https://redxiiikk.github.io/posts/20210512-01-strategy-pattern-in-spring/><span class=button__icon>←</span>
+<span class=button__text>在 Spring 中优雅的实现策略模式</span></a></span></div></div><script src=https://utteranc.es/client.js repo=redxiiikk/redxiiikk.github.io issue-term=og:title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=https://redxiiikk.github.io/assets/main.js></script>
 <script src=https://redxiiikk.github.io/assets/prism.js></script>
-<script src=https://redxiiikk.github.io/assets/languageSelector.js></script>
-</div></body></html>
+<script src=https://redxiiikk.github.io/assets/languageSelector.js></script></div></body></html>
